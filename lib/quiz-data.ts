@@ -2,8 +2,7 @@ export const quizSteps = [
   {
     id: 1,
     question: "¡NO DEJES QUE LA PERSONA QUE AMAS SALGA DE TU VIDA PARA SIEMPRE!",
-    description:
-      "Haz la prueba rápida de 2 minutos y descubre cómo aplicar el PLAN A - en tu caso específico.",
+    description: "Haz la prueba rápida de 2 minutos y descubre cómo aplicar el PLAN A - en tu caso específico.",
     subtext: "Selecciona tu género:",
     options: ["MASCULINO", "FEMENINO"],
     warning:
@@ -33,18 +32,8 @@ export const quizSteps = [
     question: "¿CUÁNTO TIEMPO LLEVÁIS SEPARADOS?",
     description: "(El tiempo es un factor crítico para tu estrategia de reconquista)",
     options: {
-      masculino: [
-        "Menos de una semana",
-        "Hace 1 mes",
-        "De 2 a 6 meses",
-        "Más de 6 meses",
-      ],
-      feminino: [
-        "Menos de una semana",
-        "Hace 1 mes",
-        "De 2 a 6 meses",
-        "Más de 6 meses",
-      ],
+      masculino: ["Menos de una semana", "Hace 1 mes", "De 2 a 6 meses", "Más de 6 meses"],
+      feminino: ["Menos de una semana", "Hace 1 mes", "De 2 a 6 meses", "Más de 6 meses"],
     },
     bonusUnlock: {
       id: 1,
@@ -61,16 +50,8 @@ export const quizSteps = [
     },
     description: "(Esta información es vital para determinar tu estrategia específica)",
     options: {
-      masculino: [
-        "Ella cortó conmigo",
-        "Yo corté con ella",
-        "Decidimos cortar de mutuo acuerdo",
-      ],
-      feminino: [
-        "Él cortó conmigo",
-        "Yo corté con él",
-        "Decidimos cortar de mutuo acuerdo",
-      ],
+      masculino: ["Ella cortó conmigo", "Yo corté con ella", "Decidimos cortar de mutuo acuerdo"],
+      feminino: ["Él cortó conmigo", "Yo corté con él", "Decidimos cortar de mutuo acuerdo"],
     },
     elements: {
       analysisText: "Calculando tasa de éxito para tu caso...",
@@ -81,12 +62,7 @@ export const quizSteps = [
     id: 5,
     question: "¿CUÁNTO TIEMPO ESTUVISTEIS JUNTOS?",
     description: "(La duración de la relación influye directamente en tu estrategia)",
-    options: [
-      "Más de 3 años",
-      "De 1 a 3 años",
-      "De 6 meses a 1 año",
-      "Menos de 6 meses",
-    ],
+    options: ["Más de 3 años", "De 1 a 3 años", "De 6 meses a 1 año", "Menos de 6 meses"],
   },
   {
     id: 6,
@@ -187,7 +163,8 @@ export const quizSteps = [
       feminino: "¿CUÁNTO QUIERES RECUPERARLO?",
     },
     description: "(Tu nivel de compromiso determinará tu éxito)",
-    subtext: "El 91% de las personas que seleccionaron nivel 4 reconquistaron a su ex en menos de 21 días usando el PLAN A.",
+    subtext:
+      "El 91% de las personas que seleccionaron nivel 4 reconquistaron a su ex en menos de 21 días usando el PLAN A.",
     options: ["1 - No estoy seguro", "2 - Me lo estoy planteando", "3 - Lo quiero bastante", "4 - Lo quiero muchísimo"],
     note: "Solo trabajo con personas decididas a transformar su situación amorosa. El PLAN A fue desarrollado para quien está preparado para actuar.",
     elements: {
@@ -226,8 +203,7 @@ export const quizSteps = [
   {
     id: 12,
     question: "RESULTADOS DEMOSTRADOS",
-    subtext:
-      "EL 91% DE MIS ALUMNOS VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
+    subtext: "EL 91% DE MIS ALUMNOS VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
     description: "",
     options: ["¡YO TAMBIÉN QUIERO ESOS RESULTADOS!"],
     elements: {
@@ -238,37 +214,33 @@ export const quizSteps = [
   },
   {
     id: 13,
-    question: "TU PLAN A - RECUPERACIÓN RÁPIDA DE 21 DÍAS",
-    description: "Desarrollado específicamente para tu caso, basado en tus respuestas.",
+    question: "¡INCREÍBLE! TU PERFIL REVELA ALGO SORPRENDENTE...",
+    description:
+      "Basándome en tus respuestas, he identificado 3 patrones específicos que aumentan dramáticamente tus posibilidades de éxito.",
     subtext:
-      "Este sistema paso a paso ya ha ayudado a 3.847 personas a reconquistar a su ex y construir relaciones aún más sólidas que antes.",
-    options: {
-      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
-      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
-    },
-    note: "¡Incluye los 2 bonos exclusivos (valor total: 84€) que aceleran tu reconquista!",
+      "El 94% de las personas con tu perfil exacto lograron resultados extraordinarios cuando aplicaron la estrategia correcta.",
+    options: ["¡QUIERO CONOCER MI PERFIL COMPLETO!"],
+    note: "⚠️ IMPORTANTE: Esta información es muy específica para tu situación. Solo la compartiré contigo en la siguiente pantalla.",
     elements: {
-      plan21Days: true,
-      profileComplete: "100%",
-      allBonuses: true,
+      profileAnalysis: "Analizando patrones de éxito...",
+      profileComplete: "98%",
+      mysteryReveal: true,
+      successPattern: "94%",
     },
   },
   {
     id: 14,
-    question: {
-      masculino: "DE RECHAZADO A DESEADO EN 21 DÍAS O MENOS",
-      feminino: "DE RECHAZADA A DESEADA EN 21 DÍAS O MENOS",
-    },
-    description:
-      "El único sistema paso a paso científicamente desarrollado para personas decididas a recuperar el amor de quien ha dejado un vacío en sus vidas.",
-    options: {
-      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
-      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
-    },
-    finalPage: true,
+    question: "ÚLTIMO PASO: VALIDANDO TU ESTRATEGIA PERSONALIZADA",
+    description: "Estoy preparando tu plan específico basado en los 3 patrones únicos que identifiqué en tu caso.",
+    subtext:
+      "En los próximos segundos verás exactamente por qué tu situación tiene características tan prometedoras...",
+    options: ["¡SÍ, QUIERO VER MI ESTRATEGIA AHORA!"],
+    note: "🎯 Tu estrategia personalizada incluye los pasos exactos que funcionaron para personas en tu misma situación.",
     elements: {
-      beforeAfter: true,
-      fullSalesPage: true,
+      finalValidation: true,
+      profileComplete: "100%",
+      strategyPreparation: true,
+      anticipationBuilder: true,
     },
   },
 ]
@@ -279,23 +251,15 @@ export const bonuses = [
     title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
     value: 47,
     description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
-    details: [
-      "✓ 7 Gatillos de Nostalgia",
-      "✓ 7 Gatillos de Curiosidad",
-      "✓ 7 Gatillos de Deseo"
-    ]
+    details: ["✓ 7 Gatillos de Nostalgia", "✓ 7 Gatillos de Curiosidad", "✓ 7 Gatillos de Deseo"],
   },
   {
     id: 2,
     title: "PROTOCOLO DE EMERGENCIA 72H",
     value: 37,
     description: "Qué hacer cuando todo parece perdido y tienes 72 horas para actuar.",
-    details: [
-      "✓ Plan de Acción Inmediata",
-      "✓ Independencia Emocional",
-      "✓ Comunicación Magnética"
-    ]
-  }
+    details: ["✓ Plan de Acción Inmediata", "✓ Independencia Emocional", "✓ Comunicación Magnética"],
+  },
 ]
 
 export const testimonials = [
