@@ -46,6 +46,12 @@ export const quizSteps = [
         "Más de 6 meses",
       ],
     },
+    bonusUnlock: {
+      id: 1,
+      title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
+      value: 47,
+      description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
+    },
   },
   {
     id: 4,
@@ -164,6 +170,12 @@ export const quizSteps = [
         "🔄 Se está liando con varias",
       ],
     },
+    bonusUnlock: {
+      id: 2,
+      title: "PROTOCOLO DE EMERGENCIA 72H",
+      value: 37,
+      description: "Qué hacer cuando todo parece perdido y tienes 72 horas para actuar.",
+    },
     elements: {
       profileComplete: "77%",
     },
@@ -218,12 +230,38 @@ export const quizSteps = [
       "EL 91% DE MIS ALUMNOS VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
     description: "",
     options: ["¡YO TAMBIÉN QUIERO ESOS RESULTADOS!"],
+    finalPage: true, // ✅ PROPRIEDADE CRUCIAL ADICIONADA
     elements: {
       bigNumber: "91%",
-      profileComplete: "100%",
+      profileComplete: "100%", // ✅ ALTERADO PARA 100%
       testimonialImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/06/prova-nova-espanha-face.png",
     },
   },
+]
+
+export const bonuses = [
+  {
+    id: 1,
+    title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
+    value: 47,
+    description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
+    details: [
+      "✓ 7 Gatillos de Nostalgia",
+      "✓ 7 Gatillos de Curiosidad",
+      "✓ 7 Gatillos de Deseo"
+    ]
+  },
+  {
+    id: 2,
+    title: "PROTOCOLO DE EMERGENCIA 72H",
+    value: 37,
+    description: "Qué hacer cuando todo parece perdido y tienes 72 horas para actuar.",
+    details: [
+      "✓ Plan de Acción Inmediata",
+      "✓ Independencia Emocional",
+      "✓ Comunicación Magnética"
+    ]
+  }
 ]
 
 export const testimonials = [
@@ -252,6 +290,8 @@ export const testimonials = [
 export const socialProofMessages = [
   "¡Estás entre el 17% más decidido a reconquistar!",
   "¡Tu perfil muestra compatibilidad!",
+  "¡Bonificación liberada por desbloqueo!",
+  "¡Has desbloqueado los 2 bonos - valor total de 84€!",
   "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
   "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
 ]
