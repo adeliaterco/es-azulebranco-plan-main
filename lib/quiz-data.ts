@@ -46,12 +46,6 @@ export const quizSteps = [
         "Más de 6 meses",
       ],
     },
-    bonusUnlock: {
-      id: 1,
-      title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
-      value: 47,
-      description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
-    },
   },
   {
     id: 4,
@@ -170,12 +164,6 @@ export const quizSteps = [
         "🔄 Se está liando con varias",
       ],
     },
-    bonusUnlock: {
-      id: 2,
-      title: "PROTOCOLO DE EMERGENCIA 72H",
-      value: 37,
-      description: "Qué hacer cuando todo parece perdido y tienes 72 horas para actuar.",
-    },
     elements: {
       profileComplete: "77%",
     },
@@ -232,70 +220,10 @@ export const quizSteps = [
     options: ["¡YO TAMBIÉN QUIERO ESOS RESULTADOS!"],
     elements: {
       bigNumber: "91%",
-      profileComplete: "98%",
+      profileComplete: "100%",
       testimonialImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/06/prova-nova-espanha-face.png",
     },
   },
-  {
-    id: 13,
-    question: "TU PLAN A - RECUPERACIÓN RÁPIDA DE 21 DÍAS",
-    description: "Desarrollado específicamente para tu caso, basado en tus respuestas.",
-    subtext:
-      "Este sistema paso a paso ya ha ayudado a 3.847 personas a reconquistar a su ex y construir relaciones aún más sólidas que antes.",
-    options: {
-      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
-      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
-    },
-    note: "¡Incluye los 2 bonos exclusivos (valor total: 84€) que aceleran tu reconquista!",
-    elements: {
-      plan21Days: true,
-      profileComplete: "100%",
-      allBonuses: true,
-    },
-  },
-  {
-    id: 14,
-    question: {
-      masculino: "DE RECHAZADO A DESEADO EN 21 DÍAS O MENOS",
-      feminino: "DE RECHAZADA A DESEADA EN 21 DÍAS O MENOS",
-    },
-    description:
-      "El único sistema paso a paso científicamente desarrollado para personas decididas a recuperar el amor de quien ha dejado un vacío en sus vidas.",
-    options: {
-      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
-      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
-    },
-    finalPage: true,
-    elements: {
-      beforeAfter: true,
-      fullSalesPage: true,
-    },
-  },
-]
-
-export const bonuses = [
-  {
-    id: 1,
-    title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
-    value: 47,
-    description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
-    details: [
-      "✓ 7 Gatillos de Nostalgia",
-      "✓ 7 Gatillos de Curiosidad",
-      "✓ 7 Gatillos de Deseo"
-    ]
-  },
-  {
-    id: 2,
-    title: "PROTOCOLO DE EMERGENCIA 72H",
-    value: 37,
-    description: "Qué hacer cuando todo parece perdido y tienes 72 horas para actuar.",
-    details: [
-      "✓ Plan de Acción Inmediata",
-      "✓ Independencia Emocional",
-      "✓ Comunicación Magnética"
-    ]
-  }
 ]
 
 export const testimonials = [
@@ -324,8 +252,6 @@ export const testimonials = [
 export const socialProofMessages = [
   "¡Estás entre el 17% más decidido a reconquistar!",
   "¡Tu perfil muestra compatibilidad!",
-  "¡Bonificación liberada por desbloqueo!",
-  "¡Has desbloqueado los 2 bonos - valor total de 84€!",
   "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
   "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
 ]
