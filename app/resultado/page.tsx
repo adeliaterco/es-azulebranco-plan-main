@@ -15,7 +15,6 @@ import {
   Zap,
   Target,
   Heart,
-  Play,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -43,7 +42,7 @@ export default function ResultPageOptimized() {
       setIsLoaded(true)
     }, 300)
 
-    // Simulate recent buyers with more dynamic behavior
+    // Simular compradores recientes con comportamiento más dinámico
     const interval = setInterval(() => {
       setRecentBuyers((prev) => {
         const increase = Math.floor(Math.random() * 3) + 1
@@ -59,7 +58,37 @@ export default function ResultPageOptimized() {
       console.error("Error al registrar evento de visualización:", error)
     }
 
-    return () => clearInterval(interval)
+    // Cargar scripts de Wistia
+    const script1 = document.createElement("script")
+    script1.src = "https://fast.wistia.com/player.js"
+    script1.async = true
+    document.head.appendChild(script1)
+
+    const script2 = document.createElement("script")
+    script2.src = "https://fast.wistia.com/embed/oqyjs7cler.js"
+    script2.async = true
+    script2.type = "module"
+    document.head.appendChild(script2)
+
+    // Agregar estilos de Wistia
+    const style = document.createElement("style")
+    style.textContent = `
+      wistia-player[media-id='oqyjs7cler']:not(:defined) { 
+        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/oqyjs7cler/swatch'); 
+        display: block; 
+        filter: blur(5px); 
+        padding-top: 178.33%; 
+      }
+    `
+    document.head.appendChild(style)
+
+    return () => {
+      clearInterval(interval)
+      // Limpiar scripts y estilos al desmontar
+      document.head.removeChild(script1)
+      document.head.removeChild(script2)
+      document.head.removeChild(style)
+    }
   }, [])
 
   const handlePurchase = () => {
@@ -95,25 +124,25 @@ export default function ResultPageOptimized() {
           animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : -20 }}
           className="relative z-10 px-4 py-8 text-center"
         >
-          {/* Badge de Urgência */}
+          {/* Badge de Urgencia */}
           <div className="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 animate-bounce">
             <Zap className="w-4 h-4 mr-2" />
-            RESULTADO DISPONÍVEL POR TEMPO LIMITADO
+            RESULTADO DISPONIBLE POR TIEMPO LIMITADO
           </div>
 
           {/* Headline Principal - Mobile Optimized */}
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-            🎯 <span className="text-orange-400">PARABÉNS!</span>
+            🎯 <span className="text-orange-400">¡FELICITACIONES!</span>
             <br />
-            TU CASO TEM <span className="text-green-400">90,5%</span>
+            TU CASO TIENE UN <span className="text-green-400">90,5%</span>
             <br />
-            DE PROBABILIDADE DE ÉXITO
+            DE PROBABILIDAD DE ÉXITO
           </h1>
 
           <p className="text-lg md:text-xl text-gray-300 mb-6 max-w-2xl mx-auto font-semibold">
-            Baseado nas tuas respostas,{" "}
-            <span className="text-orange-300 font-bold">{getPersonalizedPronoun()} ainda sente algo por ti</span> e
-            podes recuperar a relação em apenas 21 dias.
+            Basándome en tus respuestas,{" "}
+            <span className="text-orange-300 font-bold">{getPersonalizedPronoun()} aún siente algo por ti</span> y
+            puedes recuperar la relación en tan solo 21 días.
           </p>
 
           {/* Resultado Visual Impactante */}
@@ -125,29 +154,29 @@ export default function ResultPageOptimized() {
                   <div className="relative z-10 w-32 h-32 mx-auto bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center border-4 border-white mb-4">
                     <div className="text-center">
                       <span className="text-3xl font-extrabold text-black">90,5%</span>
-                      <p className="text-xs font-bold text-black">COMPATÍVEL</p>
+                      <p className="text-xs font-bold text-black">COMPATIBLE</p>
                     </div>
                   </div>
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-2">O TEU DIAGNÓSTICO:</h3>
+                <h3 className="text-xl font-bold text-white mb-2">TU DIAGNÓSTICO:</h3>
                 <div className="text-left space-y-2 text-white">
                   <div className="flex items-start">
                     <Check className="w-5 h-5 text-yellow-300 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-sm">
-                      Tipo de rutura: <strong>Altamente recuperável</strong>
+                      Tipo de ruptura: <strong>Altamente recuperable</strong>
                     </span>
                   </div>
                   <div className="flex items-start">
                     <Check className="w-5 h-5 text-yellow-300 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-sm">
-                      Tempo estimado: <strong>14-21 dias</strong>
+                      Tiempo estimado: <strong>14-21 días</strong>
                     </span>
                   </div>
                   <div className="flex items-start">
                     <Check className="w-5 h-5 text-yellow-300 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-sm">
-                      Estratégia recomendada: <strong>Plano A</strong>
+                      Estrategia recomendada: <strong>Plan A</strong>
                     </span>
                   </div>
                 </div>
@@ -174,24 +203,24 @@ export default function ResultPageOptimized() {
               onTouchStart={handleTouchFeedback}
             >
               <Heart className="w-6 h-6 mr-2" />
-              RECUPERAR AGORA POR $9
+              RECUPERAR AHORA POR $9
               <ArrowRight className="w-6 h-6 ml-2" />
             </Button>
           </motion.div>
 
-          {/* Social Proof Dinâmico */}
+          {/* Social Proof Dinámico */}
           <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 max-w-md mx-auto">
             <div className="flex items-center justify-center gap-4 text-sm text-white">
               <div className="flex items-center">
                 <Users className="w-4 h-4 text-orange-400 mr-1" />
                 <span>
-                  <strong className="text-orange-400">{recentBuyers}</strong> pessoas compraram hoje
+                  <strong className="text-orange-400">{recentBuyers}</strong> personas compraron hoy
                 </span>
               </div>
               <div className="flex items-center">
                 <Clock className="w-4 h-4 text-red-400 mr-1" />
                 <span>
-                  Expira em: <CountdownTimer minutes={15} seconds={0} />
+                  Expira en: <CountdownTimer minutes={15} seconds={0} />
                 </span>
               </div>
             </div>
@@ -199,19 +228,19 @@ export default function ResultPageOptimized() {
         </motion.div>
       </div>
 
-      {/* SEÇÃO DE URGÊNCIA E ESCASSEZ */}
+      {/* SECCIÓN DE URGENCIA Y ESCASEZ */}
       <div className="px-4 py-8 bg-gradient-to-r from-red-900/30 to-orange-900/30">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-red-600 border-4 border-yellow-400 shadow-2xl">
             <CardContent className="p-6 text-center">
               <AlertTriangle className="w-12 h-12 text-yellow-300 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-white mb-4">⚠️ ATENÇÃO: JANELA DE OPORTUNIDADE LIMITADA</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">⚠️ ATENCIÓN: VENTANA DE OPORTUNIDAD LIMITADA</h2>
               <p className="text-white text-lg mb-4">
-                <strong>Apenas hoje</strong> tens acesso ao sistema completo por $9 (valor normal $97). Depois desta
-                oferta, o preço volta ao normal e os bónus deixam de estar disponíveis.
+                <strong>Solo hoy</strong> tienes acceso al sistema completo por $9 (valor normal $97). Después de esta
+                oferta, el precio vuelve a la normalidad y los bonos dejan de estar disponibles.
               </p>
               <div className="bg-black/30 p-4 rounded-lg">
-                <p className="text-yellow-300 font-bold text-xl mb-2">A OFERTA EXPIRA EM:</p>
+                <p className="text-yellow-300 font-bold text-xl mb-2">LA OFERTA EXPIRA EN:</p>
                 <div className="text-3xl font-black text-white">
                   <CountdownTimer minutes={15} seconds={0} />
                 </div>
@@ -221,66 +250,66 @@ export default function ResultPageOptimized() {
         </div>
       </div>
 
-      {/* TRANSFORMAÇÃO ANTES/DEPOIS - MOBILE OPTIMIZED */}
+      {/* TRANSFORMACIÓN ANTES/DESPUÉS - MOBILE OPTIMIZED */}
       <div className="px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-white text-center mb-8">
-            A TUA VIDA EM <span className="text-red-400">21 DIAS</span>
+            TU VIDA EN <span className="text-red-400">21 DÍAS</span>
           </h2>
 
           <div className="grid gap-6">
             {/* ANTES */}
             <Card className="bg-gradient-to-r from-red-900 to-red-800 border-2 border-red-500">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-red-300 mb-4 text-center">😢 AGORA (SEM O PLANO A)</h3>
+                <h3 className="text-2xl font-bold text-red-300 mb-4 text-center">😢 AHORA (SIN EL PLAN A)</h3>
                 <div className="space-y-3">
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <span className="text-white font-bold">✗</span>
                     </div>
-                    <span className="text-red-100">Sofrendo com a dor da separação todos os dias</span>
+                    <span className="text-red-100">Sufriendo con el dolor de la separación todos los días</span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <span className="text-white font-bold">✗</span>
                     </div>
-                    <span className="text-red-100">Tentando estratégias que só pioram a situação</span>
+                    <span className="text-red-100">Intentando estrategias que solo empeoran la situación</span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <span className="text-white font-bold">✗</span>
                     </div>
-                    <span className="text-red-100">Vendo {getPersonalizedPronoun()} afastar-se cada vez mais</span>
+                    <span className="text-red-100">Viendo cómo {getPersonalizedPronoun()} se aleja cada vez más</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* DEPOIS */}
+            {/* DESPUÉS */}
             <Card className="bg-gradient-to-r from-green-600 to-emerald-600 border-2 border-green-400">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-green-100 mb-4 text-center">😍 EM 21 DIAS (COM O PLANO A)</h3>
+                <h3 className="text-2xl font-bold text-green-100 mb-4 text-center">😍 EN 21 DÍAS (CON EL PLAN A)</h3>
                 <div className="space-y-3">
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <Check className="w-5 h-5 text-green-800" />
                     </div>
                     <span className="text-green-100 font-semibold">
-                      {getPersonalizedPronoun()} a responder às tuas mensagens com interesse
+                      {getPersonalizedPronoun()} respondiendo a tus mensajes con interés
                     </span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <Check className="w-5 h-5 text-green-800" />
                     </div>
-                    <span className="text-green-100 font-semibold">Vendo aquele brilho no olhar quando te vê</span>
+                    <span className="text-green-100 font-semibold">Viendo ese brillo en su mirada cuando te ve</span>
                   </div>
                   <div className="flex items-start">
                     <div className="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                       <Check className="w-5 h-5 text-green-800" />
                     </div>
                     <span className="text-green-100 font-semibold">
-                      Construindo uma relação ainda mais forte que antes
+                      Construyendo una relación aún más fuerte que antes
                     </span>
                   </div>
                 </div>
@@ -296,7 +325,7 @@ export default function ResultPageOptimized() {
               className="w-full max-w-sm mx-auto bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-5 px-6 rounded-full text-lg shadow-xl transition-all duration-300"
               onTouchStart={handleTouchFeedback}
             >
-              QUERO ESTA TRANSFORMAÇÃO
+              QUIERO ESTA TRANSFORMACIÓN
               <Target className="w-5 h-5 ml-2" />
             </Button>
           </div>
@@ -306,37 +335,37 @@ export default function ResultPageOptimized() {
       {/* SOCIAL PROOF IMPACTANTE */}
       <div className="px-4 py-8 bg-gradient-to-r from-gray-900 to-black">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-2">RESULTADOS COMPROVADOS</h2>
-          <p className="text-orange-400 text-lg mb-8">Mais de 3.847 pessoas já recuperaram as suas relações</p>
+          <h2 className="text-3xl font-bold text-white mb-2">RESULTADOS COMPROBADOS</h2>
+          <p className="text-orange-400 text-lg mb-8">Más de 3.847 personas ya han recuperado sus relaciones</p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-gray-800 p-6 rounded-lg border border-orange-500">
               <div className="text-4xl font-bold text-orange-400 mb-2">87%</div>
-              <p className="text-white">Veem resultados em 14 dias</p>
+              <p className="text-white">Ven resultados en 14 días</p>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg border border-orange-500">
               <div className="text-4xl font-bold text-orange-400 mb-2">3.847+</div>
-              <p className="text-white">Relações recuperadas</p>
+              <p className="text-white">Relaciones recuperadas</p>
             </div>
             <div className="bg-gray-800 p-6 rounded-lg border border-orange-500">
               <div className="text-4xl font-bold text-orange-400 mb-2">21</div>
-              <p className="text-white">Dias ou menos</p>
+              <p className="text-white">Días o menos</p>
             </div>
           </div>
 
-          {/* Testemunho Destacado */}
+          {/* Testimonio Destacado */}
           <Card className="bg-white shadow-2xl max-w-2xl mx-auto">
             <CardContent className="p-6">
               <div className="flex items-center mb-4">
                 <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden mr-4">
                   <img
                     src="https://optimalhealthscout.shop/wp-content/uploads/2025/05/04-roberto.png"
-                    alt="Cliente satisfeito"
+                    alt="Cliente satisfecho"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-gray-900">Carlos M., 34 anos</h4>
+                  <h4 className="font-bold text-gray-900">Cliente Verificado</h4>
                   <div className="flex text-orange-500">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
@@ -345,16 +374,16 @@ export default function ResultPageOptimized() {
                 </div>
               </div>
               <p className="text-gray-700 text-lg font-semibold mb-3">
-                "Ela tinha bloqueado o meu número e dizia que nunca mais queria me ver. Segui o Plano A exatamente como
-                estava escrito e em 18 dias ela me ligou chorando pedindo para voltarmos. Hoje estamos noivos!"
+                "Ella había bloqueado mi número y decía que nunca más quería verme. Seguí el Plan A exactamente como
+                estaba escrito y en 18 días me llamó llorando pidiendo que volviéramos. ¡Hoy estamos comprometidos!"
               </p>
-              <div className="text-sm text-green-600 font-bold">✅ Reconciliado há 8 meses</div>
+              <div className="text-sm text-green-600 font-bold">✅ Reconciliado hace 8 meses</div>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* VÍDEO DEPOIMENTO - POSIÇÃO ESTRATÉGICA */}
+      {/* VÍDEO TESTIMONIO - POSICIÓN ESTRATÉGICA */}
       <div className="px-4 py-12 bg-gradient-to-r from-purple-900/30 to-blue-900/30">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -364,45 +393,26 @@ export default function ResultPageOptimized() {
             className="text-center mb-8"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              🎥 <span className="text-yellow-400">VEJA O QUE DIZEM</span> OS NOSSOS CLIENTES
+              🎥 <span className="text-yellow-400">MIRA LO QUE DICEN</span> NUESTROS CLIENTES
             </h2>
             <p className="text-xl text-gray-300 font-semibold">
-              Depoimento real de quem recuperou a relação com o Plano A
+              Testimonio real de quien recuperó su relación con el Plan A
             </p>
           </motion.div>
 
           <Card className="bg-gradient-to-r from-gray-800 to-gray-900 border-4 border-yellow-400 shadow-2xl overflow-hidden">
-            <CardContent className="p-0">
+            <CardContent className="p-6">
               <div className="relative">
-                {/* Vídeo Container */}
+                {/* Contenedor del Video Wistia */}
                 <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-                  <video
-                    controls
-                    preload="metadata"
-                    className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600"
-                  >
-                    <source
-                      src="https://optimalhealthscout.shop/wp-content/uploads/2025/05/depoimento-plano-a.mp4"
-                      type="video/mp4"
-                    />
-                    <track src="/captions.vtt" kind="subtitles" srcLang="pt" label="Português" />O teu navegador não
-                    suporta vídeo HTML5.
-                  </video>
-
-                  {/* Play Button Overlay (opcional) */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/20 transition-all duration-300 cursor-pointer group">
-                    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                      <Play className="w-8 h-8 text-white ml-1" />
-                    </div>
-                  </div>
+                  <wistia-player media-id="oqyjs7cler" aspect="0.5607476635514018"></wistia-player>
                 </div>
 
-                {/* Informações do Depoimento */}
-                <div className="p-6 bg-gradient-to-r from-yellow-400 to-orange-500">
+                {/* Información del Testimonio */}
+                <div className="mt-6 p-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg">
                   <div className="flex items-center justify-center gap-4 text-black">
                     <div className="text-center">
-                      <h3 className="text-xl font-bold">Miguel R., 28 anos</h3>
+                      <h3 className="text-xl font-bold">Cliente Verificado</h3>
                       <div className="flex justify-center text-black mt-1">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-4 h-4 fill-current" />
@@ -411,7 +421,7 @@ export default function ResultPageOptimized() {
                     </div>
                     <div className="text-center">
                       <p className="text-sm font-semibold">✅ RESULTADO:</p>
-                      <p className="text-lg font-black">Reconciliado em 16 dias</p>
+                      <p className="text-lg font-black">Reconciliado en 16 días</p>
                     </div>
                   </div>
                 </div>
@@ -419,23 +429,21 @@ export default function ResultPageOptimized() {
             </CardContent>
           </Card>
 
-          {/* CTA Pós-Vídeo */}
+          {/* CTA Post-Video */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-center mt-8"
           >
-            <p className="text-white text-lg mb-4 font-semibold">
-              "Obrigado pelas técnicas. Funcionaram mesmo!" - Miguel R.
-            </p>
+            <p className="text-white text-lg mb-4 font-semibold">"Gracias por las técnicas. ¡Realmente funcionaron!"</p>
             <Button
               onClick={handlePurchase}
               size="lg"
               className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300 transform hover:scale-105"
               onTouchStart={handleTouchFeedback}
             >
-              QUERO OS MESMOS RESULTADOS
+              QUIERO LOS MISMOS RESULTADOS
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </motion.div>
@@ -448,16 +456,16 @@ export default function ResultPageOptimized() {
           <Card className="bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-2xl border-4 border-yellow-400">
             <CardContent className="p-8 text-center">
               <div className="bg-yellow-400 text-black font-bold py-3 px-6 rounded-full inline-block mb-6 text-lg">
-                🔥 OFERTA ESPECIAL - APENAS HOJE
+                🔥 OFERTA ESPECIAL - SOLO HOY
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-black mb-6">PLANO A - RECUPERAÇÃO RÁPIDA</h2>
+              <h2 className="text-3xl md:text-4xl font-black mb-6">PLAN A - RECUPERACIÓN RÁPIDA</h2>
 
-              <p className="text-xl mb-8 font-semibold">Sistema Completo + 2 Bónus Exclusivos</p>
+              <p className="text-xl mb-8 font-semibold">Sistema Completo + 2 Bonos Exclusivos</p>
 
-              {/* Produtos Incluídos */}
+              {/* Productos Incluidos */}
               <div className="bg-white/20 rounded-lg p-6 mb-8 text-left">
-                <h3 className="text-2xl font-bold text-yellow-300 mb-6 text-center">O QUE RECEBES HOJE:</h3>
+                <h3 className="text-2xl font-bold text-yellow-300 mb-6 text-center">LO QUE RECIBES HOY:</h3>
 
                 <div className="space-y-4">
                   <div className="flex items-start">
@@ -465,9 +473,9 @@ export default function ResultPageOptimized() {
                       <BookOpen className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold text-white">PLANO A: Sistema Completo</h4>
+                      <h4 className="text-xl font-bold text-white">PLAN A: Sistema Completo</h4>
                       <p className="text-gray-200 mb-2">
-                        4 módulos com estratégias passo-a-passo para qualquer tipo de rutura
+                        4 módulos con estrategias paso a paso para cualquier tipo de ruptura
                       </p>
                       <div className="flex items-center">
                         <span className="text-gray-300 line-through mr-2 text-lg">$97</span>
@@ -481,11 +489,11 @@ export default function ResultPageOptimized() {
                       <Gift className="w-6 h-6 text-black" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold text-white">BÓNUS #1: 21 Gatilhos Emocionais</h4>
-                      <p className="text-gray-200 mb-2">Frases exatas que despertam sentimentos profundos</p>
+                      <h4 className="text-xl font-bold text-white">BONO #1: 21 Gatillos Emocionales</h4>
+                      <p className="text-gray-200 mb-2">Frases exactas que despiertan sentimientos profundos</p>
                       <div className="flex items-center">
                         <span className="text-gray-300 line-through mr-2 text-lg">$47</span>
-                        <span className="text-green-400 font-bold text-xl">GRÁTIS</span>
+                        <span className="text-green-400 font-bold text-xl">GRATIS</span>
                       </div>
                     </div>
                   </div>
@@ -495,18 +503,18 @@ export default function ResultPageOptimized() {
                       <AlertTriangle className="w-6 h-6 text-black" />
                     </div>
                     <div>
-                      <h4 className="text-xl font-bold text-white">BÓNUS #2: Protocolo de Emergência</h4>
-                      <p className="text-gray-200 mb-2">Guia para situações críticas nas primeiras 72 horas</p>
+                      <h4 className="text-xl font-bold text-white">BONO #2: Protocolo de Emergencia</h4>
+                      <p className="text-gray-200 mb-2">Guía para situaciones críticas en las primeras 72 horas</p>
                       <div className="flex items-center">
                         <span className="text-gray-300 line-through mr-2 text-lg">$37</span>
-                        <span className="text-green-400 font-bold text-xl">GRÁTIS</span>
+                        <span className="text-green-400 font-bold text-xl">GRATIS</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Resumo da Oferta */}
+              {/* Resumen de la Oferta */}
               <div className="bg-black/30 p-6 rounded-lg mb-8">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
@@ -516,12 +524,12 @@ export default function ResultPageOptimized() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-bold text-yellow-300 mb-2">HOJE APENAS:</h4>
+                    <h4 className="font-bold text-yellow-300 mb-2">HOY SOLO:</h4>
                     <div className="text-3xl font-bold text-yellow-300">$9</div>
                   </div>
                 </div>
                 <div className="mt-4 text-center">
-                  <p className="text-green-400 font-bold text-xl">POUPAS $172!</p>
+                  <p className="text-green-400 font-bold text-xl">¡AHORRAS $172!</p>
                 </div>
               </div>
 
@@ -543,7 +551,7 @@ export default function ResultPageOptimized() {
                   className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-black py-6 px-8 rounded-full text-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-white"
                   onTouchStart={handleTouchFeedback}
                 >
-                  💕 RECUPERAR AGORA POR $9
+                  💕 RECUPERAR AHORA POR $9
                   <ArrowRight className="w-6 h-6 ml-2" />
                 </Button>
               </motion.div>
@@ -551,21 +559,21 @@ export default function ResultPageOptimized() {
               <div className="flex justify-center gap-4 text-sm text-white flex-wrap mb-4">
                 <div className="flex items-center">
                   <Check className="w-4 h-4 text-green-400 mr-1" />
-                  <span>Acesso imediato</span>
+                  <span>Acceso inmediato</span>
                 </div>
                 <div className="flex items-center">
                   <Check className="w-4 h-4 text-green-400 mr-1" />
-                  <span>Garantia 30 dias</span>
+                  <span>Garantía 30 días</span>
                 </div>
                 <div className="flex items-center">
                   <Check className="w-4 h-4 text-green-400 mr-1" />
-                  <span>Suporte incluído</span>
+                  <span>Soporte incluido</span>
                 </div>
               </div>
 
               {recentBuyers > 0 && (
                 <div className="bg-red-500 text-white py-3 px-6 rounded-full inline-block font-bold">
-                  🔥 {recentBuyers} pessoas compraram nas últimas 2 horas!
+                  🔥 ¡{recentBuyers} personas compraron en las últimas 2 horas!
                 </div>
               )}
             </CardContent>
@@ -573,59 +581,60 @@ export default function ResultPageOptimized() {
         </div>
       </div>
 
-      {/* GARANTIA */}
+      {/* GARANTÍA */}
       <div className="px-4 py-8 bg-gradient-to-r from-green-900/30 to-emerald-900/30">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-green-50 border-4 border-green-400 shadow-2xl">
             <CardContent className="p-8 text-center">
               <Shield className="w-20 h-20 text-green-600 mx-auto mb-6" />
-              <h2 className="text-3xl font-bold text-green-800 mb-4">GARANTIA TOTAL DE 30 DIAS</h2>
+              <h2 className="text-3xl font-bold text-green-800 mb-4">GARANTÍA TOTAL DE 30 DÍAS</h2>
               <p className="text-green-700 text-xl font-semibold mb-4">
-                Se não vires resultados, devolvemos 100% do teu dinheiro
+                Si no ves resultados, te devolvemos el 100% de tu dinero
               </p>
               <p className="text-green-600 max-w-2xl mx-auto">
-                Estamos tão confiantes que este método vai funcionar para ti que oferecemos uma garantia completa. Se
-                seguires o plano durante 30 dias e não vires resultados, devolvemos todo o teu dinheiro sem perguntas.
+                Estamos tan seguros de que este método va a funcionar para ti que ofrecemos una garantía completa. Si
+                sigues el plan durante 30 días y no ves resultados, te devolvemos todo tu dinero sin hacer preguntas.
               </p>
             </CardContent>
           </Card>
         </div>
       </div>
 
-      {/* FAQ ESSENCIAL - MOBILE OPTIMIZED */}
+      {/* FAQ ESENCIAL - MOBILE OPTIMIZED */}
       <div className="px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-8">PERGUNTAS FREQUENTES</h2>
+          <h2 className="text-3xl font-bold text-white text-center mb-8">PREGUNTAS FRECUENTES</h2>
 
           <div className="space-y-4">
             <Card className="bg-gray-800 border border-gray-700">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold text-orange-400 mb-3">
-                  E se {getPersonalizedPronoun()} já estiver com outra pessoa?
+                  ¿Y si {getPersonalizedPronoun()} ya está con otra persona?
                 </h3>
                 <p className="text-gray-300">
-                  O método funciona mesmo quando há terceiros envolvidos. 67% dos nossos casos de sucesso começaram
-                  exatamente nesta situação. O Módulo 3 ensina estratégias específicas para estes casos.
+                  El método funciona incluso cuando hay terceras personas involucradas. El 67% de nuestros casos de
+                  éxito comenzaron exactamente en esta situación. El Módulo 3 enseña estrategias específicas para estos
+                  casos.
                 </p>
               </CardContent>
             </Card>
 
             <Card className="bg-gray-800 border border-gray-700">
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-orange-400 mb-3">Quanto tempo demora a ver resultados?</h3>
+                <h3 className="text-xl font-bold text-orange-400 mb-3">¿Cuánto tiempo tarda en ver resultados?</h3>
                 <p className="text-gray-300">
-                  87% dos utilizadores veem as primeiras mudanças positivas em menos de 14 dias. O sistema completo está
-                  desenhado para funcionar em 21 dias, mas muitos conseguem resultados mais rápidos.
+                  El 87% de los usuarios ven los primeros cambios positivos en menos de 14 días. El sistema completo
+                  está diseñado para funcionar en 21 días, pero muchos consiguen resultados más rápidos.
                 </p>
               </CardContent>
             </Card>
 
             <Card className="bg-gray-800 border border-gray-700">
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-orange-400 mb-3">Como recebo o acesso?</h3>
+                <h3 className="text-xl font-bold text-orange-400 mb-3">¿Cómo recibo el acceso?</h3>
                 <p className="text-gray-300">
-                  Imediatamente após a confirmação do pagamento, recebes um email com as tuas credenciais de acesso.
-                  Todo o conteúdo fica disponível na hora, incluindo os bónus.
+                  Inmediatamente después de la confirmación del pago, recibes un email con tus credenciales de acceso.
+                  Todo el contenido queda disponible al momento, incluyendo los bonos.
                 </p>
               </CardContent>
             </Card>
@@ -637,13 +646,13 @@ export default function ResultPageOptimized() {
       <div className="px-4 py-8 bg-gradient-to-r from-red-600 to-orange-600">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border-4 border-yellow-400">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">⏰ ÚLTIMA OPORTUNIDADE</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">⏰ ÚLTIMA OPORTUNIDAD</h2>
             <p className="text-xl text-white mb-6 font-semibold">
-              Esta oferta expira em poucos minutos. Depois disto, o preço volta aos $97 normais.
+              Esta oferta expira en pocos minutos. Después de esto, el precio vuelve a los $97 normales.
             </p>
 
             <div className="bg-red-800 p-4 rounded-lg mb-6">
-              <p className="text-yellow-300 font-bold text-lg mb-2">TEMPO RESTANTE:</p>
+              <p className="text-yellow-300 font-bold text-lg mb-2">TIEMPO RESTANTE:</p>
               <div className="text-4xl font-black text-white">
                 <CountdownTimer minutes={15} seconds={0} />
               </div>
@@ -665,12 +674,14 @@ export default function ResultPageOptimized() {
                 className="w-full max-w-md mx-auto bg-yellow-500 hover:bg-yellow-600 text-black font-black py-6 px-8 rounded-full text-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-white"
                 onTouchStart={handleTouchFeedback}
               >
-                💕 SIM, QUERO RECUPERAR AGORA!
+                💕 ¡SÍ, QUIERO RECUPERAR AHORA!
                 <ArrowRight className="w-6 h-6 ml-2" />
               </Button>
             </motion.div>
 
-            <p className="text-yellow-300 text-sm mt-4 font-semibold">Clica agora antes que seja tarde demais</p>
+            <p className="text-yellow-300 text-sm mt-4 font-semibold">
+              Haz clic ahora antes de que sea demasiado tarde
+            </p>
           </div>
         </div>
       </div>
@@ -693,7 +704,7 @@ export default function ResultPageOptimized() {
             grid-template-columns: 1fr !important;
           }
 
-          /* Otimizações específicas para mobile */
+          /* Optimizaciones específicas para móvil */
           button {
             min-height: 44px !important;
             touch-action: manipulation;
@@ -709,18 +720,18 @@ export default function ResultPageOptimized() {
             line-height: 2.5rem !important;
           }
 
-          /* Melhor legibilidade em mobile */
+          /* Mejor legibilidad en móvil */
           p {
             line-height: 1.6 !important;
           }
 
-          /* CTAs mais visíveis em mobile */
+          /* CTAs más visibles en móvil */
           .bg-gradient-to-r {
             background-attachment: fixed;
           }
         }
 
-        /* Animações otimizadas para mobile */
+        /* Animaciones optimizadas para móvil */
         @media (prefers-reduced-motion: reduce) {
           * {
             animation-duration: 0.01ms !important;
@@ -729,13 +740,11 @@ export default function ResultPageOptimized() {
           }
         }
 
-        /* Estilos específicos para o vídeo */
-        video {
+        /* Estilos específicos para Wistia */
+        wistia-player {
+          width: 100% !important;
+          height: auto !important;
           border-radius: 8px;
-        }
-
-        video::-webkit-media-controls-panel {
-          background-color: rgba(0, 0, 0, 0.8);
         }
       `}</style>
     </div>
