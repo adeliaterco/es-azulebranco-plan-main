@@ -29,7 +29,7 @@ export const quizSteps = [
   },
   {
     id: 3,
-    question: "¿CUÁNTO TIEMPO LLEVÁIS SEPARADOS?",
+    question: "¿CUÁNTO TIEMPO LLEVAN SEPARADOS?",
     description: "(El tiempo es un factor crítico para tu estrategia de reconquista)",
     options: {
       masculino: ["Menos de una semana", "Hace 1 mes", "De 2 a 6 meses", "Más de 6 meses"],
@@ -37,7 +37,7 @@ export const quizSteps = [
     },
     bonusUnlock: {
       id: 1,
-      title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
+      title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
       value: 47,
       description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
     },
@@ -45,13 +45,13 @@ export const quizSteps = [
   {
     id: 4,
     question: {
-      masculino: "¿CÓMO FUE VUESTRA SEPARACIÓN?",
-      feminino: "¿CÓMO FUE VUESTRA SEPARACIÓN?",
+      masculino: "¿CÓMO FUE SU SEPARACIÓN?",
+      feminino: "¿CÓMO FUE SU SEPARACIÓN?",
     },
     description: "(Esta información es vital para determinar tu estrategia específica)",
     options: {
-      masculino: ["Ella cortó conmigo", "Yo corté con ella", "Decidimos cortar de mutuo acuerdo"],
-      feminino: ["Él cortó conmigo", "Yo corté con él", "Decidimos cortar de mutuo acuerdo"],
+      masculino: ["Ella terminó conmigo", "Yo terminé con ella", "Decidimos terminar de mutuo acuerdo"],
+      feminino: ["Él terminó conmigo", "Yo terminé con él", "Decidimos terminar de mutuo acuerdo"],
     },
     elements: {
       analysisText: "Calculando tasa de éxito para tu caso...",
@@ -60,7 +60,7 @@ export const quizSteps = [
   },
   {
     id: 5,
-    question: "¿CUÁNTO TIEMPO ESTUVISTEIS JUNTOS?",
+    question: "¿CUÁNTO TIEMPO ESTUVIERON JUNTOS?",
     description: "(La duración de la relación influye directamente en tu estrategia)",
     options: ["Más de 3 años", "De 1 a 3 años", "De 6 meses a 1 año", "Menos de 6 meses"],
   },
@@ -73,7 +73,7 @@ export const quizSteps = [
         "😔 Lidiar con la soledad y el vacío",
         "😢 La montaña rusa emocional: ira, tristeza, arrepentimiento",
         "😐 Lidiar con recuerdos y memorias",
-        "💔 Imaginarla con otro tío",
+        "💔 Imaginarla con otro hombre",
         "🤔 Darme cuenta de que los planes que hicimos nunca se harán realidad",
         "⚡ Otro",
       ],
@@ -81,7 +81,7 @@ export const quizSteps = [
         "😔 Lidiar con la soledad y el vacío",
         "😢 La montaña rusa emocional: ira, tristeza, arrepentimiento",
         "😐 Lidiar con recuerdos y memorias",
-        "💔 Imaginarlo con otra tía",
+        "💔 Imaginarlo con otra mujer",
         "🤔 Darme cuenta de que los planes que hicimos nunca se harán realidad",
         "⚡ Otro",
       ],
@@ -101,21 +101,21 @@ export const quizSteps = [
     options: {
       masculino: [
         "🧐 Estoy aplicando contacto cero",
-        "😢 Ella pasa de mí completamente",
+        "😢 Ella me ignora completamente",
         "❌ Me ha bloqueado en todas las redes sociales",
-        "🤝 Hablamos solo de cosas imprescindibles",
+        "🤝 Hablamos solo de cosas necesarias",
         "🤔 Charlamos de vez en cuando",
-        "😌 Seguimos siendo colegas",
-        "🔥 Hemos echado algún polvo después de la ruptura",
+        "😌 Seguimos siendo amigos",
+        "🔥 Hemos tenido encuentros íntimos después de la ruptura",
       ],
       feminino: [
         "🧐 Estoy aplicando contacto cero",
-        "😢 Él pasa de mí completamente",
+        "😢 Él me ignora completamente",
         "❌ Me ha bloqueado en todas las redes sociales",
-        "🤝 Hablamos solo de cosas imprescindibles",
+        "🤝 Hablamos solo de cosas necesarias",
         "🤔 Charlamos de vez en cuando",
-        "😌 Seguimos siendo colegas",
-        "🔥 Hemos echado algún polvo después de la ruptura",
+        "😌 Seguimos siendo amigos",
+        "🔥 Hemos tenido encuentros íntimos después de la ruptura",
       ],
     },
     elements: {
@@ -126,24 +126,24 @@ export const quizSteps = [
   {
     id: 8,
     question: {
-      masculino: "¿ELLA YA ESTÁ LIÁNDOSE CON OTRA PERSONA?",
-      feminino: "¿ÉL YA ESTÁ LIÁNDOSE CON OTRA PERSONA?",
+      masculino: "¿ELLA YA ESTÁ SALIENDO CON OTRA PERSONA?",
+      feminino: "¿ÉL YA ESTÁ SALIENDO CON OTRA PERSONA?",
     },
     description: "(Esta información es crucial para definir tu enfoque estratégico)",
     options: {
       masculino: [
         "🚫 No, está soltera",
         "🤔 No estoy seguro",
-        "😔 Sí, se está liando con alguien",
+        "😔 Sí, está saliendo con alguien",
         "💔 Sí, tiene una relación seria",
-        "🔄 Se está liando con varios",
+        "🔄 Está saliendo con varias personas",
       ],
       feminino: [
         "🚫 No, está soltero",
         "🤔 No estoy segura",
-        "😔 Sí, se está liando con alguien",
+        "😔 Sí, está saliendo con alguien",
         "💔 Sí, tiene una relación seria",
-        "🔄 Se está liando con varias",
+        "🔄 Está saliendo con varias personas",
       ],
     },
     bonusUnlock: {
@@ -165,7 +165,7 @@ export const quizSteps = [
     description: "(Tu nivel de compromiso determinará tu éxito)",
     subtext:
       "El 91% de las personas que seleccionaron nivel 4 reconquistaron a su ex en menos de 21 días usando el PLAN A.",
-    options: ["1 - No estoy seguro", "2 - Me lo estoy planteando", "3 - Lo quiero bastante", "4 - Lo quiero muchísimo"],
+    options: ["1 - No estoy seguro", "2 - Me lo estoy pensando", "3 - Lo quiero bastante", "4 - Lo quiero muchísimo"],
     note: "Solo trabajo con personas decididas a transformar su situación amorosa. El PLAN A fue desarrollado para quien está preparado para actuar.",
     elements: {
       thermometer: true,
@@ -187,7 +187,7 @@ export const quizSteps = [
   },
   {
     id: 11,
-    question: "¡ENHORABUENA! He analizado tus respuestas y tengo buenas noticias para ti.",
+    question: "¡FELICITACIONES! He analizado tus respuestas y tengo buenas noticias para ti.",
     description:
       "Basándome en tu perfil y situación específica, el PLAN A tiene un 90,5% de probabilidades de funcionar en tu caso.",
     options: ["¿VAMOS AL SIGUIENTE PASO?"],
@@ -202,8 +202,8 @@ export const quizSteps = [
   },
   {
     id: 12,
-    question: "RESULTADOS DEMOSTRADOS",
-    subtext: "EL 91% DE MIS ALUMNOS VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
+    question: "RESULTADOS COMPROBADOS",
+    subtext: "EL 91% DE MIS ESTUDIANTES VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
     description: "",
     options: ["¡YO TAMBIÉN QUIERO ESOS RESULTADOS!"],
     elements: {
@@ -248,7 +248,7 @@ export const quizSteps = [
 export const bonuses = [
   {
     id: 1,
-    title: "21 DESENCADENANTES EMOCIONALES QUE FUNCIONAN",
+    title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
     value: 47,
     description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
     details: ["✓ 7 Gatillos de Nostalgia", "✓ 7 Gatillos de Curiosidad", "✓ 7 Gatillos de Deseo"],
@@ -265,17 +265,17 @@ export const bonuses = [
 export const testimonials = [
   {
     name: "Carlos M., 34 años",
-    text: "¡Volvió a responderme al 3er día y me propuso quedar al 6º día!",
+    text: "¡Volvió a responderme al 3er día y me propuso vernos al 6º día!",
     rating: 5,
   },
   {
     name: "Rafael, 32 años",
-    text: "Estaba perdido después de la ruptura. El Plan A me dio rumbo y confianza. ¡Hoy estamos más unidos que nunca!",
+    text: "Estaba perdido después de la ruptura. El Plan A me dio dirección y confianza. ¡Hoy estamos más unidos que nunca!",
     rating: 5,
   },
   {
     name: "André, 28 años",
-    text: "En solo 2 semanas siguiendo el Plan A, conseguí reconquistar a mi ex. ¡Los guiones funcionaron perfectamente!",
+    text: "En solo 2 semanas siguiendo el Plan A, logré reconquistar a mi ex. ¡Los guiones funcionaron perfectamente!",
     rating: 5,
   },
   {
@@ -289,9 +289,13 @@ export const socialProofMessages = [
   "¡Estás entre el 17% más decidido a reconquistar!",
   "¡Tu perfil muestra compatibilidad!",
   "¡Bonificación liberada por desbloqueo!",
-  "¡Has desbloqueado los 2 bonos - valor total de 84€!",
+  "¡Has desbloqueado los 2 bonos - valor total de $84!",
   "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
   "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
+  "-",
+  "-",
+  "-",
+  "-",
 ]
 
 // Función utilitaria para personalizar textos basados en el género
