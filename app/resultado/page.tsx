@@ -58,37 +58,7 @@ export default function ResultPageOptimized() {
       console.error("Error al registrar evento de visualización:", error)
     }
 
-    // Cargar scripts de Wistia
-    const script1 = document.createElement("script")
-    script1.src = "https://fast.wistia.com/player.js"
-    script1.async = true
-    document.head.appendChild(script1)
-
-    const script2 = document.createElement("script")
-    script2.src = "https://fast.wistia.com/embed/oqyjs7cler.js"
-    script2.async = true
-    script2.type = "module"
-    document.head.appendChild(script2)
-
-    // Agregar estilos de Wistia
-    const style = document.createElement("style")
-    style.textContent = `
-      wistia-player[media-id='oqyjs7cler']:not(:defined) { 
-        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/oqyjs7cler/swatch'); 
-        display: block; 
-        filter: blur(5px); 
-        padding-top: 178.33%; 
-      }
-    `
-    document.head.appendChild(style)
-
-    return () => {
-      clearInterval(interval)
-      // Limpiar scripts y estilos al desmontar
-      document.head.removeChild(script1)
-      document.head.removeChild(script2)
-      document.head.removeChild(style)
-    }
+    return () => clearInterval(interval)
   }, [])
 
   const handlePurchase = () => {
@@ -365,7 +335,7 @@ export default function ResultPageOptimized() {
                   />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-gray-900">Cliente Verificado</h4>
+                  <h4 className="font-bold text-gray-900">Carlos M., 34 años</h4>
                   <div className="flex text-orange-500">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
@@ -380,73 +350,6 @@ export default function ResultPageOptimized() {
               <div className="text-sm text-green-600 font-bold">✅ Reconciliado hace 8 meses</div>
             </CardContent>
           </Card>
-        </div>
-      </div>
-
-      {/* VÍDEO TESTIMONIO - POSICIÓN ESTRATÉGICA */}
-      <div className="px-4 py-12 bg-gradient-to-r from-purple-900/30 to-blue-900/30">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              🎥 <span className="text-yellow-400">MIRA LO QUE DICEN</span> NUESTROS CLIENTES
-            </h2>
-            <p className="text-xl text-gray-300 font-semibold">
-              Testimonio real de quien recuperó su relación con el Plan A
-            </p>
-          </motion.div>
-
-          <Card className="bg-gradient-to-r from-gray-800 to-gray-900 border-4 border-yellow-400 shadow-2xl overflow-hidden">
-            <CardContent className="p-6">
-              <div className="relative">
-                {/* Contenedor del Video Wistia */}
-                <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-                  <wistia-player media-id="oqyjs7cler" aspect="0.5607476635514018"></wistia-player>
-                </div>
-
-                {/* Información del Testimonio */}
-                <div className="mt-6 p-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg">
-                  <div className="flex items-center justify-center gap-4 text-black">
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold">Cliente Verificado</h3>
-                      <div className="flex justify-center text-black mt-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-current" />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-semibold">✅ RESULTADO:</p>
-                      <p className="text-lg font-black">Reconciliado en 16 días</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* CTA Post-Video */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-center mt-8"
-          >
-            <p className="text-white text-lg mb-4 font-semibold">"Gracias por las técnicas. ¡Realmente funcionaron!"</p>
-            <Button
-              onClick={handlePurchase}
-              size="lg"
-              className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300 transform hover:scale-105"
-              onTouchStart={handleTouchFeedback}
-            >
-              QUIERO LOS MISMOS RESULTADOS
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </motion.div>
         </div>
       </div>
 
@@ -738,13 +641,6 @@ export default function ResultPageOptimized() {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
-        }
-
-        /* Estilos específicos para Wistia */
-        wistia-player {
-          width: 100% !important;
-          height: auto !important;
-          border-radius: 8px;
         }
       `}</style>
     </div>
