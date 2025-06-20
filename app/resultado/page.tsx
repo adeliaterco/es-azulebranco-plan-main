@@ -15,6 +15,7 @@ import {
   Zap,
   Target,
   Heart,
+  Play,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -69,7 +70,7 @@ export default function ResultPageOptimized() {
     } catch (error) {
       console.error("Error al registrar evento de clic:", error)
     }
-    window.open("https://pay.hotmart.com/N100289413H?checkoutMode=10", "_blank")
+    window.open("https://pay.hotmart.com/F100142422S?off=qqcmu6vg&checkoutMode=10", "_blank")
   }
 
   const getPersonalizedPronoun = () => {
@@ -173,7 +174,7 @@ export default function ResultPageOptimized() {
               onTouchStart={handleTouchFeedback}
             >
               <Heart className="w-6 h-6 mr-2" />
-              RECUPERAR AGORA POR €9
+              RECUPERAR AGORA POR $9
               <ArrowRight className="w-6 h-6 ml-2" />
             </Button>
           </motion.div>
@@ -206,7 +207,7 @@ export default function ResultPageOptimized() {
               <AlertTriangle className="w-12 h-12 text-yellow-300 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-white mb-4">⚠️ ATENÇÃO: JANELA DE OPORTUNIDADE LIMITADA</h2>
               <p className="text-white text-lg mb-4">
-                <strong>Apenas hoje</strong> tens acesso ao sistema completo por €9 (valor normal €97). Depois desta
+                <strong>Apenas hoje</strong> tens acesso ao sistema completo por $9 (valor normal $97). Depois desta
                 oferta, o preço volta ao normal e os bónus deixam de estar disponíveis.
               </p>
               <div className="bg-black/30 p-4 rounded-lg">
@@ -353,6 +354,94 @@ export default function ResultPageOptimized() {
         </div>
       </div>
 
+      {/* VÍDEO DEPOIMENTO - POSIÇÃO ESTRATÉGICA */}
+      <div className="px-4 py-12 bg-gradient-to-r from-purple-900/30 to-blue-900/30">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              🎥 <span className="text-yellow-400">VEJA O QUE DIZEM</span> OS NOSSOS CLIENTES
+            </h2>
+            <p className="text-xl text-gray-300 font-semibold">
+              Depoimento real de quem recuperou a relação com o Plano A
+            </p>
+          </motion.div>
+
+          <Card className="bg-gradient-to-r from-gray-800 to-gray-900 border-4 border-yellow-400 shadow-2xl overflow-hidden">
+            <CardContent className="p-0">
+              <div className="relative">
+                {/* Vídeo Container */}
+                <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+                  <video
+                    controls
+                    preload="metadata"
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=600"
+                  >
+                    <source
+                      src="https://optimalhealthscout.shop/wp-content/uploads/2025/05/depoimento-plano-a.mp4"
+                      type="video/mp4"
+                    />
+                    <track src="/captions.vtt" kind="subtitles" srcLang="pt" label="Português" />O teu navegador não
+                    suporta vídeo HTML5.
+                  </video>
+
+                  {/* Play Button Overlay (opcional) */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/20 transition-all duration-300 cursor-pointer group">
+                    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                      <Play className="w-8 h-8 text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Informações do Depoimento */}
+                <div className="p-6 bg-gradient-to-r from-yellow-400 to-orange-500">
+                  <div className="flex items-center justify-center gap-4 text-black">
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold">Miguel R., 28 anos</h3>
+                      <div className="flex justify-center text-black mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-current" />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-semibold">✅ RESULTADO:</p>
+                      <p className="text-lg font-black">Reconciliado em 16 dias</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* CTA Pós-Vídeo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-center mt-8"
+          >
+            <p className="text-white text-lg mb-4 font-semibold">
+              "Obrigado pelas técnicas. Funcionaram mesmo!" - Miguel R.
+            </p>
+            <Button
+              onClick={handlePurchase}
+              size="lg"
+              className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300 transform hover:scale-105"
+              onTouchStart={handleTouchFeedback}
+            >
+              QUERO OS MESMOS RESULTADOS
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </motion.div>
+        </div>
+      </div>
+
       {/* OFERTA PRINCIPAL - MOBILE OPTIMIZED */}
       <div className="px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -381,8 +470,8 @@ export default function ResultPageOptimized() {
                         4 módulos com estratégias passo-a-passo para qualquer tipo de rutura
                       </p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">€97</span>
-                        <span className="text-yellow-300 font-bold text-xl">€9</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">$97</span>
+                        <span className="text-yellow-300 font-bold text-xl">$9</span>
                       </div>
                     </div>
                   </div>
@@ -395,7 +484,7 @@ export default function ResultPageOptimized() {
                       <h4 className="text-xl font-bold text-white">BÓNUS #1: 21 Gatilhos Emocionais</h4>
                       <p className="text-gray-200 mb-2">Frases exatas que despertam sentimentos profundos</p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">€47</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">$47</span>
                         <span className="text-green-400 font-bold text-xl">GRÁTIS</span>
                       </div>
                     </div>
@@ -409,7 +498,7 @@ export default function ResultPageOptimized() {
                       <h4 className="text-xl font-bold text-white">BÓNUS #2: Protocolo de Emergência</h4>
                       <p className="text-gray-200 mb-2">Guia para situações críticas nas primeiras 72 horas</p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">€37</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">$37</span>
                         <span className="text-green-400 font-bold text-xl">GRÁTIS</span>
                       </div>
                     </div>
@@ -423,16 +512,16 @@ export default function ResultPageOptimized() {
                   <div>
                     <h4 className="font-bold text-yellow-300 mb-2">VALOR TOTAL:</h4>
                     <div className="text-3xl font-bold">
-                      <span className="line-through text-gray-400">€181</span>
+                      <span className="line-through text-gray-400">$181</span>
                     </div>
                   </div>
                   <div>
                     <h4 className="font-bold text-yellow-300 mb-2">HOJE APENAS:</h4>
-                    <div className="text-3xl font-bold text-yellow-300">€9</div>
+                    <div className="text-3xl font-bold text-yellow-300">$9</div>
                   </div>
                 </div>
                 <div className="mt-4 text-center">
-                  <p className="text-green-400 font-bold text-xl">POUPAS €172!</p>
+                  <p className="text-green-400 font-bold text-xl">POUPAS $172!</p>
                 </div>
               </div>
 
@@ -454,7 +543,7 @@ export default function ResultPageOptimized() {
                   className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-black py-6 px-8 rounded-full text-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-white"
                   onTouchStart={handleTouchFeedback}
                 >
-                  💕 RECUPERAR AGORA POR €9
+                  💕 RECUPERAR AGORA POR $9
                   <ArrowRight className="w-6 h-6 ml-2" />
                 </Button>
               </motion.div>
@@ -550,7 +639,7 @@ export default function ResultPageOptimized() {
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border-4 border-yellow-400">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">⏰ ÚLTIMA OPORTUNIDADE</h2>
             <p className="text-xl text-white mb-6 font-semibold">
-              Esta oferta expira em poucos minutos. Depois disto, o preço volta aos €97 normais.
+              Esta oferta expira em poucos minutos. Depois disto, o preço volta aos $97 normais.
             </p>
 
             <div className="bg-red-800 p-4 rounded-lg mb-6">
@@ -638,6 +727,15 @@ export default function ResultPageOptimized() {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
+        }
+
+        /* Estilos específicos para o vídeo */
+        video {
+          border-radius: 8px;
+        }
+
+        video::-webkit-media-controls-panel {
+          background-color: rgba(0, 0, 0, 0.8);
         }
       `}</style>
     </div>
