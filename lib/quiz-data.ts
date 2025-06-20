@@ -230,11 +230,45 @@ export const quizSteps = [
       "EL 91% DE MIS ALUMNOS VIERON RESULTADOS ESPECTACULARES EN LOS PRIMEROS 7 DÍAS APLICANDO EL PLAN A",
     description: "",
     options: ["¡YO TAMBIÉN QUIERO ESOS RESULTADOS!"],
-    finalPage: true, // ✅ PROPRIEDADE CRUCIAL ADICIONADA
     elements: {
       bigNumber: "91%",
-      profileComplete: "100%", // ✅ ALTERADO PARA 100%
+      profileComplete: "98%",
       testimonialImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/06/prova-nova-espanha-face.png",
+    },
+  },
+  {
+    id: 13,
+    question: "TU PLAN A - RECUPERACIÓN RÁPIDA DE 21 DÍAS",
+    description: "Desarrollado específicamente para tu caso, basado en tus respuestas.",
+    subtext:
+      "Este sistema paso a paso ya ha ayudado a 3.847 personas a reconquistar a su ex y construir relaciones aún más sólidas que antes.",
+    options: {
+      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
+      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
+    },
+    note: "¡Incluye los 2 bonos exclusivos (valor total: 84€) que aceleran tu reconquista!",
+    elements: {
+      plan21Days: true,
+      profileComplete: "100%",
+      allBonuses: true,
+    },
+  },
+  {
+    id: 14,
+    question: {
+      masculino: "DE RECHAZADO A DESEADO EN 21 DÍAS O MENOS",
+      feminino: "DE RECHAZADA A DESEADA EN 21 DÍAS O MENOS",
+    },
+    description:
+      "El único sistema paso a paso científicamente desarrollado para personas decididas a recuperar el amor de quien ha dejado un vacío en sus vidas.",
+    options: {
+      masculino: ["¡SÍ, QUIERO RECONQUISTARLA AHORA!"],
+      feminino: ["¡SÍ, QUIERO RECONQUISTARLO AHORA!"],
+    },
+    finalPage: true,
+    elements: {
+      beforeAfter: true,
+      fullSalesPage: true,
     },
   },
 ]
