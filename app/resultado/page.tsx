@@ -69,7 +69,7 @@ export default function ResultPageOptimized() {
     } catch (error) {
       console.error("Error al registrar evento de clic:", error)
     }
-    window.open("https://pay.hotmart.com/F100142422S?off=qqcmu6vg&checkoutMode=10", "_blank")
+    window.open("https://pay.hotmart.com/N100289413H?checkoutMode=10", "_blank")
   }
 
   const getPersonalizedPronoun = () => {
@@ -102,7 +102,7 @@ export default function ResultPageOptimized() {
 
           {/* Headline Principal - Mobile Optimized */}
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-            🎯 <span className="text-orange-400">¡FELICITACIONES!</span>
+            🎯 <span className="text-orange-400">¡ENHORABUENA!</span>
             <br />
             TU CASO TIENE UN <span className="text-green-400">90,5%</span>
             <br />
@@ -173,7 +173,7 @@ export default function ResultPageOptimized() {
               onTouchStart={handleTouchFeedback}
             >
               <Heart className="w-6 h-6 mr-2" />
-              RECUPERAR AHORA POR $9
+              RECUPERAR AHORA POR €9
               <ArrowRight className="w-6 h-6 ml-2" />
             </Button>
           </motion.div>
@@ -206,7 +206,7 @@ export default function ResultPageOptimized() {
               <AlertTriangle className="w-12 h-12 text-yellow-300 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-white mb-4">⚠️ ATENCIÓN: VENTANA DE OPORTUNIDAD LIMITADA</h2>
               <p className="text-white text-lg mb-4">
-                <strong>Solo hoy</strong> tienes acceso al sistema completo por $9 (valor normal $97). Después de esta
+                <strong>Solo hoy</strong> tienes acceso al sistema completo por €9 (valor normal €97). Después de esta
                 oferta, el precio vuelve a la normalidad y los bonos dejan de estar disponibles.
               </p>
               <div className="bg-black/30 p-4 rounded-lg">
@@ -382,7 +382,7 @@ export default function ResultPageOptimized() {
               </div>
               <p className="text-gray-700 text-lg font-semibold mb-3">
                 "Ella había bloqueado mi número y decía que nunca más quería verme. Seguí el Plan A exactamente como
-                estaba escrito y en 18 días me llamó llorando pidiendo que volviéramos. ¡Hoy estamos comprometidos!"
+                estaba escrito y en 18 días me llamó llorando pidiendo que volviéramos. ¡Hoy estamos prometidos!"
               </p>
               <div className="text-sm text-green-600 font-bold">✅ Reconciliado hace 8 meses</div>
             </CardContent>
@@ -418,8 +418,8 @@ export default function ResultPageOptimized() {
                         4 módulos con estrategias paso a paso para cualquier tipo de ruptura
                       </p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">$97</span>
-                        <span className="text-yellow-300 font-bold text-xl">$9</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">€97</span>
+                        <span className="text-yellow-300 font-bold text-xl">€9</span>
                       </div>
                     </div>
                   </div>
@@ -432,7 +432,7 @@ export default function ResultPageOptimized() {
                       <h4 className="text-xl font-bold text-white">BONO #1: 21 Gatillos Emocionales</h4>
                       <p className="text-gray-200 mb-2">Frases exactas que despiertan sentimientos profundos</p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">$47</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">€47</span>
                         <span className="text-green-400 font-bold text-xl">GRATIS</span>
                       </div>
                     </div>
@@ -446,7 +446,7 @@ export default function ResultPageOptimized() {
                       <h4 className="text-xl font-bold text-white">BONO #2: Protocolo de Emergencia</h4>
                       <p className="text-gray-200 mb-2">Guía para situaciones críticas en las primeras 72 horas</p>
                       <div className="flex items-center">
-                        <span className="text-gray-300 line-through mr-2 text-lg">$37</span>
+                        <span className="text-gray-300 line-through mr-2 text-lg">€37</span>
                         <span className="text-green-400 font-bold text-xl">GRATIS</span>
                       </div>
                     </div>
@@ -460,16 +460,16 @@ export default function ResultPageOptimized() {
                   <div>
                     <h4 className="font-bold text-yellow-300 mb-2">VALOR TOTAL:</h4>
                     <div className="text-3xl font-bold">
-                      <span className="line-through text-gray-400">$181</span>
+                      <span className="line-through text-gray-400">€181</span>
                     </div>
                   </div>
                   <div>
                     <h4 className="font-bold text-yellow-300 mb-2">HOY SOLO:</h4>
-                    <div className="text-3xl font-bold text-yellow-300">$9</div>
+                    <div className="text-3xl font-bold text-yellow-300">€9</div>
                   </div>
                 </div>
                 <div className="mt-4 text-center">
-                  <p className="text-green-400 font-bold text-xl">¡AHORRAS $172!</p>
+                  <p className="text-green-400 font-bold text-xl">¡AHORRAS €172!</p>
                 </div>
               </div>
 
@@ -491,7 +491,7 @@ export default function ResultPageOptimized() {
                   className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-black py-6 px-8 rounded-full text-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 border-4 border-white"
                   onTouchStart={handleTouchFeedback}
                 >
-                  💕 RECUPERAR AHORA POR $9
+                  💕 RECUPERAR AHORA POR €9
                   <ArrowRight className="w-6 h-6 ml-2" />
                 </Button>
               </motion.div>
@@ -588,7 +588,7 @@ export default function ResultPageOptimized() {
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border-4 border-yellow-400">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">⏰ ÚLTIMA OPORTUNIDAD</h2>
             <p className="text-xl text-white mb-6 font-semibold">
-              Esta oferta expira en pocos minutos. Después de esto, el precio vuelve a los $97 normales.
+              Esta oferta expira en pocos minutos. Después de esto, el precio vuelve a los €97 normales.
             </p>
 
             <div className="bg-red-800 p-4 rounded-lg mb-6">
@@ -626,23 +626,8 @@ export default function ResultPageOptimized() {
         </div>
       </div>
 
-      {/* Estilos CSS Mobile-First + Wistia */}
+      {/* Estilos CSS Mobile-First */}
       <style jsx global>{`
-        /* Estilos para el player Wistia */
-        wistia-player[media-id='6fyiaz12pl']:not(:defined) { 
-          background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/6fyiaz12pl/swatch'); 
-          display: block; 
-          filter: blur(5px); 
-          padding-top: 55.94%; 
-          border-radius: 12px;
-        }
-        
-        wistia-player {
-          border-radius: 12px !important;
-          overflow: hidden;
-          width: 100% !important;
-        }
-
         @media (max-width: 768px) {
           .timeline-card {
             margin-left: 0 !important;
@@ -684,11 +669,6 @@ export default function ResultPageOptimized() {
           .bg-gradient-to-r {
             background-attachment: fixed;
           }
-
-          /* Wistia responsivo en móvil */
-          wistia-player[media-id='6fyiaz12pl']:not(:defined) {
-            padding-top: 56.25% !important;
-          }
         }
 
         /* Animaciones optimizadas para móvil */
@@ -697,6 +677,28 @@ export default function ResultPageOptimized() {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
+          }
+        }
+
+        /* Estilos para el player Wistia */
+        wistia-player[media-id='6fyiaz12pl']:not(:defined) { 
+          background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/6fyiaz12pl/swatch'); 
+          display: block; 
+          filter: blur(5px); 
+          padding-top: 55.94%; 
+          border-radius: 12px;
+        }
+
+        wistia-player {
+          border-radius: 12px !important;
+          overflow: hidden;
+          width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+          /* Wistia responsivo en móvil */
+          wistia-player[media-id='6fyiaz12pl']:not(:defined) {
+            padding-top: 56.25% !important;
           }
         }
       `}</style>
