@@ -485,6 +485,31 @@ export default function HomePage() {
             min-height: calc(100vh - 60px);
           }
         }
+
+        /* Copyright */
+        .copyright {
+          position: relative;
+          margin-top: 40px;
+          padding: 20px;
+          color: #888888;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          .copyright {
+            margin-top: 30px;
+            padding: 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .copyright {
+            margin-top: 25px;
+            padding: 10px;
+            font-size: 11px;
+          }
+        }
       `}</style>
 
       {/* Loading overlay */}
@@ -633,19 +658,7 @@ export default function HomePage() {
       </div>
 
       {/* Copyright */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "15px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          color: "#888888",
-          fontSize: "12px",
-          textAlign: "center",
-        }}
-      >
-        Plan A™ Todos los Derechos Reservados.
-      </div>
+      <div className="copyright">Plan A™ Todos los Derechos Reservados.</div>
 
       <style jsx>{`
         @keyframes spin {
