@@ -1,84 +1,73 @@
 "use client"
 
-import { useState, useCallback, memo } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { ArrowRight, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
-// GA otimizado com debounce
-const trackEvent = (() => {
+// GA otimizado - só envia quando necessário
+const enviarEvento = (() => {
+  let queue = []
   let timeout
-  return (event, props = {}) => {
+
+  return (evento, props = {}) => {
+    queue.push({ evento, props })
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
-      if (typeof window !== "undefined" && window.gtag) {
-        window.gtag("event", event, props)
+      if (typeof window !== "undefined" && window.gtag && queue.length) {
+        queue.forEach(({ evento, props }) => {
+          window.gtag("event", evento, props)
+        })
+        queue = []
       }
-    }, 300)
+    }, 500)
   }
 })()
-
-// Componente do botão memoizado
-const QuizButton = memo(({ onClick, isLoading, isOnline }) => (
-  <button 
-    onClick={onClick} 
-    disabled={isLoading || !isOnline} 
-    className="btn-quiz-pulsante"
-    aria-label="Comenzar quiz personalizado"
-  >
-    {isLoading ? (
-      <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        PREPARANDO...
-        <div className="spinner" />
-      </span>
-    ) : (
-      <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        COMENZAR QUIZ AHORA
-        <ArrowRight style={{ marginLeft: "12px", width: "22px", height: "22px" }} />
-      </span>
-    )}
-  </button>
-))
-
-// Componente de progresso memoizado
-const ProgressIndicator = memo(() => (
-  <div className="indicador-progresso">
-    <div className="circulo-progresso active"></div>
-    <div className="circulo-progresso"></div>
-    <div className="circulo-progresso"></div>
-    <div className="circulo-progresso"></div>
-    <span>Paso 1</span>
-  </div>
-))
-
-// Loading overlay otimizado
-const LoadingOverlay = memo(({ progress }) => (
-  <div className="loading-overlay">
-    <div className="loading-content">
-      <div style={{ fontSize: "18px", fontWeight: "600" }}>Preparando tu quiz personalizado...</div>
-      <div className="progress-bar">
-        <div 
-          className="progress-fill" 
-          style={{ transform: `translateX(${progress - 100}%)` }}
-        />
-      </div>
-    </div>
-  </div>
-))
 
 export default function HomePage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [errorMessage, setErrorMessage] = useState("")
   const [isOnline, setIsOnline] = useState(true)
 
-  // Handler otimizado com useCallback
+  // Detecção de conexão minimalista
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine)
+
+    window.addEventListener("online", updateOnlineStatus, { passive: true })
+    window.addEventListener("offline", updateOnlineStatus, { passive: true })
+
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus)
+      window.removeEventListener("offline", updateOnlineStatus)
+    }
+  }, [])
+
+  // Tracking minimalista - só o essencial
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const timer = setTimeout(() => {
+      enviarEvento("page_view", {
+        device: window.innerWidth < 768 ? "mobile" : "desktop",
+      })
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Função de início ultra-otimizada
   const handleStart = useCallback(() => {
     if (isLoading || !isOnline) return
 
     setIsLoading(true)
     setLoadingProgress(20)
-    trackEvent("quiz_start")
+
+    enviarEvento("quiz_start")
 
     let progress = 20
     const interval = setInterval(() => {
@@ -87,8 +76,8 @@ export default function HomePage() {
 
       if (progress >= 100) {
         clearInterval(interval)
-        
-        // Preservar UTMs de forma otimizada
+
+        // Preservar UTMs
         let url = "/quiz/1"
         if (typeof window !== "undefined" && window.location.search) {
           const params = new URLSearchParams(window.location.search)
@@ -104,203 +93,138 @@ export default function HomePage() {
         router.push(url)
       }
     }, 200)
-
-    return () => clearInterval(interval)
   }, [isLoading, isOnline, router])
 
   return (
-    <>
-      {/* CSS CRÍTICO INLINE OTIMIZADO */}
+    <div
+      style={{
+        backgroundColor: "#000000",
+        minHeight: "100vh",
+        padding: "20px",
+        position: "relative",
+      }}
+    >
       <style jsx>{`
-        /* RESET E BASE */
-        * {
-          box-sizing: border-box;
+        /* CSS OTIMIZADO - MANTENDO FUNCIONALIDADE */
+        
+        /* BOTÃO VERMELHO PULSANTE - CORRIGIDO */
+        .btn-quiz-pulsante {
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+          color: white !important;
+          border: none !important;
+          padding: 18px 36px !important;
+          font-size: 19px !important;
+          font-weight: bold !important;
+          border-radius: 50px !important;
+          text-transform: uppercase !important;
+          cursor: pointer !important;
+          transition: all 0.2s ease !important;
+          animation: pulsar 2s infinite !important;
+          width: 100% !important;
+          max-width: 320px !important;
+          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+          letter-spacing: 0.5px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          margin: 0 auto !important;
         }
         
-        .page-container {
-          background: linear-gradient(145deg, #000000 0%, #111111 100%);
-          min-height: 100vh;
-          padding: 20px;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
+        @keyframes pulsar {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0.7);
+          }
+          70% {
+            transform: scale(1.03);
+            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 0 15px rgba(220, 38, 38, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0);
+          }
         }
-
-        /* CONTAINER PRINCIPAL OTIMIZADO */
-        .container-preto {
-          background: linear-gradient(145deg, #000000 0%, #111111 100%);
-          border: 2px solid #333333;
-          border-radius: 25px;
-          padding: 45px;
-          max-width: 650px;
-          margin: 0 auto;
-          text-align: center;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-          backdrop-filter: blur(10px);
-          will-change: transform;
-        }
-
-        /* BOTÃO OTIMIZADO PARA PERFORMANCE */
-        .btn-quiz-pulsante {
-          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          color: white;
-          border: none;
-          padding: 18px 36px;
-          font-size: 19px;
-          font-weight: 700;
-          border-radius: 50px;
-          text-transform: uppercase;
-          cursor: pointer;
-          width: 100%;
-          max-width: 320px;
-          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-          letter-spacing: 0.5px;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          will-change: transform;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .btn-quiz-pulsante::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition: left 0.5s;
-        }
-
-        .btn-quiz-pulsante:hover::before {
-          left: 100%;
-        }
-
+        
         .btn-quiz-pulsante:hover {
-          transform: scale(1.02);
-          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-          box-shadow: 0 15px 40px rgba(220, 38, 38, 0.7);
+          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+          transform: scale(1.05) !important;
+          box-shadow: 0 15px 40px rgba(220, 38, 38, 0.7) !important;
         }
 
         .btn-quiz-pulsante:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-          transform: none;
+          opacity: 0.7 !important;
+          cursor: not-allowed !important;
+          animation: none !important;
         }
-
-        /* ANIMAÇÃO DE PULSO OTIMIZADA */
-        @keyframes pulso {
-          0%, 100% { 
-            transform: scale(1);
-            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-          }
-          50% { 
-            transform: scale(1.02);
-            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6);
-          }
+        
+        /* CONTAINER PRETO OTIMIZADO */
+        .container-preto {
+          background: linear-gradient(145deg, #000000 0%, #111111 100%) !important;
+          border: 2px solid #333333 !important;
+          border-radius: 25px !important;
+          padding: 45px !important;
+          max-width: 650px !important;
+          margin: 0 auto !important;
+          text-align: center !important;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
+          backdrop-filter: blur(10px) !important;
         }
-
-        .btn-quiz-pulsante:not(:hover):not(:disabled) {
-          animation: pulso 2s ease-in-out infinite;
-        }
-
-        /* SPINNER OTIMIZADO */
-        .spinner {
-          width: 18px;
-          height: 18px;
-          border: 2px solid rgba(255,255,255,0.3);
-          border-top: 2px solid white;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin-left: 10px;
-        }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-
+        
         /* TEXTOS OTIMIZADOS */
         .titulo-principal {
-          color: #ffffff;
-          font-size: 34px;
-          font-weight: 800;
-          margin-bottom: 25px;
-          line-height: 1.3;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+          color: #ffffff !important;
+          font-size: 34px !important;
+          font-weight: 800 !important;
+          margin-bottom: 25px !important;
+          line-height: 1.3 !important;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
         }
-
+        
         .subtitulo {
-          color: #e5e5e5;
-          font-size: 19px;
-          margin-bottom: 35px;
-          font-weight: 500;
-          line-height: 1.4;
+          color: #e5e5e5 !important;
+          font-size: 19px !important;
+          margin-bottom: 35px !important;
+          font-weight: 500 !important;
+          line-height: 1.4 !important;
         }
-
-        /* INDICADOR DE PROGRESSO OTIMIZADO */
-        .indicador-progresso {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          margin-bottom: 30px;
-          color: #dc2626;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .circulo-progresso {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #333333;
-          transition: all 0.3s ease;
-        }
-
-        .circulo-progresso.active {
-          background: #dc2626;
-          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-        }
-
-        /* LOGO OTIMIZADA */
-        .logo-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-bottom: 45px;
-        }
-
-        .logo-arredondada {
-          border-radius: 15px;
-          width: 200px;
-          height: 120px;
-          object-fit: cover;
-          border: 4px solid #dc2626;
-          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
-          transition: all 0.4s ease;
-          will-change: transform;
-        }
-
-        .logo-arredondada:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6);
-          border-color: #b91c1c;
-        }
-
+        
         /* TEXTO DE GARANTIA */
         .texto-garantia {
-          color: #a3a3a3;
-          font-size: 14px;
-          margin-top: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          font-weight: 500;
+          color: #a3a3a3 !important;
+          font-size: 14px !important;
+          margin-top: 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 8px !important;
+          font-weight: 500 !important;
         }
-
+        
+        /* INDICADOR DE PROGRESSO */
+        .indicador-progresso {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 12px !important;
+          margin-bottom: 30px !important;
+          color: #dc2626 !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+        }
+        
+        .circulo-progresso {
+          width: 12px !important;
+          height: 12px !important;
+          border-radius: 50% !important;
+          background: #dc2626 !important;
+          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5) !important;
+        }
+        
+        .circulo-inativo {
+          background: #333333 !important;
+          box-shadow: none !important;
+        }
+        
         /* DEPOIMENTO OTIMIZADO */
         .depoimento {
           background: linear-gradient(145deg, #111111 0%, #000000 100%);
@@ -315,7 +239,7 @@ export default function HomePage() {
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(10px);
         }
-
+        
         .avatar {
           width: 55px;
           height: 55px;
@@ -327,26 +251,51 @@ export default function HomePage() {
           flex-shrink: 0;
           box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
-
+        
         .estrelas {
           color: #FFD700;
           font-size: 13px;
           text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
-
+        
         .nome-usuario {
           color: #FFD700;
           font-weight: bold;
           font-size: 13px;
         }
-
+        
         .texto-depoimento {
           color: #ffffff;
           font-size: 12px;
           line-height: 1.4;
           font-style: italic;
         }
-
+        
+        /* LOGO OTIMIZADA */
+        .logo-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 45px !important;
+        }
+        
+        .logo-arredondada {
+          border-radius: 15px !important;
+          width: 200px !important;
+          height: 120px !important;
+          object-fit: cover !important;
+          border: 4px solid #dc2626 !important;
+          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4), 0 0 0 2px #dc2626 !important;
+          transition: all 0.3s ease !important;
+          display: block !important;
+        }
+        
+        .logo-arredondada:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6), 0 0 0 3px #b91c1c !important;
+          border-color: #b91c1c !important;
+        }
+        
         /* LOADING OTIMIZADO */
         .loading-overlay {
           position: fixed;
@@ -361,12 +310,12 @@ export default function HomePage() {
           z-index: 1000;
           backdrop-filter: blur(5px);
         }
-
+        
         .loading-content {
           text-align: center;
           color: white;
         }
-
+        
         .progress-bar {
           width: 250px;
           height: 6px;
@@ -375,111 +324,57 @@ export default function HomePage() {
           overflow: hidden;
           margin-top: 25px;
         }
-
+        
         .progress-fill {
           height: 100%;
-          width: 100%;
           background: linear-gradient(90deg, #dc2626, #f87171);
+          transition: width 0.3s ease;
           border-radius: 3px;
-          transform: translateX(-100%);
-          transition: transform 0.3s ease;
         }
 
-        /* OFFLINE INDICATOR */
-        .offline-indicator {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          background: #f59e0b;
-          color: white;
-          text-align: center;
-          padding: 10px;
-          z-index: 1000;
+        /* SPINNER PARA LOADING */
+        .spinner {
+          width: 18px;
+          height: 18px;
+          border: 2px solid rgba(255,255,255,0.3);
+          border-top: 2px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-left: 10px;
         }
 
-        /* COPYRIGHT */
-        .copyright {
-          position: relative;
-          margin-top: 40px;
-          padding: 20px;
-          color: #888888;
-          font-size: 12px;
-          text-align: center;
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
-
-        /* ANIMAÇÕES LAZY LOADING */
-        @media (prefers-reduced-motion: no-preference) {
-          .titulo-principal {
-            animation: fadeInUp 0.8s ease-out;
-          }
-          
-          .subtitulo {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-          }
-          
-          .indicador-progresso {
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-          }
-          
-          .logo-container {
-            animation: fadeInDown 0.8s ease-out;
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translate3d(0, 30px, 0);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-          }
-        }
-
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translate3d(0, -30px, 0);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-          }
-        }
-
-        /* RESPONSIVO MOBILE-FIRST OTIMIZADO */
+        
+        /* RESPONSIVO MOBILE-FIRST */
         @media (max-width: 768px) {
-          .page-container {
-            padding: 15px;
-          }
-          
           .container-preto {
-            padding: 25px;
-            margin: 10px;
-            border-radius: 20px;
+            padding: 25px !important;
+            margin: 10px !important;
+            border-radius: 20px !important;
           }
           
           .logo-container {
-            margin-bottom: 30px;
+            margin-bottom: 30px !important;
           }
           
           .logo-arredondada {
-            width: 160px;
-            height: 100px;
-            border: 3px solid #dc2626;
+            width: 160px !important;
+            height: 100px !important;
+            border: 3px solid #dc2626 !important;
           }
           
           .titulo-principal {
-            font-size: 26px;
-            margin-bottom: 18px;
-            line-height: 1.2;
+            font-size: 26px !important;
+            margin-bottom: 18px !important;
+            line-height: 1.2 !important;
           }
           
           .subtitulo {
-            font-size: 16px;
-            margin-bottom: 25px;
+            font-size: 16px !important;
+            margin-bottom: 25px !important;
           }
           
           .depoimento {
@@ -489,36 +384,36 @@ export default function HomePage() {
           }
           
           .btn-quiz-pulsante {
-            padding: 16px 32px;
-            font-size: 16px;
-            max-width: 95%;
+            padding: 16px 32px !important;
+            font-size: 16px !important;
+            max-width: 95% !important;
           }
           
-          .copyright {
-            margin-top: 30px;
-            padding: 15px;
+          .main-content {
+            padding-top: 20px;
+            min-height: calc(100vh - 40px);
           }
         }
 
         @media (max-width: 480px) {
           .container-preto {
-            padding: 20px;
-            margin: 5px;
+            padding: 20px !important;
+            margin: 5px !important;
           }
           
           .logo-arredondada {
-            width: 140px;
-            height: 85px;
-            border: 2px solid #dc2626;
+            width: 140px !important;
+            height: 85px !important;
+            border: 2px solid #dc2626 !important;
           }
           
           .titulo-principal {
-            font-size: 22px;
-            line-height: 1.1;
+            font-size: 22px !important;
+            line-height: 1.1 !important;
           }
           
           .subtitulo {
-            font-size: 14px;
+            font-size: 14px !important;
           }
           
           .depoimento {
@@ -533,43 +428,123 @@ export default function HomePage() {
           }
           
           .btn-quiz-pulsante {
-            padding: 14px 28px;
-            font-size: 14px;
+            padding: 14px 28px !important;
+            font-size: 14px !important;
           }
-          
+        }
+        
+        /* LAYOUT PRINCIPAL */
+        .main-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding-top: 100px;
+        }
+        
+        @media (max-width: 768px) {
+          .main-content {
+            padding-top: 30px;
+            min-height: calc(100vh - 60px);
+          }
+        }
+
+        /* Copyright */
+        .copyright {
+          position: relative;
+          margin-top: 40px;
+          padding: 20px;
+          color: #888888;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          .copyright {
+            margin-top: 30px;
+            padding: 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
           .copyright {
             margin-top: 25px;
             padding: 10px;
             font-size: 11px;
           }
         }
-
-        /* OTIMIZAÇÕES DE PERFORMANCE */
-        .page-container * {
-          will-change: auto;
-        }
-        
-        .btn-quiz-pulsante,
-        .logo-arredondada,
-        .container-preto {
-          will-change: transform;
-        }
       `}</style>
 
-      <div className="page-container">
-        {/* Loading overlay */}
-        {isLoading && <LoadingOverlay progress={loadingProgress} />}
-
-        {/* Offline indicator */}
-        {!isOnline && (
-          <div className="offline-indicator">
-            ⚠️ Sem conexão com a internet
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-content">
+            <div style={{ fontSize: "18px", fontWeight: "600" }}>Preparando tu quiz personalizado...</div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${loadingProgress}%` }} />
+            </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* CONTEÚDO PRINCIPAL */}
-        <main className="container-preto">
-          {/* LOGO CENTRALIZADA COM WEBP */}
+      {/* Error message */}
+      {errorMessage && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: "20px",
+            right: "20px",
+            background: "#dc2626",
+            color: "white",
+            padding: "15px",
+            borderRadius: "10px",
+            zIndex: 1000,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>{errorMessage}</span>
+          <button
+            onClick={() => setErrorMessage("")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              fontSize: "20px",
+              cursor: "pointer",
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {/* Offline indicator */}
+      {!isOnline && (
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            background: "#f59e0b",
+            color: "white",
+            textAlign: "center",
+            padding: "10px",
+            zIndex: 1000,
+          }}
+        >
+          ⚠️ Sem conexão com a internet
+        </div>
+      )}
+
+      {/* CONTEÚDO PRINCIPAL */}
+      <div className="main-content">
+        <div className="container-preto">
+          {/* LOGO CENTRALIZADA COM WEBP E FALLBACK */}
           <div className="logo-container">
             <Image
               src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.webp"
@@ -577,12 +552,13 @@ export default function HomePage() {
               width={200}
               height={120}
               className="logo-arredondada"
-              priority
-              placeholder="blur"
-              blurDataURL="data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA="
+              priority={true}
+              loading="eager"
+              quality={90}
               sizes="(max-width: 480px) 140px, (max-width: 768px) 160px, 200px"
               onError={(e) => {
-                e.target.style.display = "none"
+                // Fallback para PNG se WebP falhar
+                e.target.src = "https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
               }}
             />
           </div>
@@ -593,44 +569,54 @@ export default function HomePage() {
           </h1>
 
           {/* SUBTÍTULO OTIMIZADO */}
-          <p className="subtitulo">
-            Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.
-          </p>
+          <p className="subtitulo">Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.</p>
 
           {/* INDICADOR DE PROGRESSO */}
-          <ProgressIndicator />
+          <div className="indicador-progresso">
+            <div className="circulo-progresso"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <span>Paso 1</span>
+          </div>
 
-          {/* BOTÃO CTA OTIMIZADO */}
-          <QuizButton 
-            onClick={handleStart}
-            isLoading={isLoading}
-            isOnline={isOnline}
-          />
+          {/* BOTÃO CTA CORRIGIDO */}
+          <button onClick={handleStart} disabled={isLoading || !isOnline} className="btn-quiz-pulsante">
+            {isLoading ? (
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                PREPARANDO...
+                <div className="spinner" />
+              </span>
+            ) : (
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                COMENZAR QUIZ AHORA
+                <ArrowRight style={{ marginLeft: "12px", width: "22px", height: "22px" }} />
+              </span>
+            )}
+          </button>
 
           {/* TEXTO DE GARANTIA */}
           <div className="texto-garantia">
             <Shield size={16} />
             <span>Confidencial y personalizado. En solo 2 minutos tendrás tu plan de acción.</span>
           </div>
-        </main>
-
-        {/* DEPOIMENTO MELHORADO */}
-        <aside className="depoimento">
-          <div className="avatar"></div>
-          <div>
-            <div className="estrelas">★★★★★</div>
-            <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
-            <div className="texto-depoimento">
-              "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
-            </div>
-          </div>
-        </aside>
-
-        {/* Copyright */}
-        <footer className="copyright">
-          Plan A™ Todos los Derechos Reservados.
-        </footer>
+        </div>
       </div>
-    </>
+
+      {/* DEPOIMENTO MELHORADO */}
+      <div className="depoimento">
+        <div className="avatar"></div>
+        <div>
+          <div className="estrelas">★★★★★</div>
+          <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
+          <div className="texto-depoimento">
+            "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright */}
+      <div className="copyright">Plan A™ Todos los Derechos Reservados.</div>
+    </div>
   )
 }
