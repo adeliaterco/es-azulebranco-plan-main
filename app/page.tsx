@@ -584,7 +584,7 @@ export default function HomePage() {
             <div className="circulo-progresso circulo-inativo"></div>
             <div className="circulo-progresso circulo-inativo"></div>
             <div className="circulo-progresso circulo-inativo"></div>
-            <span>Paso 1 de 4</span>
+            <span>Paso 1</span>
           </div>
 
           {/* BOTÃO CTA OTIMIZADO */}
