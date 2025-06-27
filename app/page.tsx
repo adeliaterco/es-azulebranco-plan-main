@@ -243,18 +243,15 @@ export default function HomePage() {
         
         /* DEPOIMENTO MELHORADO */
         .depoimento {
-          position: absolute;
-          top: 25px;
-          left: 25px;
           background: linear-gradient(145deg, #111111 0%, #000000 100%);
           border: 1px solid #444;
           border-radius: 18px;
           padding: 18px;
-          max-width: 320px;
+          max-width: 400px;
+          margin: 30px auto;
           display: flex;
           align-items: center;
           gap: 12px;
-          z-index: 10;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(10px);
         }
@@ -305,15 +302,14 @@ export default function HomePage() {
           height: 120px !important;
           object-fit: cover !important;
           border: 4px solid #dc2626 !important;
-          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4) !important;
+          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4), 0 0 0 2px #dc2626 !important;
           transition: all 0.4s ease !important;
-          background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%) !important;
-          padding: 8px !important;
+          display: block !important;
         }
         
         .logo-arredondada:hover {
           transform: scale(1.05) !important;
-          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6) !important;
+          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6), 0 0 0 3px #b91c1c !important;
           border-color: #b91c1c !important;
         }
         
@@ -391,65 +387,13 @@ export default function HomePage() {
         /* RESPONSIVO MOBILE-FIRST */
         @media (max-width: 768px) {
           .container-preto {
-            padding: 30px !important;
-            margin: 15px !important;
+            padding: 25px !important;
+            margin: 10px !important;
             border-radius: 20px !important;
           }
           
           .logo-container {
-            margin-bottom: 35px !important;
-          }
-          
-          .logo-arredondada {
-            width: 180px !important;
-            height: 110px !important;
-            border: 3px solid #dc2626 !important;
-          }
-          
-          .titulo-principal {
-            font-size: 28px !important;
-            margin-bottom: 20px !important;
-          }
-          
-          .subtitulo {
-            font-size: 17px !important;
             margin-bottom: 30px !important;
-          }
-          
-          .depoimento {
-            position: relative;
-            top: 0;
-            left: 0;
-            margin: 0 auto 25px auto;
-            max-width: 100%;
-            padding: 15px;
-          }
-          
-          .avatar {
-            width: 45px;
-            height: 45px;
-          }
-          
-          .btn-quiz-pulsante {
-            padding: 16px 32px !important;
-            font-size: 17px !important;
-            max-width: 300px !important;
-          }
-          
-          .texto-garantia {
-            font-size: 13px !important;
-            margin-top: 18px !important;
-          }
-          
-          .progress-bar {
-            width: 200px;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .container-preto {
-            padding: 25px !important;
-            margin: 10px !important;
           }
           
           .logo-arredondada {
@@ -459,34 +403,69 @@ export default function HomePage() {
           }
           
           .titulo-principal {
-            font-size: 24px !important;
+            font-size: 26px !important;
+            margin-bottom: 18px !important;
+            line-height: 1.2 !important;
           }
           
           .subtitulo {
-            font-size: 15px !important;
+            font-size: 16px !important;
+            margin-bottom: 25px !important;
+          }
+          
+          .depoimento {
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 95%;
+          }
+          
+          .btn-quiz-pulsante {
+            padding: 16px 32px !important;
+            font-size: 16px !important;
+            max-width: 95% !important;
+          }
+          
+          .main-content {
+            padding-top: 20px;
+            min-height: calc(100vh - 40px);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .container-preto {
+            padding: 20px !important;
+            margin: 5px !important;
+          }
+          
+          .logo-arredondada {
+            width: 140px !important;
+            height: 85px !important;
+            border: 2px solid #dc2626 !important;
+          }
+          
+          .titulo-principal {
+            font-size: 22px !important;
+            line-height: 1.1 !important;
+          }
+          
+          .subtitulo {
+            font-size: 14px !important;
           }
           
           .depoimento {
             padding: 12px;
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 15px auto;
           }
           
           .avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
           }
           
           .btn-quiz-pulsante {
             padding: 14px 28px !important;
-            font-size: 15px !important;
-            max-width: 280px !important;
-          }
-          
-          .texto-garantia {
-            font-size: 12px !important;
-            flex-direction: column !important;
-            gap: 5px !important;
+            font-size: 14px !important;
           }
         }
         
@@ -573,18 +552,6 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* DEPOIMENTO MELHORADO */}
-      <div className="depoimento">
-        <div className="avatar"></div>
-        <div>
-          <div className="estrelas">★★★★★</div>
-          <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
-          <div className="texto-depoimento">
-            "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
-          </div>
-        </div>
-      </div>
-
       {/* CONTEÚDO PRINCIPAL */}
       <div className="main-content">
         <div className="container-preto">
@@ -649,6 +616,18 @@ export default function HomePage() {
           <div className="texto-garantia">
             <Shield size={16} />
             <span>Confidencial y personalizado. En solo 2 minutos tendrás tu plan de acción.</span>
+          </div>
+        </div>
+      </div>
+
+      {/* DEPOIMENTO MELHORADO */}
+      <div className="depoimento">
+        <div className="avatar"></div>
+        <div>
+          <div className="estrelas">★★★★★</div>
+          <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
+          <div className="texto-depoimento">
+            "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
           </div>
         </div>
       </div>
