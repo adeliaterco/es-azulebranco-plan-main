@@ -32,11 +32,12 @@ export default function HomePage() {
   const [errorMessage, setErrorMessage] = useState("")
   const [isOnline, setIsOnline] = useState(true)
 
-  // Detecção de conexão minimalista
+  // Detecção de conexão otimizada
   useEffect(() => {
     if (typeof window === "undefined") return
 
     const updateOnlineStatus = () => setIsOnline(navigator.onLine)
+    setIsOnline(navigator.onLine)
 
     window.addEventListener("online", updateOnlineStatus, { passive: true })
     window.addEventListener("offline", updateOnlineStatus, { passive: true })
@@ -47,7 +48,7 @@ export default function HomePage() {
     }
   }, [])
 
-  // Tracking minimalista - só o essencial
+  // Tracking otimizado - só o essencial
   useEffect(() => {
     if (typeof window === "undefined") return
 
@@ -55,7 +56,7 @@ export default function HomePage() {
       enviarEvento("page_view", {
         device: window.innerWidth < 768 ? "mobile" : "desktop",
       })
-    }, 1000)
+    }, 2000) // Atraso para não bloquear renderização
 
     return () => clearTimeout(timer)
   }, [])
@@ -105,6 +106,7 @@ export default function HomePage() {
       }}
     >
       <style jsx>{`
+        /* BOTÃO VERMELHO PULSANTE - MELHORADO */
         .btn-quiz-pulsante {
           background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
           color: white !important;
@@ -121,6 +123,7 @@ export default function HomePage() {
           max-width: 320px !important;
           box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
           letter-spacing: 0.5px !important;
+          will-change: transform !important;
         }
         
         @keyframes pulsar {
@@ -144,6 +147,7 @@ export default function HomePage() {
           box-shadow: 0 15px 40px rgba(220, 38, 38, 0.7) !important;
         }
         
+        /* CONTAINER PRETO MELHORADO */
         .container-preto {
           background: linear-gradient(145deg, #000000 0%, #111111 100%) !important;
           border: 2px solid #333333 !important;
@@ -153,9 +157,9 @@ export default function HomePage() {
           margin: 0 auto !important;
           text-align: center !important;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
-          backdrop-filter: blur(10px) !important;
         }
         
+        /* TEXTOS OTIMIZADOS PARA CONVERSÃO */
         .titulo-principal {
           color: #ffffff !important;
           font-size: 34px !important;
@@ -173,6 +177,7 @@ export default function HomePage() {
           line-height: 1.4 !important;
         }
         
+        /* TEXTO DE GARANTIA */
         .texto-garantia {
           color: #a3a3a3 !important;
           font-size: 14px !important;
@@ -184,6 +189,7 @@ export default function HomePage() {
           font-weight: 500 !important;
         }
         
+        /* INDICADOR DE PROGRESSO */
         .indicador-progresso {
           display: flex !important;
           align-items: center !important;
@@ -208,6 +214,7 @@ export default function HomePage() {
           box-shadow: none !important;
         }
         
+        /* DEPOIMENTO MELHORADO */
         .depoimento {
           background: linear-gradient(145deg, #111111 0%, #000000 100%);
           border: 1px solid #444;
@@ -219,7 +226,6 @@ export default function HomePage() {
           align-items: center;
           gap: 12px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(10px);
         }
         
         .avatar {
@@ -253,12 +259,12 @@ export default function HomePage() {
           font-style: italic;
         }
         
+        /* LOGO CENTRALIZADA */
         .logo-container {
           display: flex;
           justify-content: center;
           align-items: center;
           margin-bottom: 45px !important;
-          animation: fadeInDown 1.2s ease-out;
         }
         
         .logo-arredondada {
@@ -270,6 +276,7 @@ export default function HomePage() {
           box-shadow: 0 0 30px rgba(220, 38, 38, 0.4), 0 0 0 2px #dc2626 !important;
           transition: all 0.4s ease !important;
           display: block !important;
+          will-change: transform !important;
         }
         
         .logo-arredondada:hover {
@@ -278,40 +285,7 @@ export default function HomePage() {
           border-color: #b91c1c !important;
         }
         
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .titulo-principal {
-          animation: fadeInUp 1.2s ease-out 0.3s both !important;
-        }
-        
-        .subtitulo {
-          animation: fadeInUp 1.2s ease-out 0.6s both !important;
-        }
-        
-        .indicador-progresso {
-          animation: fadeInUp 1.2s ease-out 0.9s both !important;
-        }
-        
+        /* LOADING */
         .loading-overlay {
           position: fixed;
           top: 0;
@@ -323,7 +297,6 @@ export default function HomePage() {
           align-items: center;
           justify-content: center;
           z-index: 1000;
-          backdrop-filter: blur(5px);
         }
         
         .loading-content {
@@ -347,6 +320,7 @@ export default function HomePage() {
           border-radius: 3px;
         }
         
+        /* RESPONSIVO MOBILE-FIRST */
         @media (max-width: 768px) {
           .container-preto {
             padding: 25px !important;
@@ -431,6 +405,7 @@ export default function HomePage() {
           }
         }
         
+        /* OTIMIZAÇÃO DE ESPAÇAMENTO */
         .main-content {
           display: flex;
           flex-direction: column;
@@ -447,6 +422,7 @@ export default function HomePage() {
           }
         }
 
+        /* Copyright */
         .copyright {
           position: relative;
           margin-top: 40px;
@@ -540,16 +516,16 @@ export default function HomePage() {
       {/* CONTEÚDO PRINCIPAL */}
       <div className="main-content">
         <div className="container-preto">
-          {/* LOGO CENTRALIZADA - APENAS MUDANÇA PARA WEBP */}
+          {/* LOGO CENTRALIZADA */}
           <div className="logo-container">
             <Image
-              src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.webp"
+              src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
               alt="Logo Plan A"
               width={200}
               height={120}
               className="logo-arredondada"
               priority
-              quality={75}
+              quality={85}
               sizes="(max-width: 480px) 140px, (max-width: 768px) 160px, 200px"
               onError={(e) => {
                 e.target.style.display = "none"
