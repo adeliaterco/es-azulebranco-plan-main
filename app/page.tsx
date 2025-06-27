@@ -7,18 +7,18 @@ import Image from "next/image"
 // Imports específicos para reduzir bundle
 import { ArrowRight, Shield } from "lucide-react"
 
-// GA ultra-otimizado
-const trackEvent = useCallback((event, props = {}) => {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", event, props)
-  }
-}, [])
-
 export default function HomePage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [isOnline, setIsOnline] = useState(true)
+
+  // GA ultra-otimizado DENTRO do componente
+  const trackEvent = useCallback((event, props = {}) => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", event, props)
+    }
+  }, [])
 
   // Memoizar detecção de dispositivo
   const isMobile = useMemo(() => {
@@ -60,11 +60,13 @@ export default function HomePage() {
         clearInterval(interval)
         
         // Preservar UTMs otimizado
-        const params = new URLSearchParams(window.location.search)
-        const utmEntries = [...params.entries()].filter(([key]) => key.startsWith("utm_"))
-        const utmString = utmEntries.length ? `?${new URLSearchParams(utmEntries).toString()}` : ""
-        
-        router.push(`/quiz/1${utmString}`)
+        if (typeof window !== "undefined") {
+          const params = new URLSearchParams(window.location.search)
+          const utmEntries = [...params.entries()].filter(([key]) => key.startsWith("utm_"))
+          const utmString = utmEntries.length ? `?${new URLSearchParams(utmEntries).toString()}` : ""
+          
+          router.push(`/quiz/1${utmString}`)
+        }
       }
     }, 150)
   }, [isLoading, isOnline, router, trackEvent])
@@ -101,6 +103,10 @@ export default function HomePage() {
           box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
           margin-bottom: 45px;
           transition: transform 0.3s ease;
+          display: block;
+          width: 200px;
+          height: 120px;
+          object-fit: cover;
         }
 
         .logo-img:hover {
@@ -250,11 +256,16 @@ export default function HomePage() {
           z-index: 1000;
         }
 
+        .loading-content {
+          text-align: center;
+          color: white;
+        }
+
         .loading-text {
           color: white;
           font-size: 18px;
           font-weight: 600;
-          text-align: center;
+          margin-bottom: 25px;
         }
 
         .progress-bar {
@@ -263,7 +274,6 @@ export default function HomePage() {
           background: #333;
           border-radius: 3px;
           overflow: hidden;
-          margin-top: 25px;
         }
 
         .progress-fill {
@@ -308,9 +318,19 @@ export default function HomePage() {
 
         /* RESPONSIVO OTIMIZADO */
         @media (max-width: 768px) {
+          .page-root {
+            padding: 15px;
+          }
+          
           .container-main {
             padding: 25px;
             margin: 10px 10px 20px 10px;
+          }
+          
+          .logo-img {
+            width: 160px;
+            height: 100px;
+            margin-bottom: 30px;
           }
           
           .title-main {
@@ -333,16 +353,25 @@ export default function HomePage() {
             padding: 15px;
             max-width: 95%;
           }
+          
+          .copyright {
+            padding: 15px;
+          }
         }
 
         @media (max-width: 480px) {
           .page-root {
-            padding: 15px;
+            padding: 10px;
           }
           
           .container-main {
             padding: 20px;
             margin: 5px 5px 15px 5px;
+          }
+          
+          .logo-img {
+            width: 140px;
+            height: 85px;
           }
           
           .title-main {
@@ -367,6 +396,11 @@ export default function HomePage() {
             padding: 12px;
             gap: 10px;
           }
+          
+          .copyright {
+            padding: 10px;
+            font-size: 11px;
+          }
         }
       `}</style>
 
@@ -374,8 +408,8 @@ export default function HomePage() {
         {/* Loading overlay */}
         {isLoading && (
           <div className="loading-overlay">
-            <div className="loading-text">
-              Preparando tu quiz personalizado...
+            <div className="loading-content">
+              <div className="loading-text">Preparando tu quiz personalizado...</div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{ width: `${loadingProgress}%` }} />
               </div>
