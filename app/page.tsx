@@ -37,7 +37,7 @@ export default function HomePage() {
   useEffect(() => {
     const preloadImages = async () => {
       const imageUrls = [
-        "https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-11T112151.941.png",
+        "https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png",
         "https://comprarplanseguro.shop/wp-content/uploads/2025/06/06.png",
         "https://comprarplanseguro.shop/wp-content/uploads/2025/06/Nova-Imagem-Plan-A-Livro.png",
       ]
@@ -290,81 +290,31 @@ export default function HomePage() {
           font-style: italic;
         }
         
-        /* IMAGEM PRINCIPAL - CASAL FELIZ */
-        .imagem-principal-container {
-          position: relative;
+        /* LOGO CENTRALIZADA */
+        .logo-container {
           display: flex;
           justify-content: center;
           align-items: center;
-          margin-bottom: 40px !important;
+          margin-bottom: 45px !important;
           animation: fadeInDown 1.2s ease-out;
         }
-
-        .imagem-principal {
-          border-radius: 20px !important;
-          width: 400px !important;
-          height: 280px !important;
+        
+        .logo-arredondada {
+          border-radius: 15px !important;
+          width: 200px !important;
+          height: 120px !important;
           object-fit: cover !important;
-          border: 3px solid #dc2626 !important;
-          box-shadow: 0 15px 50px rgba(220, 38, 38, 0.3), 0 0 30px rgba(0, 0, 0, 0.5) !important;
+          border: 4px solid #dc2626 !important;
+          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4) !important;
           transition: all 0.4s ease !important;
-          filter: brightness(1.1) contrast(1.1) !important;
+          background: linear-gradient(145deg, #ffffff 0%, #f8f8f8 100%) !important;
+          padding: 8px !important;
         }
-
-        .imagem-principal:hover {
-          transform: scale(1.02) !important;
-          box-shadow: 0 20px 60px rgba(220, 38, 38, 0.4), 0 0 40px rgba(0, 0, 0, 0.7) !important;
-        }
-
-        .overlay-texto {
-          position: absolute;
-          bottom: -15px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          color: white;
-          padding: 8px 20px;
-          border-radius: 25px;
-          font-size: 12px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
-          animation: fadeInUp 1.2s ease-out 1.2s both;
-        }
-
-        /* RESPONSIVO PARA IMAGEM PRINCIPAL */
-        @media (max-width: 768px) {
-          .imagem-principal-container {
-            margin-bottom: 35px !important;
-          }
-          
-          .imagem-principal {
-            width: 320px !important;
-            height: 220px !important;
-            border: 2px solid #dc2626 !important;
-            border-radius: 15px !important;
-          }
-          
-          .overlay-texto {
-            font-size: 11px;
-            padding: 6px 16px;
-            bottom: -12px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .imagem-principal {
-            width: 280px !important;
-            height: 190px !important;
-            border-radius: 12px !important;
-          }
-          
-          .overlay-texto {
-            font-size: 10px;
-            padding: 5px 14px;
-            bottom: -10px;
-          }
+        
+        .logo-arredondada:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6) !important;
+          border-color: #b91c1c !important;
         }
         
         /* ANIMAÇÕES */
@@ -451,9 +401,9 @@ export default function HomePage() {
           }
           
           .logo-arredondada {
-            width: 130px !important;
-            height: 130px !important;
-            border: 4px solid #dc2626 !important;
+            width: 180px !important;
+            height: 110px !important;
+            border: 3px solid #dc2626 !important;
           }
           
           .titulo-principal {
@@ -503,8 +453,8 @@ export default function HomePage() {
           }
           
           .logo-arredondada {
-            width: 110px !important;
-            height: 110px !important;
+            width: 160px !important;
+            height: 100px !important;
             border: 3px solid #dc2626 !important;
           }
           
@@ -638,22 +588,19 @@ export default function HomePage() {
       {/* CONTEÚDO PRINCIPAL */}
       <div className="main-content">
         <div className="container-preto">
-          {/* IMAGEM PRINCIPAL - CASAL FELIZ */}
-          <div className="imagem-principal-container">
+          {/* LOGO CENTRALIZADA */}
+          <div className="logo-container">
             <Image
-              src="/images/casal-feliz.png"
-              alt="Casal feliz reunido - Resultado do Método Plan A"
-              width={400}
-              height={280}
-              className="imagem-principal"
+              src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
+              alt="Logo Plan A"
+              width={200}
+              height={120}
+              className="logo-arredondada"
               priority
               onError={(e) => {
                 e.target.style.display = "none"
               }}
             />
-            <div className="overlay-texto">
-              <span className="resultado-texto">Tu resultado deseado</span>
-            </div>
           </div>
 
           {/* TÍTULO PRINCIPAL OTIMIZADO */}
@@ -670,7 +617,7 @@ export default function HomePage() {
             <div className="circulo-progresso circulo-inativo"></div>
             <div className="circulo-progresso circulo-inativo"></div>
             <div className="circulo-progresso circulo-inativo"></div>
-            <span>Paso 1</span>
+            <span>Paso 1 de 4</span>
           </div>
 
           {/* BOTÃO CTA OTIMIZADO */}
