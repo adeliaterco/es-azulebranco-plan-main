@@ -1,248 +1,324 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { ArrowRight, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 
-// Imports específicos para reduzir bundle
-import { ArrowRight, Shield } from "lucide-react"
+// GA otimizado - só envia quando necessário
+const enviarEvento = (() => {
+  let queue = []
+  let timeout
+
+  return (evento, props = {}) => {
+    queue.push({ evento, props })
+    clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      if (typeof window !== "undefined" && window.gtag && queue.length) {
+        queue.forEach(({ evento, props }) => {
+          window.gtag("event", evento, props)
+        })
+        queue = []
+      }
+    }, 500)
+  }
+})()
 
 export default function HomePage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [errorMessage, setErrorMessage] = useState("")
   const [isOnline, setIsOnline] = useState(true)
 
-  // GA ultra-otimizado DENTRO do componente
-  const trackEvent = useCallback((event, props = {}) => {
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", event, props)
-    }
-  }, [])
-
-  // Memoizar detecção de dispositivo
-  const isMobile = useMemo(() => {
-    if (typeof window === "undefined") return false
-    return window.innerWidth < 768
-  }, [])
-
-  // Event listeners otimizados
+  // Detecção de conexão minimalista
   useEffect(() => {
     if (typeof window === "undefined") return
 
     const updateOnlineStatus = () => setIsOnline(navigator.onLine)
-    
+
     window.addEventListener("online", updateOnlineStatus, { passive: true })
     window.addEventListener("offline", updateOnlineStatus, { passive: true })
 
-    // Track page view uma única vez
-    const timer = setTimeout(() => trackEvent("page_view", { device: isMobile ? "mobile" : "desktop" }), 2000)
-
     return () => {
       window.removeEventListener("online", updateOnlineStatus)
-      clearTimeout(timer)
+      window.removeEventListener("offline", updateOnlineStatus)
     }
-  }, [isMobile, trackEvent])
+  }, [])
 
-  // Handler ultra-otimizado
+  // Tracking minimalista - só o essencial
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const timer = setTimeout(() => {
+      enviarEvento("page_view", {
+        device: window.innerWidth < 768 ? "mobile" : "desktop",
+      })
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Função de início ultra-otimizada
   const handleStart = useCallback(() => {
     if (isLoading || !isOnline) return
 
     setIsLoading(true)
-    trackEvent("quiz_start")
+    setLoadingProgress(20)
 
-    let progress = 0
+    enviarEvento("quiz_start")
+
+    let progress = 20
     const interval = setInterval(() => {
-      progress += 25
+      progress += 15
       setLoadingProgress(progress)
 
       if (progress >= 100) {
         clearInterval(interval)
-        
-        // Preservar UTMs otimizado
-        if (typeof window !== "undefined") {
+
+        // Preservar UTMs
+        let url = "/quiz/1"
+        if (typeof window !== "undefined" && window.location.search) {
           const params = new URLSearchParams(window.location.search)
-          const utmEntries = [...params.entries()].filter(([key]) => key.startsWith("utm_"))
-          const utmString = utmEntries.length ? `?${new URLSearchParams(utmEntries).toString()}` : ""
-          
-          router.push(`/quiz/1${utmString}`)
+          const utms = new URLSearchParams()
+
+          for (const [key, value] of params) {
+            if (key.startsWith("utm_")) utms.set(key, value)
+          }
+
+          if (utms.toString()) url += `?${utms.toString()}`
         }
+
+        router.push(url)
       }
-    }, 150)
-  }, [isLoading, isOnline, router, trackEvent])
+    }, 200)
+  }, [isLoading, isOnline, router])
 
   return (
-    <>
-      {/* CSS CRÍTICO INLINE - MÍNIMO NECESSÁRIO */}
+    <div
+      style={{
+        backgroundColor: "#000000",
+        minHeight: "100vh",
+        padding: "20px",
+        position: "relative",
+      }}
+    >
       <style jsx>{`
-        .page-root {
-          background: #000;
-          min-height: 100vh;
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          font-family: system-ui, -apple-system, sans-serif;
+        /* BOTÃO VERMELHO PULSANTE - MELHORADO */
+        .btn-quiz-pulsante {
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+          color: white !important;
+          border: none !important;
+          padding: 18px 36px !important;
+          font-size: 19px !important;
+          font-weight: bold !important;
+          border-radius: 50px !important;
+          text-transform: uppercase !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+          animation: pulsar 2s infinite !important;
+          width: 100% !important;
+          max-width: 320px !important;
+          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+          letter-spacing: 0.5px !important;
         }
-
-        .container-main {
-          background: linear-gradient(145deg, #000 0%, #111 100%);
-          border: 2px solid #333;
-          border-radius: 25px;
-          padding: 45px;
-          max-width: 650px;
-          text-align: center;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-          margin-bottom: 30px;
+        
+        @keyframes pulsar {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0.7);
+          }
+          70% {
+            transform: scale(1.03);
+            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 0 15px rgba(220, 38, 38, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0);
+          }
         }
-
-        .logo-img {
-          border-radius: 15px;
-          border: 4px solid #dc2626;
-          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
-          margin-bottom: 45px;
-          transition: transform 0.3s ease;
-          display: block;
-          width: 200px;
-          height: 120px;
-          object-fit: cover;
+        
+        .btn-quiz-pulsante:hover {
+          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+          transform: scale(1.05) !important;
+          box-shadow: 0 15px 40px rgba(220, 38, 38, 0.7) !important;
         }
-
-        .logo-img:hover {
-          transform: scale(1.05);
+        
+        /* CONTAINER PRETO MELHORADO */
+        .container-preto {
+          background: linear-gradient(145deg, #000000 0%, #111111 100%) !important;
+          border: 2px solid #333333 !important;
+          border-radius: 25px !important;
+          padding: 45px !important;
+          max-width: 650px !important;
+          margin: 0 auto !important;
+          text-align: center !important;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
+          backdrop-filter: blur(10px) !important;
         }
-
-        .title-main {
-          color: #fff;
-          font-size: 34px;
-          font-weight: 800;
-          margin: 0 0 25px 0;
-          line-height: 1.3;
+        
+        /* TEXTOS OTIMIZADOS PARA CONVERSÃO */
+        .titulo-principal {
+          color: #ffffff !important;
+          font-size: 34px !important;
+          font-weight: 800 !important;
+          margin-bottom: 25px !important;
+          line-height: 1.3 !important;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
         }
-
-        .subtitle-main {
-          color: #e5e5e5;
-          font-size: 19px;
-          margin: 0 0 35px 0;
-          font-weight: 500;
-          line-height: 1.4;
+        
+        .subtitulo {
+          color: #e5e5e5 !important;
+          font-size: 19px !important;
+          margin-bottom: 35px !important;
+          font-weight: 500 !important;
+          line-height: 1.4 !important;
         }
-
-        .progress-indicator {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          margin-bottom: 30px;
-          color: #dc2626;
-          font-size: 14px;
-          font-weight: 600;
+        
+        /* TEXTO DE GARANTIA */
+        .texto-garantia {
+          color: #a3a3a3 !important;
+          font-size: 14px !important;
+          margin-top: 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 8px !important;
+          font-weight: 500 !important;
         }
-
-        .progress-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #dc2626;
-          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+        
+        /* INDICADOR DE PROGRESSO */
+        .indicador-progresso {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 12px !important;
+          margin-bottom: 30px !important;
+          color: #dc2626 !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
         }
-
-        .progress-dot-inactive {
-          background: #333;
-          box-shadow: none;
+        
+        .circulo-progresso {
+          width: 12px !important;
+          height: 12px !important;
+          border-radius: 50% !important;
+          background: #dc2626 !important;
+          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5) !important;
         }
-
-        .cta-button {
-          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          color: white;
-          border: none;
-          padding: 18px 36px;
-          font-size: 19px;
-          font-weight: 700;
-          border-radius: 50px;
-          text-transform: uppercase;
-          cursor: pointer;
-          width: 100%;
-          max-width: 320px;
-          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-          letter-spacing: 0.5px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto;
-          transition: all 0.2s ease;
-          animation: pulse-effect 2s infinite;
+        
+        .circulo-inativo {
+          background: #333333 !important;
+          box-shadow: none !important;
         }
-
-        @keyframes pulse-effect {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.02); }
-        }
-
-        .cta-button:hover {
-          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-          transform: scale(1.05);
-          animation: none;
-        }
-
-        .cta-button:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-          animation: none;
-        }
-
-        .guarantee-text {
-          color: #a3a3a3;
-          font-size: 14px;
-          margin-top: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          font-weight: 500;
-        }
-
-        .testimonial {
-          background: linear-gradient(145deg, #111 0%, #000 100%);
+        
+        /* DEPOIMENTO MELHORADO */
+        .depoimento {
+          background: linear-gradient(145deg, #111111 0%, #000000 100%);
           border: 1px solid #444;
           border-radius: 18px;
           padding: 18px;
           max-width: 400px;
-          margin: 0 auto 30px auto;
+          margin: 30px auto;
           display: flex;
           align-items: center;
           gap: 12px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(10px);
         }
-
+        
         .avatar {
           width: 55px;
           height: 55px;
           border-radius: 50%;
-          background: url('https://comprarplanseguro.shop/wp-content/uploads/2025/06/06.png') center/cover;
           border: 3px solid #FFD700;
           flex-shrink: 0;
+          box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+          overflow: hidden;
         }
-
-        .stars {
+        
+        .estrelas {
           color: #FFD700;
           font-size: 13px;
+          text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
-
-        .user-name {
+        
+        .nome-usuario {
           color: #FFD700;
           font-weight: bold;
           font-size: 13px;
         }
-
-        .testimonial-text {
-          color: #fff;
+        
+        .texto-depoimento {
+          color: #ffffff;
           font-size: 12px;
           line-height: 1.4;
           font-style: italic;
         }
-
+        
+        /* LOGO CENTRALIZADA */
+        .logo-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 45px !important;
+          animation: fadeInDown 1.2s ease-out;
+        }
+        
+        .logo-arredondada {
+          border-radius: 15px !important;
+          width: 200px !important;
+          height: 120px !important;
+          object-fit: cover !important;
+          border: 4px solid #dc2626 !important;
+          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4), 0 0 0 2px #dc2626 !important;
+          transition: all 0.4s ease !important;
+          display: block !important;
+        }
+        
+        .logo-arredondada:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6), 0 0 0 3px #b91c1c !important;
+          border-color: #b91c1c !important;
+        }
+        
+        /* ANIMAÇÕES */
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .titulo-principal {
+          animation: fadeInUp 1.2s ease-out 0.3s both !important;
+        }
+        
+        .subtitulo {
+          animation: fadeInUp 1.2s ease-out 0.6s both !important;
+        }
+        
+        .indicador-progresso {
+          animation: fadeInUp 1.2s ease-out 0.9s both !important;
+        }
+        
+        /* LOADING */
         .loading-overlay {
           position: fixed;
           top: 0;
@@ -254,137 +330,102 @@ export default function HomePage() {
           align-items: center;
           justify-content: center;
           z-index: 1000;
+          backdrop-filter: blur(5px);
         }
-
+        
         .loading-content {
           text-align: center;
           color: white;
         }
-
-        .loading-text {
-          color: white;
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 25px;
-        }
-
+        
         .progress-bar {
           width: 250px;
           height: 6px;
           background: #333;
           border-radius: 3px;
           overflow: hidden;
+          margin-top: 25px;
         }
-
+        
         .progress-fill {
           height: 100%;
           background: linear-gradient(90deg, #dc2626, #f87171);
-          border-radius: 3px;
           transition: width 0.3s ease;
+          border-radius: 3px;
         }
-
-        .spinner {
-          width: 18px;
-          height: 18px;
-          border: 2px solid rgba(255,255,255,0.3);
-          border-top: 2px solid white;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin-left: 10px;
-        }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-
-        .offline-banner {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          background: #f59e0b;
-          color: white;
-          text-align: center;
-          padding: 10px;
-          z-index: 1000;
-        }
-
-        .copyright {
-          color: #888;
-          font-size: 12px;
-          text-align: center;
-          padding: 20px;
-        }
-
-        /* RESPONSIVO OTIMIZADO */
+        
+        /* RESPONSIVO MOBILE-FIRST */
         @media (max-width: 768px) {
-          .page-root {
+          .container-preto {
+            padding: 25px !important;
+            margin: 10px !important;
+            border-radius: 20px !important;
+          }
+          
+          .logo-container {
+            margin-bottom: 30px !important;
+          }
+          
+          .logo-arredondada {
+            width: 160px !important;
+            height: 100px !important;
+            border: 3px solid #dc2626 !important;
+          }
+          
+          .titulo-principal {
+            font-size: 26px !important;
+            margin-bottom: 18px !important;
+            line-height: 1.2 !important;
+          }
+          
+          .subtitulo {
+            font-size: 16px !important;
+            margin-bottom: 25px !important;
+          }
+          
+          .depoimento {
             padding: 15px;
-          }
-          
-          .container-main {
-            padding: 25px;
-            margin: 10px 10px 20px 10px;
-          }
-          
-          .logo-img {
-            width: 160px;
-            height: 100px;
-            margin-bottom: 30px;
-          }
-          
-          .title-main {
-            font-size: 26px;
-            margin-bottom: 18px;
-          }
-          
-          .subtitle-main {
-            font-size: 16px;
-            margin-bottom: 25px;
-          }
-          
-          .cta-button {
-            padding: 16px 32px;
-            font-size: 16px;
+            margin: 20px auto;
             max-width: 95%;
           }
           
-          .testimonial {
-            padding: 15px;
-            max-width: 95%;
+          .btn-quiz-pulsante {
+            padding: 16px 32px !important;
+            font-size: 16px !important;
+            max-width: 95% !important;
           }
           
-          .copyright {
-            padding: 15px;
+          .main-content {
+            padding-top: 20px;
+            min-height: calc(100vh - 40px);
           }
         }
 
         @media (max-width: 480px) {
-          .page-root {
-            padding: 10px;
+          .container-preto {
+            padding: 20px !important;
+            margin: 5px !important;
           }
           
-          .container-main {
-            padding: 20px;
-            margin: 5px 5px 15px 5px;
+          .logo-arredondada {
+            width: 140px !important;
+            height: 85px !important;
+            border: 2px solid #dc2626 !important;
           }
           
-          .logo-img {
-            width: 140px;
-            height: 85px;
+          .titulo-principal {
+            font-size: 22px !important;
+            line-height: 1.1 !important;
           }
           
-          .title-main {
-            font-size: 22px;
+          .subtitulo {
+            font-size: 14px !important;
           }
           
-          .subtitle-main {
-            font-size: 14px;
-          }
-          
-          .cta-button {
-            padding: 14px 28px;
-            font-size: 14px;
+          .depoimento {
+            padding: 12px;
+            gap: 10px;
+            margin: 15px auto;
           }
           
           .avatar {
@@ -392,120 +433,221 @@ export default function HomePage() {
             height: 35px;
           }
           
-          .testimonial {
-            padding: 12px;
-            gap: 10px;
+          .btn-quiz-pulsante {
+            padding: 14px 28px !important;
+            font-size: 14px !important;
           }
-          
+        }
+        
+        /* OTIMIZAÇÃO DE ESPAÇAMENTO */
+        .main-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding-top: 100px;
+        }
+        
+        @media (max-width: 768px) {
+          .main-content {
+            padding-top: 30px;
+            min-height: calc(100vh - 60px);
+          }
+        }
+
+        /* Copyright */
+        .copyright {
+          position: relative;
+          margin-top: 40px;
+          padding: 20px;
+          color: #888888;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
           .copyright {
+            margin-top: 30px;
+            padding: 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .copyright {
+            margin-top: 25px;
             padding: 10px;
             font-size: 11px;
           }
         }
       `}</style>
 
-      <div className="page-root">
-        {/* Loading overlay */}
-        {isLoading && (
-          <div className="loading-overlay">
-            <div className="loading-content">
-              <div className="loading-text">Preparando tu quiz personalizado...</div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${loadingProgress}%` }} />
-              </div>
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-content">
+            <div style={{ fontSize: "18px", fontWeight: "600" }}>Preparando tu quiz personalizado...</div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${loadingProgress}%` }} />
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Offline indicator */}
-        {!isOnline && (
-          <div className="offline-banner">
-            ⚠️ Sem conexão com a internet
-          </div>
-        )}
-
-        {/* CONTEÚDO PRINCIPAL */}
-        <main className="container-main">
-          {/* LOGO OTIMIZADA */}
-          <Image
-            src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.webp"
-            alt="Logo Plan A"
-            width={200}
-            height={120}
-            className="logo-img"
-            priority
-            quality={85}
-            placeholder="blur"
-            blurDataURL="data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAAAAAAfQ//73v/+BiOh/AAA="
-            sizes="(max-width: 480px) 140px, (max-width: 768px) 160px, 200px"
-            onError={(e) => {
-              e.target.src = "https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
+      {/* Error message */}
+      {errorMessage && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: "20px",
+            right: "20px",
+            background: "#dc2626",
+            color: "white",
+            padding: "15px",
+            borderRadius: "10px",
+            zIndex: 1000,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>{errorMessage}</span>
+          <button
+            onClick={() => setErrorMessage("")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              fontSize: "20px",
+              cursor: "pointer",
             }}
-          />
+          >
+            ×
+          </button>
+        </div>
+      )}
 
-          {/* TÍTULO PRINCIPAL */}
-          <h1 className="title-main">
+      {/* Offline indicator */}
+      {!isOnline && (
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            background: "#f59e0b",
+            color: "white",
+            textAlign: "center",
+            padding: "10px",
+            zIndex: 1000,
+          }}
+        >
+          ⚠️ Sem conexão com a internet
+        </div>
+      )}
+
+      {/* CONTEÚDO PRINCIPAL */}
+      <div className="main-content">
+        <div className="container-preto">
+          {/* LOGO CENTRALIZADA - IMAGEM WEBP OTIMIZADA */}
+          <div className="logo-container">
+            <Image
+              src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/nova-imagem-fundo.webp"
+              alt="Logo Plan A"
+              width={200}
+              height={120}
+              className="logo-arredondada"
+              priority
+              quality={75}
+              sizes="(max-width: 480px) 140px, (max-width: 768px) 160px, 200px"
+              onError={(e) => {
+                e.target.style.display = "none"
+              }}
+            />
+          </div>
+
+          {/* TÍTULO PRINCIPAL OTIMIZADO */}
+          <h1 className="titulo-principal">
             Haz que tu amor regrese a ti 100% en piloto automático, incluso en las situaciones más complicadas.
           </h1>
 
-          {/* SUBTÍTULO */}
-          <p className="subtitle-main">
-            Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.
-          </p>
+          {/* SUBTÍTULO OTIMIZADO */}
+          <p className="subtitulo">Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.</p>
 
           {/* INDICADOR DE PROGRESSO */}
-          <div className="progress-indicator">
-            <div className="progress-dot"></div>
-            <div className="progress-dot progress-dot-inactive"></div>
-            <div className="progress-dot progress-dot-inactive"></div>
-            <div className="progress-dot progress-dot-inactive"></div>
+          <div className="indicador-progresso">
+            <div className="circulo-progresso"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
             <span>Paso 1</span>
           </div>
 
-          {/* BOTÃO CTA */}
-          <button 
-            onClick={handleStart} 
-            disabled={isLoading || !isOnline} 
-            className="cta-button"
-            aria-label="Comenzar quiz personalizado"
-          >
+          {/* BOTÃO CTA OTIMIZADO */}
+          <button onClick={handleStart} disabled={isLoading || !isOnline} className="btn-quiz-pulsante">
             {isLoading ? (
-              <>
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 PREPARANDO...
-                <div className="spinner" />
-              </>
+                <div
+                  style={{
+                    marginLeft: "10px",
+                    width: "18px",
+                    height: "18px",
+                    border: "2px solid rgba(255,255,255,0.3)",
+                    borderTop: "2px solid white",
+                    borderRadius: "50%",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+              </span>
             ) : (
-              <>
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                 COMENZAR QUIZ AHORA
                 <ArrowRight style={{ marginLeft: "12px", width: "22px", height: "22px" }} />
-              </>
+              </span>
             )}
           </button>
 
           {/* TEXTO DE GARANTIA */}
-          <div className="guarantee-text">
+          <div className="texto-garantia">
             <Shield size={16} />
             <span>Confidencial y personalizado. En solo 2 minutos tendrás tu plan de acción.</span>
           </div>
-        </main>
-
-        {/* DEPOIMENTO */}
-        <aside className="testimonial">
-          <div className="avatar"></div>
-          <div>
-            <div className="stars">★★★★★</div>
-            <div className="user-name">Pablo Alvez (@Plaboalvezs)</div>
-            <div className="testimonial-text">
-              "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
-            </div>
-          </div>
-        </aside>
-
-        {/* Copyright */}
-        <footer className="copyright">
-          Plan A™ Todos los Derechos Reservados.
-        </footer>
+        </div>
       </div>
-    </>
+
+      {/* DEPOIMENTO MELHORADO - AVATAR WEBP OTIMIZADO */}
+      <div className="depoimento">
+        <div className="avatar">
+          <Image
+            src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/prova-pv-inicial.webp"
+            alt="Pablo Alvez"
+            width={55}
+            height={55}
+            style={{ borderRadius: "50%", objectFit: "cover" }}
+            quality={75}
+            sizes="(max-width: 480px) 35px, 55px"
+          />
+        </div>
+        <div>
+          <div className="estrelas">★★★★★</div>
+          <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
+          <div className="texto-depoimento">
+            "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright */}
+      <div className="copyright">Plan A™ Todos los Derechos Reservados.</div>
+
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
   )
 }
