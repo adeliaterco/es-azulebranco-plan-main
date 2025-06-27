@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { ArrowRight, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -28,318 +28,568 @@ const enviarEvento = (() => {
 export default function HomePage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(0)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [isOnline, setIsOnline] = useState(true)
+
+  // Detecção de conexão otimizada
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine)
+    setIsOnline(navigator.onLine)
+
+    window.addEventListener("online", updateOnlineStatus, { passive: true })
+    window.addEventListener("offline", updateOnlineStatus, { passive: true })
+
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus)
+      window.removeEventListener("offline", updateOnlineStatus)
+    }
+  }, [])
+
+  // Tracking otimizado - só o essencial
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const timer = setTimeout(() => {
+      enviarEvento("page_view", {
+        device: window.innerWidth < 768 ? "mobile" : "desktop",
+      })
+    }, 2000) // Atraso para não bloquear renderização
+
+    return () => clearTimeout(timer)
+  }, [])
 
   // Função de início ultra-otimizada
   const handleStart = useCallback(() => {
-    if (isLoading) return
+    if (isLoading || !isOnline) return
 
     setIsLoading(true)
+    setLoadingProgress(20)
+
     enviarEvento("quiz_start")
 
-    // Preservar UTMs
-    let url = "/quiz/1"
-    if (typeof window !== "undefined" && window.location.search) {
-      const params = new URLSearchParams(window.location.search)
-      const utms = new URLSearchParams()
+    let progress = 20
+    const interval = setInterval(() => {
+      progress += 15
+      setLoadingProgress(progress)
 
-      for (const [key, value] of params) {
-        if (key.startsWith("utm_")) utms.set(key, value)
+      if (progress >= 100) {
+        clearInterval(interval)
+
+        // Preservar UTMs
+        let url = "/quiz/1"
+        if (typeof window !== "undefined" && window.location.search) {
+          const params = new URLSearchParams(window.location.search)
+          const utms = new URLSearchParams()
+
+          for (const [key, value] of params) {
+            if (key.startsWith("utm_")) utms.set(key, value)
+          }
+
+          if (utms.toString()) url += `?${utms.toString()}`
+        }
+
+        router.push(url)
       }
-
-      if (utms.toString()) url += `?${utms.toString()}`
-    }
-
-    // Navegação imediata
-    setTimeout(() => router.push(url), 100)
-  }, [isLoading, router])
+    }, 200)
+  }, [isLoading, isOnline, router])
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 relative">
+    <div
+      style={{
+        backgroundColor: "#000000",
+        minHeight: "100vh",
+        padding: "20px",
+        position: "relative",
+      }}
+    >
       <style jsx>{`
-        /* CSS CRÍTICO MINIFICADO */
-        .container {
-          max-width: 600px;
-          margin: 0 auto;
-          text-align: center;
-          padding: 20px;
-          background: #111;
-          border: 1px solid #333;
-          border-radius: 20px;
+        /* BOTÃO VERMELHO PULSANTE - MELHORADO */
+        .btn-quiz-pulsante {
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+          color: white !important;
+          border: none !important;
+          padding: 18px 36px !important;
+          font-size: 19px !important;
+          font-weight: bold !important;
+          border-radius: 50px !important;
+          text-transform: uppercase !important;
+          cursor: pointer !important;
+          transition: all 0.3s ease !important;
+          animation: pulsar 2s infinite !important;
+          width: 100% !important;
+          max-width: 320px !important;
+          box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4) !important;
+          letter-spacing: 0.5px !important;
+          will-change: transform !important;
         }
         
-        .logo {
-          width: 140px;
-          height: 85px;
-          border: 3px solid #dc2626;
-          border-radius: 12px;
-          margin: 0 auto 25px;
-          display: block;
+        @keyframes pulsar {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0.7);
+          }
+          70% {
+            transform: scale(1.03);
+            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.6), 0 0 0 15px rgba(220, 38, 38, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 0 0 rgba(220, 38, 38, 0);
+          }
         }
         
-        .title {
-          font-size: 22px;
-          font-weight: 800;
-          line-height: 1.1;
-          margin-bottom: 15px;
-          color: #fff;
+        .btn-quiz-pulsante:hover {
+          background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
+          transform: scale(1.05) !important;
+          box-shadow: 0 15px 40px rgba(220, 38, 38, 0.7) !important;
         }
         
-        .subtitle {
-          font-size: 14px;
-          color: #e5e5e5;
-          margin-bottom: 20px;
-          line-height: 1.3;
+        /* CONTAINER PRETO MELHORADO */
+        .container-preto {
+          background: linear-gradient(145deg, #000000 0%, #111111 100%) !important;
+          border: 2px solid #333333 !important;
+          border-radius: 25px !important;
+          padding: 45px !important;
+          max-width: 650px !important;
+          margin: 0 auto !important;
+          text-align: center !important;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
         }
         
-        .progress {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-bottom: 25px;
-          color: #dc2626;
-          font-size: 12px;
-          font-weight: 600;
+        /* TEXTOS OTIMIZADOS PARA CONVERSÃO */
+        .titulo-principal {
+          color: #ffffff !important;
+          font-size: 34px !important;
+          font-weight: 800 !important;
+          margin-bottom: 25px !important;
+          line-height: 1.3 !important;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
         }
         
-        .dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #dc2626;
+        .subtitulo {
+          color: #e5e5e5 !important;
+          font-size: 19px !important;
+          margin-bottom: 35px !important;
+          font-weight: 500 !important;
+          line-height: 1.4 !important;
         }
         
-        .dot-inactive {
-          background: #333;
+        /* TEXTO DE GARANTIA */
+        .texto-garantia {
+          color: #a3a3a3 !important;
+          font-size: 14px !important;
+          margin-top: 20px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 8px !important;
+          font-weight: 500 !important;
         }
         
-        .btn {
-          background: linear-gradient(135deg, #dc2626, #b91c1c);
-          color: white;
-          border: none;
-          padding: 16px 32px;
-          font-size: 16px;
-          font-weight: bold;
-          border-radius: 50px;
-          text-transform: uppercase;
-          cursor: pointer;
-          width: 100%;
-          max-width: 300px;
-          transition: transform 0.2s;
-          animation: pulse 2s infinite;
+        /* INDICADOR DE PROGRESSO */
+        .indicador-progresso {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 12px !important;
+          margin-bottom: 30px !important;
+          color: #dc2626 !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
         }
         
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.02); }
+        .circulo-progresso {
+          width: 12px !important;
+          height: 12px !important;
+          border-radius: 50% !important;
+          background: #dc2626 !important;
+          box-shadow: 0 0 10px rgba(220, 38, 38, 0.5) !important;
         }
         
-        .btn:hover {
-          transform: scale(1.05);
+        .circulo-inativo {
+          background: #333333 !important;
+          box-shadow: none !important;
         }
         
-        .btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-        
-        .guarantee {
-          color: #a3a3a3;
-          font-size: 12px;
-          margin-top: 15px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-        }
-        
-        .testimonial {
-          background: #111;
+        /* DEPOIMENTO MELHORADO */
+        .depoimento {
+          background: linear-gradient(145deg, #111111 0%, #000000 100%);
           border: 1px solid #444;
-          border-radius: 15px;
-          padding: 15px;
-          margin: 25px auto;
-          max-width: 350px;
+          border-radius: 18px;
+          padding: 18px;
+          max-width: 400px;
+          margin: 30px auto;
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
         
         .avatar {
-          width: 40px;
-          height: 40px;
+          width: 55px;
+          height: 55px;
           border-radius: 50%;
-          background: url('https://comprarplanseguro.shop/wp-content/uploads/2025/06/06.png') center/cover;
-          border: 2px solid #FFD700;
+          background-image: url('https://comprarplanseguro.shop/wp-content/uploads/2025/06/06.png');
+          background-size: cover;
+          background-position: center;
+          border: 3px solid #FFD700;
           flex-shrink: 0;
+          box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
         
-        .stars {
+        .estrelas {
           color: #FFD700;
-          font-size: 11px;
+          font-size: 13px;
+          text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
         
-        .username {
+        .nome-usuario {
           color: #FFD700;
           font-weight: bold;
-          font-size: 11px;
+          font-size: 13px;
         }
         
-        .review {
-          color: #fff;
-          font-size: 11px;
-          line-height: 1.3;
+        .texto-depoimento {
+          color: #ffffff;
+          font-size: 12px;
+          line-height: 1.4;
           font-style: italic;
         }
         
-        .copyright {
-          text-align: center;
-          color: #888;
-          font-size: 10px;
-          margin-top: 20px;
-          padding: 10px;
+        /* LOGO CENTRALIZADA */
+        .logo-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 45px !important;
         }
         
-        .loading {
+        .logo-arredondada {
+          border-radius: 15px !important;
+          width: 200px !important;
+          height: 120px !important;
+          object-fit: cover !important;
+          border: 4px solid #dc2626 !important;
+          box-shadow: 0 0 30px rgba(220, 38, 38, 0.4), 0 0 0 2px #dc2626 !important;
+          transition: all 0.4s ease !important;
+          display: block !important;
+          will-change: transform !important;
+        }
+        
+        .logo-arredondada:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 0 40px rgba(220, 38, 38, 0.6), 0 0 0 3px #b91c1c !important;
+          border-color: #b91c1c !important;
+        }
+        
+        /* LOADING */
+        .loading-overlay {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0,0,0,0.9);
+          background: rgba(0, 0, 0, 0.95);
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 1000;
         }
         
-        .spinner {
-          width: 20px;
-          height: 20px;
-          border: 2px solid rgba(255,255,255,0.3);
-          border-top: 2px solid white;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
+        .loading-content {
+          text-align: center;
+          color: white;
         }
         
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+        .progress-bar {
+          width: 250px;
+          height: 6px;
+          background: #333;
+          border-radius: 3px;
+          overflow: hidden;
+          margin-top: 25px;
         }
         
-        /* MOBILE OTIMIZADO */
-        @media (min-width: 768px) {
-          .container {
-            padding: 40px;
+        .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #dc2626, #f87171);
+          transition: width 0.3s ease;
+          border-radius: 3px;
+        }
+        
+        /* RESPONSIVO MOBILE-FIRST */
+        @media (max-width: 768px) {
+          .container-preto {
+            padding: 25px !important;
+            margin: 10px !important;
+            border-radius: 20px !important;
           }
           
-          .logo {
-            width: 180px;
-            height: 110px;
+          .logo-container {
+            margin-bottom: 30px !important;
           }
           
-          .title {
-            font-size: 28px;
-            margin-bottom: 20px;
+          .logo-arredondada {
+            width: 160px !important;
+            height: 100px !important;
+            border: 3px solid #dc2626 !important;
           }
           
-          .subtitle {
-            font-size: 16px;
-            margin-bottom: 25px;
+          .titulo-principal {
+            font-size: 26px !important;
+            margin-bottom: 18px !important;
+            line-height: 1.2 !important;
           }
           
-          .btn {
-            padding: 18px 36px;
-            font-size: 18px;
-            max-width: 320px;
+          .subtitulo {
+            font-size: 16px !important;
+            margin-bottom: 25px !important;
           }
           
-          .testimonial {
-            padding: 18px;
-            max-width: 400px;
+          .depoimento {
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 95%;
+          }
+          
+          .btn-quiz-pulsante {
+            padding: 16px 32px !important;
+            font-size: 16px !important;
+            max-width: 95% !important;
+          }
+          
+          .main-content {
+            padding-top: 20px;
+            min-height: calc(100vh - 40px);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .container-preto {
+            padding: 20px !important;
+            margin: 5px !important;
+          }
+          
+          .logo-arredondada {
+            width: 140px !important;
+            height: 85px !important;
+            border: 2px solid #dc2626 !important;
+          }
+          
+          .titulo-principal {
+            font-size: 22px !important;
+            line-height: 1.1 !important;
+          }
+          
+          .subtitulo {
+            font-size: 14px !important;
+          }
+          
+          .depoimento {
+            padding: 12px;
+            gap: 10px;
+            margin: 15px auto;
           }
           
           .avatar {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
           }
           
-          .stars, .username, .review {
-            font-size: 12px;
+          .btn-quiz-pulsante {
+            padding: 14px 28px !important;
+            font-size: 14px !important;
+          }
+        }
+        
+        /* OTIMIZAÇÃO DE ESPAÇAMENTO */
+        .main-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding-top: 100px;
+        }
+        
+        @media (max-width: 768px) {
+          .main-content {
+            padding-top: 30px;
+            min-height: calc(100vh - 60px);
+          }
+        }
+
+        /* Copyright */
+        .copyright {
+          position: relative;
+          margin-top: 40px;
+          padding: 20px;
+          color: #888888;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          .copyright {
+            margin-top: 30px;
+            padding: 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .copyright {
+            margin-top: 25px;
+            padding: 10px;
+            font-size: 11px;
           }
         }
       `}</style>
 
       {/* Loading overlay */}
       {isLoading && (
-        <div className="loading">
-          <div style={{ textAlign: "center", color: "white" }}>
-            <div style={{ fontSize: "16px", fontWeight: "600", marginBottom: "15px" }}>Preparando tu quiz...</div>
-            <div className="spinner" />
+        <div className="loading-overlay">
+          <div className="loading-content">
+            <div style={{ fontSize: "18px", fontWeight: "600" }}>Preparando tu quiz personalizado...</div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${loadingProgress}%` }} />
+            </div>
           </div>
         </div>
       )}
 
-      {/* CONTEÚDO PRINCIPAL */}
-      <div className="container">
-        {/* LOGO OTIMIZADA */}
-        <Image
-          src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
-          alt="Logo Plan A"
-          width={140}
-          height={85}
-          className="logo"
-          priority
-          quality={75}
-          sizes="(max-width: 768px) 140px, 180px"
-        />
-
-        {/* TÍTULO PRINCIPAL */}
-        <h1 className="title">
-          Haz que tu amor regrese a ti 100% en piloto automático, incluso en las situaciones más complicadas.
-        </h1>
-
-        {/* SUBTÍTULO */}
-        <p className="subtitle">Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.</p>
-
-        {/* INDICADOR DE PROGRESSO */}
-        <div className="progress">
-          <div className="dot"></div>
-          <div className="dot dot-inactive"></div>
-          <div className="dot dot-inactive"></div>
-          <div className="dot dot-inactive"></div>
-          <span>Paso 1</span>
+      {/* Error message */}
+      {errorMessage && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: "20px",
+            right: "20px",
+            background: "#dc2626",
+            color: "white",
+            padding: "15px",
+            borderRadius: "10px",
+            zIndex: 1000,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span>{errorMessage}</span>
+          <button
+            onClick={() => setErrorMessage("")}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              fontSize: "20px",
+              cursor: "pointer",
+            }}
+          >
+            ×
+          </button>
         </div>
+      )}
 
-        {/* BOTÃO CTA */}
-        <button onClick={handleStart} disabled={isLoading} className="btn">
-          {isLoading ? (
-            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              PREPARANDO...
-              <div className="spinner" style={{ width: "16px", height: "16px" }} />
-            </span>
-          ) : (
-            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-              COMENZAR QUIZ AHORA
-              <ArrowRight size={18} />
-            </span>
-          )}
-        </button>
+      {/* Offline indicator */}
+      {!isOnline && (
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
+            background: "#f59e0b",
+            color: "white",
+            textAlign: "center",
+            padding: "10px",
+            zIndex: 1000,
+          }}
+        >
+          ⚠️ Sem conexão com a internet
+        </div>
+      )}
 
-        {/* TEXTO DE GARANTIA */}
-        <div className="guarantee">
-          <Shield size={14} />
-          <span>Confidencial y personalizado. En solo 2 minutos tendrás tu plan de acción.</span>
+      {/* CONTEÚDO PRINCIPAL */}
+      <div className="main-content">
+        <div className="container-preto">
+          {/* LOGO CENTRALIZADA */}
+          <div className="logo-container">
+            <Image
+              src="https://comprarplanseguro.shop/wp-content/uploads/2025/06/imagem_gerada-2025-06-26T205059.582.png"
+              alt="Logo Plan A"
+              width={200}
+              height={120}
+              className="logo-arredondada"
+              priority
+              quality={85}
+              sizes="(max-width: 480px) 140px, (max-width: 768px) 160px, 200px"
+              onError={(e) => {
+                e.target.style.display = "none"
+              }}
+            />
+          </div>
+
+          {/* TÍTULO PRINCIPAL OTIMIZADO */}
+          <h1 className="titulo-principal">
+            Haz que tu amor regrese a ti 100% en piloto automático, incluso en las situaciones más complicadas.
+          </h1>
+
+          {/* SUBTÍTULO OTIMIZADO */}
+          <p className="subtitulo">Sin juegos mentales. Solo el poder del método probado por más de 3.847 personas.</p>
+
+          {/* INDICADOR DE PROGRESSO */}
+          <div className="indicador-progresso">
+            <div className="circulo-progresso"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <div className="circulo-progresso circulo-inativo"></div>
+            <span>Paso 1</span>
+          </div>
+
+          {/* BOTÃO CTA OTIMIZADO */}
+          <button onClick={handleStart} disabled={isLoading || !isOnline} className="btn-quiz-pulsante">
+            {isLoading ? (
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                PREPARANDO...
+                <div
+                  style={{
+                    marginLeft: "10px",
+                    width: "18px",
+                    height: "18px",
+                    border: "2px solid rgba(255,255,255,0.3)",
+                    borderTop: "2px solid white",
+                    borderRadius: "50%",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+              </span>
+            ) : (
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                COMENZAR QUIZ AHORA
+                <ArrowRight style={{ marginLeft: "12px", width: "22px", height: "22px" }} />
+              </span>
+            )}
+          </button>
+
+          {/* TEXTO DE GARANTIA */}
+          <div className="texto-garantia">
+            <Shield size={16} />
+            <span>Confidencial y personalizado. En solo 2 minutos tendrás tu plan de acción.</span>
+          </div>
         </div>
       </div>
 
-      {/* DEPOIMENTO */}
-      <div className="testimonial">
+      {/* DEPOIMENTO MELHORADO */}
+      <div className="depoimento">
         <div className="avatar"></div>
         <div>
-          <div className="stars">★★★★★</div>
-          <div className="username">Pablo Alvez (@Plaboalvezs)</div>
-          <div className="review">
+          <div className="estrelas">★★★★★</div>
+          <div className="nome-usuario">Pablo Alvez (@Plaboalvezs)</div>
+          <div className="texto-depoimento">
             "Apliqué tu Método de los 3 Pasos y en 2 semanas ella regresó. Sin juegos mentales, ¡simplemente funciona!"
           </div>
         </div>
@@ -347,6 +597,13 @@ export default function HomePage() {
 
       {/* Copyright */}
       <div className="copyright">Plan A™ Todos los Derechos Reservados.</div>
+
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }
