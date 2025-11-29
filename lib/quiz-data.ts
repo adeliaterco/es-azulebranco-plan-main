@@ -289,7 +289,7 @@ export const quizSteps = [
       "1-6 meses → Fase de adaptación emocional",
       "Más de 6 meses → Etapa de reconstrucción profunda"
     ],
-    bonusUnlock: {
+     insightUnlock: {
       id: 1,
       title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
       value: 47,
@@ -433,7 +433,7 @@ export const quizSteps = [
         "🔄 Varias personas → Protocolo de valor único"
       ]
     },
-    bonusUnlock: {
+     insightUnlock: {
       id: 2,
       title: "PROTOCOLO ANTI-COMPETENCIA",
       value: 37,
