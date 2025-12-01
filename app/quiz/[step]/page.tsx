@@ -26,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { PersonalizedTechnique } from "@/components/personalized-technique"
 import { quizSteps, socialProofMessages, getPersonalizedContent } from "@/lib/quiz-data"
 import { BonusUnlock } from "@/components/bonus-unlock"
 import { ValueCounter } from "@/components/value-counter"
@@ -373,7 +374,6 @@ export default function QuizStep() {
 
           <div className="flex justify-between items-center">
             <p className="text-white text-sm">
-              {/* ✅ CORRIGIDO: "de 13" em vez de "de 12" */}
               Etapa {step} de 13 • {Math.round(progress)}% completado
             </p>
           </div>
@@ -584,7 +584,7 @@ export default function QuizStep() {
                 </motion.div>
               )}
 
-              {/* Foto de experto para el paso 11 y 12 */}
+              {/* Foto de experto para el paso 12 y 13 */}
               {currentStep?.elements?.expertPhoto && !currentStep?.autoAdvance && (
                 <div className="flex justify-center mb-6">
                   {currentStep?.elements?.expertImage ? (
@@ -633,28 +633,85 @@ export default function QuizStep() {
                   </h2>
 
                   {getPersonalizedSubtext() && (
-                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
+                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">
+                      {getPersonalizedSubtext()}
+                    </p>
                   )}
 
-                  {getPersonalizedDescription() && (
-                    <div className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
-                      {/* ✅ RENDERIZAÇÃO ESPECIAL PARA ETAPAS 12 e 13 com técnicas personalizadas */}
-                      {(step === 12 || step === 13) ? (
-                        <div className="space-y-6">
-                          {/* Separar conteúdo por seções */}
-                          {getPersonalizedDescription().split('---').map((section, index) => (
-                            <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-600">
-                              <div className="text-left">{section.trim()}</div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        getPersonalizedDescription()
-                      )}
-                    </div>
+                  {/* ✅ RENDERIZACIÓN OPTIMIZADA PARA MOBILE - ETAPAS 12 Y 13 */}
+                  {(step === 12 || step === 13) && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="mb-8"
+                    >
+                      <PersonalizedTechnique
+                        content={
+                          step === 12
+                            ? (() => {
+                                try {
+                                  return window.getPersonalizedTechnique?.() || "";
+                                } catch (e) {
+                                  console.error("Erro ao renderizar técnica:", e);
+                                  return "";
+                                }
+                              })()
+                            : undefined
+                        }
+                        plan={
+                          step === 13
+                            ? (() => {
+                                try {
+                                  return window.getPersonalized7DayPlan?.() || "";
+                                } catch (e) {
+                                  console.error("Erro ao renderizar plano:", e);
+                                  return "";
+                                }
+                              })()
+                            : undefined
+                        }
+                        testimonial={
+                          step === 13
+                            ? (() => {
+                                try {
+                                  return window.getPersonalizedTestimonial?.() || undefined;
+                                } catch (e) {
+                                  console.error("Erro ao renderizar depoimento:", e);
+                                  return undefined;
+                                }
+                              })()
+                            : undefined
+                        }
+                      />
+                    </motion.div>
                   )}
 
-                  {/* 🆕 NOVA SEÇÃO: Evidência Científica - APENAS ETAPA 11 */}
+                  {/* CONTEÚDO REGULAR (otros pasos) */}
+                  {step !== 12 && step !== 13 && getPersonalizedDescription() && (
+                    <p className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
+                      {getPersonalizedDescription()}
+                    </p>
+                  )}
+
+                  {/* 🆕 DIAGNÓSTICO - APENAS ETAPA 12 */}
+                  {step === 12 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                      className="mb-8"
+                    >
+                      <div className="bg-red-900/30 border border-red-500 rounded-lg p-4">
+                        <h3 className="text-red-400 font-bold text-sm sm:text-base mb-3">❌ TU ERROR PRINCIPAL:</h3>
+                        <p className="text-red-200 text-sm whitespace-pre-wrap">
+                          {getPersonalizedSubtext()}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* 🆕 EVIDÊNCIA CIENTÍFICA - APENAS ETAPA 11 */}
                   {currentStep?.elements?.scientificEvidence && (
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
@@ -662,7 +719,6 @@ export default function QuizStep() {
                       transition={{ duration: 0.8, delay: 0.3 }}
                       className="mb-8 space-y-6"
                     >
-                      {/* Imagem da Reportagem */}
                       {currentStep.elements.reportageImage && (
                         <motion.div
                           initial={{ opacity: 0, scale: 0.95 }}
@@ -673,12 +729,12 @@ export default function QuizStep() {
                           <img
                             src={currentStep.elements.reportageImage}
                             alt="Reportagem BBC sobre neurociência"
-                            className="w-full rounded-lg shadow-xl border border-gray-600 hover:shadow-2xl transition-shadow duration-300"
+                            className="w-full rounded-lg shadow-xl border border-gray-600"
+                            loading="lazy"
                           />
                         </motion.div>
                       )}
 
-                      {/* Imagem Curiosa */}
                       {currentStep.elements.curiousImage && (
                         <motion.div
                           initial={{ opacity: 0, scale: 0.95 }}
@@ -689,7 +745,8 @@ export default function QuizStep() {
                           <img
                             src={currentStep.elements.curiousImage}
                             alt="Evidência científica curiosa"
-                            className="w-full rounded-lg shadow-xl border border-gray-600 hover:shadow-2xl transition-shadow duration-300"
+                            className="w-full rounded-lg shadow-xl border border-gray-600"
+                            loading="lazy"
                           />
                           <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                             NEUROCIÊNCIA
@@ -697,7 +754,6 @@ export default function QuizStep() {
                         </motion.div>
                       )}
 
-                      {/* Texto explicativo adicional */}
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -749,7 +805,6 @@ export default function QuizStep() {
                             }`}
                           >
                             <div className="flex items-center w-full">
-                              {/* Iconos para diferentes pasos */}
                               <div className={`mr-3 sm:mr-4 ${selectedAnswer === option ? "text-white" : "text-orange-400"}`}>
                                 {getStepIcon(step, index)}
                               </div>
@@ -765,7 +820,6 @@ export default function QuizStep() {
                             </div>
                           </button>
 
-                          {/* Efecto de pulso para botones */}
                           {!selectedAnswer && (
                             <motion.div
                               className="absolute inset-0 rounded-lg border-2 border-orange-400/50 pointer-events-none"
