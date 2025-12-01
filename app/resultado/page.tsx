@@ -67,20 +67,6 @@ export default function ResultPageExplosive() {
     }
   }, [])
 
-  // ===== PROGRESSÃO AUTOMÁTICA DE STEPS COM TIMING ESTRATÉGICO =====
-  useEffect(() => {
-    // Timing sincronizado - técnica libera imediatamente após barra
-    const timers = [
-      // currentStep 2 é acionado quando barra completa (via onAnimationComplete)
-      // Aqui começamos com step 3 em diante
-      setTimeout(() => setCurrentStep(4), 18000),  // +8s após técnica aparecer (total 18s)
-      setTimeout(() => setCurrentStep(5), 28000),  // +10s (total 28s)
-      setTimeout(() => setCurrentStep(6), 40000),  // +12s (total 40s)
-    ]
-
-    return () => timers.forEach(clearTimeout)
-  }, [])
-
   // ===== CARREGAR SCRIPT VTURB =====
   const loadVTurbScript = () => {
     if (!document.querySelector('script[src*="69261bb488d49382e130c0a6"]')) {
@@ -172,10 +158,10 @@ export default function ResultPageExplosive() {
     }
   }
 
-  // ===== FUNÇÃO PARA LIBERAR TÉCNICA QUANDO BARRA COMPLETA =====
+  // ===== FUNÇÃO PARA LIBERAR TUDO QUANDO BARRA COMPLETA =====
   const handleBarComplete = () => {
     setShowAnalysisBar(false)
-    setCurrentStep(3) // Técnica aparece IMEDIATAMENTE!
+    setCurrentStep(99) // Valor alto para liberar TUDO >= 3, >= 4, >= 5, >= 6
   }
 
   return (
@@ -264,9 +250,9 @@ export default function ResultPageExplosive() {
               </div>
             </div>
 
-            {/* ✅ BARRA DE PROGRESSO MOVIDA PARA BAIXO DO VÍDEO - LIBERA IMEDIATAMENTE */}
+            {/* ✅ BARRA DE PROGRESSO - LIBERA TUDO QUANDO COMPLETA */}
             <AnimatePresence>
-              {showAnalysisBar && currentStep &lt; 3 && (
+              {showAnalysisBar && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -277,7 +263,7 @@ export default function ResultPageExplosive() {
                     ⏳ ANALIZANDO TU CASO Y DESBLOQUEANDO TU PLAN PERSONALIZADO...
                   </div>
                   
-                  {/* BARRA COM DELAY DE 10 SEGUNDOS */}
+                  {/* BARRA COM 10 SEGUNDOS */}
                   <div className="w-full bg-gray-700 rounded-full h-3 max-w-md mx-auto overflow-hidden border border-orange-500">
                     <motion.div
                       className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full"
@@ -296,7 +282,7 @@ export default function ResultPageExplosive() {
           </div>
         </div>
 
-        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO (APARECE IMEDIATAMENTE APÓS BARRA) ===== */}
+        {/* ===== SEÇÃO 2: TÉCNICA EXACTA (APARECE JUNTO COM TUDO) ===== */}
         <AnimatePresence>
           {currentStep >= 3 && (
             <motion.div
@@ -316,7 +302,7 @@ export default function ResultPageExplosive() {
 
                 <div className="space-y-6 mb-8">
                   
-                  {/* STEP 1 - Siempre Visible */}
+                  {/* STEP 1 */}
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -339,56 +325,48 @@ export default function ResultPageExplosive() {
                     </div>
                   </motion.div>
 
-                  {/* STEP 2 - Aparece após currentStep >= 3 */}
-                  <AnimatePresence>
-                    {currentStep >= 3 && (
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
-                      >
-                        <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
-                          DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
-                        </h3>
-                        <div className="text-white mobile-info-text space-y-2">
-                          <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
-                          <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
-                          <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
-                          <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* STEP 2 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
+                  >
+                    <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
+                      DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
+                    </h3>
+                    <div className="text-white mobile-info-text space-y-2">
+                      <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
+                      <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
+                      <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
+                      <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
+                    </div>
+                  </motion.div>
 
-                  {/* STEP 3 - Aparece após currentStep >= 4 */}
-                  <AnimatePresence>
-                    {currentStep >= 4 && (
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
-                      >
-                        <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
-                          DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
-                        </h3>
-                        <div className="text-white mobile-info-text space-y-2">
-                          <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
-                          <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
-                          <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
-                          <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* STEP 3 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
+                  >
+                    <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
+                      DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
+                    </h3>
+                    <div className="text-white mobile-info-text space-y-2">
+                      <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
+                      <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
+                      <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
+                      <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* ===== SECIÓN 3: OFERTA IRRESISTÍVEL (APARECE APÓS TÉCNICA) ===== */}
+        {/* ===== SECIÓN 3: OFERTA IRRESISTÍVEL ===== */}
         <AnimatePresence>
           {currentStep >= 3 && (
             <motion.div
@@ -506,13 +484,13 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SECIÓN 4: PROVA SOCIAL MELHORADA ===== */}
+        {/* ===== SECIÓN 4: PROVA SOCIAL ===== */}
         <AnimatePresence>
-          {currentStep >= 4 && (
+          {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.6 }}
               className="mobile-padding bg-gradient-to-r from-gray-900 to-black w-full"
             >
               <div className="max-w-4xl mx-auto w-full">
@@ -523,7 +501,7 @@ export default function ResultPageExplosive() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   
-                  {/* CARD 1 - Miguel D. */}
+                  {/* CARD 1 */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -554,11 +532,11 @@ export default function ResultPageExplosive() {
                     </div>
                   </motion.div>
 
-                  {/* CARD 2 - Gustavo R. */}
+                  {/* CARD 2 */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ delay: 0.3 }}
                     className="bg-gray-800 rounded-xl p-6 border border-gray-700"
                   >
                     <div className="flex items-start space-x-4">
@@ -614,11 +592,11 @@ export default function ResultPageExplosive() {
 
         {/* ===== SECIÓN 5: TRATAMENTO DE OBJEÇÕES ===== */}
         <AnimatePresence>
-          {currentStep >= 4 && (
+          {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.7 }}
               className="mobile-padding w-full bg-gray-900/50"
             >
               <div className="max-w-4xl mx-auto w-full">
@@ -648,7 +626,7 @@ export default function ResultPageExplosive() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ delay: 0.3 }}
                     className="bg-gray-800 rounded-xl p-6 border-l-4 border-blue-400"
                   >
                     <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
@@ -664,7 +642,7 @@ export default function ResultPageExplosive() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 }}
+                    transition={{ delay: 0.4 }}
                     className="bg-gray-800 rounded-xl p-6 border-l-4 border-green-400"
                   >
                     <h3 className="text-green-400 font-bold mobile-subsection-title mb-3 break-words">
@@ -684,11 +662,11 @@ export default function ResultPageExplosive() {
 
         {/* ===== SECIÓN 6: GARANTIA PODEROSA ===== */}
         <AnimatePresence>
-          {currentStep >= 5 && (
+          {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.8 }}
               className="mobile-padding bg-gradient-to-r from-green-900/30 to-emerald-900/30 w-full"
             >
               <div className="max-w-4xl mx-auto w-full">
@@ -723,11 +701,11 @@ export default function ResultPageExplosive() {
 
         {/* ===== SECIÓN 7: MOMENTO DE DECISIÓN ===== */}
         <AnimatePresence>
-          {currentStep >= 5 && (
+          {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.9 }}
               className="mobile-padding bg-gradient-to-r from-red-900/50 to-black w-full"
             >
               <div className="max-w-4xl mx-auto w-full">
@@ -766,7 +744,7 @@ export default function ResultPageExplosive() {
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ delay: 0.3 }}
                     className="bg-green-900/30 rounded-xl p-6 border-2 border-green-500/50"
                   >
                     <h3 className="text-green-400 font-bold mobile-subsection-title mb-4 break-words">
@@ -793,13 +771,13 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SECIÓN 8: CTA FINAL IRRESISTÍVEL ===== */}
+        {/* ===== SECIÓN 8: CTA FINAL ===== */}
         <AnimatePresence>
-          {currentStep >= 6 && (
+          {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 1 }}
               className="mobile-padding bg-gradient-to-r from-red-600 via-red-700 to-orange-600 w-full"
             >
               <div className="max-w-4xl mx-auto text-center w-full">
