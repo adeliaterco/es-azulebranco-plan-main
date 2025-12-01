@@ -1,3 +1,5 @@
+## QUIZ HÍBRIDO OTIMIZADO - CÓDIGO COMPLETO JAVASCRIPT
+
 // === FUNÇÕES DE PERSONALIZAÇÃO ===
 
 // Função para capturar respostas do usuário (você pode adaptar conforme sua implementação)
@@ -242,10 +244,11 @@ Los próximos 14 pasos incluyen:
 // === QUIZ STEPS COMPLETO OTIMIZADO ===
 
 export const quizSteps = [
+  // Pergunta 1 com headline emocional melhorada e elemento visual 'heartbeat'
   {
     id: 1,
-    question: "INICIANDO ANÁLISIS PSICOLÓGICO...",
-    description: "Para revelar si ella aún siente algo por ti, necesito mapear tu perfil emocional específico.",
+    question: "¡NO DEJES QUE LA PERSONA QUE AMAS SALGA DE TU VIDA PARA SIEMPRE!",
+    description: "INICIANDO ANÁLISIS PSICOLÓGICO - Para revelar si ella aún siente algo por ti, necesito mapear tu perfil emocional específico.",
     subtext: "DATO CRÍTICO #1 - Tu género influye directamente en cómo ella procesa la separación:",
     options: ["SOY HOMBRE", "SOY MUJER"],
     warning: "⚠️ IMPORTANTE: Este análisis fue desarrollado basándose en 12,000 casos reales de reconquista. Cada respuesta ajusta tu diagnóstico.",
@@ -254,10 +257,12 @@ export const quizSteps = [
       timer: "Análisis en progreso...",
       analysisIcon: true,
       badge: "ANÁLISIS PSICOLÓGICO",
+      heartbeat: true, // NOVO elemento visual adicionado
     },
     note: "El 89% de las personas ignoran estos patrones psicológicos... por eso fallan."
   },
 
+  // Pergunta 2 (mantida)
   {
     id: 2,
     question: "MAPEANDO TU PERFIL EMOCIONAL...",
@@ -273,11 +278,12 @@ export const quizSteps = [
       profileBuilding: true,
       counter: "personas analizadas hoy",
       profileComplete: "15%",
-      ageIcons: true,
+      ageIcons: true, // Elemento visual já existente
     },
     note: "Cada grupo de edad responde a diferentes disparadores emocionales."
   },
 
+  // Pergunta 3 (mantida)
   {
     id: 3,
     question: "CALCULANDO PROBABILIDADES DE RECONQUISTA...",
@@ -298,11 +304,12 @@ export const quizSteps = [
     elements: {
       probabilityCalculator: true,
       profileComplete: "35%",
-      timelineVisual: true,
+      timelineVisual: true, // Elemento visual já existente
     },
     note: "REVELACIÓN: El 73% de las reconquistas exitosas ocurren aplicando la técnica correcta en el momento exacto."
   },
 
+  // Pergunta 4 (mantida)
   {
     id: 4,
     question: "IDENTIFICANDO PATRÓN DE RUPTURA...",
@@ -321,7 +328,7 @@ export const quizSteps = [
       ]
     },
     elements: {
-      patternAnalysis: true,
+      patternAnalysis: true, // Elemento visual já existente
       profileComplete: "50%",
       testimonialDisplay: true,
       testimonialText: "Mi patrón era 'rechazo activo'. Apliqué la técnica específica y en 8 días me escribió.",
@@ -329,6 +336,7 @@ export const quizSteps = [
     note: "DESCUBRIMIENTO: Cada patrón de ruptura requiere una aproximación psicológica diferente."
   },
 
+  // Pergunta 5 (mantida)
   {
     id: 5,
     question: "ANALIZANDO INTENSIDAD EMOCIONAL...",
@@ -341,13 +349,14 @@ export const quizSteps = [
       "Menos de 6 meses → Química inicial"
     ],
     elements: {
-      intensityMeter: true,
+      intensityMeter: true, // Elemento visual já existente
       profileComplete: "65%",
       bondAnalysis: true,
     },
     note: "INSIGHT: Relaciones más largas requieren técnicas de 'reactivación de memoria'. Más cortas necesitan 'intensificación de deseo'."
   },
 
+  // Pergunta 6 (mantida)
   {
     id: 6,
     question: "DETECTANDO TU PUNTO DE DOLOR PRINCIPAL...",
@@ -372,13 +381,14 @@ export const quizSteps = [
       ]
     },
     elements: {
-      healingProtocol: true,
+      healingProtocol: true, // Elemento visual já existente
       profileComplete: "75%",
       protocolPreview: true,
     },
     note: "CRUCIAL: Sin sanar tu herida principal, cualquier intento de reconquista fracasará."
   },
 
+  // Pergunta 7 (mantida)
   {
     id: 7,
     question: "EVALUANDO TU SITUACIÓN ACTUAL...",
@@ -405,13 +415,14 @@ export const quizSteps = [
       ]
     },
     elements: {
-      strategyMapping: true,
+      strategyMapping: true, // Elemento visual já existente
       profileComplete: "85%",
       situationAnalysis: true,
     },
     note: "REVELACIÓN: Cada situación tiene una estrategia específica con 87% de efectividad."
   },
 
+  // Pergunta 8 (mantida)
   {
     id: 8,
     question: "ANALIZANDO FACTOR DE COMPETENCIA...",
@@ -440,13 +451,14 @@ export const quizSteps = [
       description: "Cómo destacar cuando hay terceras personas involucradas.",
     },
     elements: {
-      competitionAnalysis: true,
+      competitionAnalysis: true, // Elemento visual já existente
       profileComplete: "90%",
       urgencyMeter: true,
     },
     note: "DATO CLAVE: El 67% de reconquistas exitosas ocurrieron INCLUSO con competencia presente."
   },
 
+  // Pergunta 9 (mantida)
   {
     id: 9,
     question: "MIDIENDO TU NIVEL DE COMPROMISO...",
@@ -460,13 +472,14 @@ export const quizSteps = [
     ],
     note: "ESTADÍSTICA: El 91% que eligió nivel 4 logró reconquistar usando nuestro sistema personalizado.",
     elements: {
-      commitmentThermometer: true,
+      commitmentThermometer: true, // Elemento visual já existente
       profileComplete: "95%",
       successPredictor: true,
     },
     subtext2: "Tu nivel determinará la intensidad y efectividad de tu estrategia personalizada."
   },
 
+  // Pergunta 10 (mantida)
   {
     id: 10,
     question: "GENERANDO TU DIAGNÓSTICO PERSONALIZADO...",
@@ -483,8 +496,25 @@ export const quizSteps = [
     note: "Este diagnóstico se basa en el análisis de 12,000 casos similares al tuyo."
   },
 
+  // PERGUNTA 11 NOVA - FOTOS PESQUISA CIENTÍFICA
   {
     id: 11,
+    question: "MIENTRAS ANALIZO TU CASO, DESCUBRE LA CIENCIA QUE RESPALDA ESTE MÉTODO",
+    description: "Una investigación reciente revela por qué el PLAN A funciona a nivel neurológico y psicológico.",
+    subtext: "Estudios recientes confirman que las técnicas que usaremos son avaladas por ciencia:",
+    options: ["CONTINUAR PARA VER MIS RESULTADOS"],
+    elements: {
+      scientificEvidence: true,
+      reportageImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/imagem3-nova.webp",
+      curiousImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/estudos-imagem-2.webp",
+      profileComplete: "97%",
+    },
+    note: "La ciencia respalda nuestras técnicas. Por eso funcionan."
+  },
+  
+  // Pergunta 12 (antiga 11) - Diagnóstico personalizado
+  {
+    id: 12, // ID atualizado
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
     description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista.",
     subtext: () => getPersonalizedFirstInsight(),
@@ -500,8 +530,9 @@ export const quizSteps = [
     note: "Este diagnóstico se basa en el cruce de todas las variables de tu caso específico."
   },
   
+  // Pergunta 13 (antiga 12) - Primeira estratégia personalizada
   {
-    id: 12,
+    id: 13, // ID atualizado
     question: "TU PRIMERA ESTRATEGIA PERSONALIZADA",
     description: "He diseñado una técnica específica para TU situación exacta. Esta técnica tiene 89% de efectividad en casos como el tuyo.",
     subtext: () => getPersonalizedTechnique(),
@@ -517,13 +548,14 @@ export const quizSteps = [
     note: "Esta es SOLO la primera técnica. El método completo incluye 21 estrategias más."
   },
   
+  // Pergunta 14 (antiga 13) - Plano A completo com garantia explícita
   {
-    id: 13,
-    question: "PRESENTANDO: EL PLAN A COMPLETO",
-    description: "Basándome en 7 años ayudando a más de 12,000 personas como tú, he desarrollado el PLAN A: el método más efectivo de reconquista personalizada.",
+    id: 14, // ID atualizado
+    question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO", // Headline melhorada
+    description: "Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.", // Descrição melhorada
     subtext: () => getPersonalized7DayPlan(),
-    options: ["QUIERO ACCEDER AL PLAN A COMPLETO"],
-    note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
+    options: ["¡QUIERO VER MI PLAN AHORA!"], // Opção melhorada
+    note: "En los últimos 7 años he ayudado a más de 3,847 personas a recuperar sus relaciones usando este método exclusivo. Tú serás el próximo.", // Nota melhorada
     elements: {
       planAReveal: true,
       profileComplete: "100%",
@@ -531,9 +563,10 @@ export const quizSteps = [
       continuationTease: true,
       planLayout: true,
       checklist: true,
-      badge: "PLAN A - MÉTODO COMPLETO",
+      badge: "DIAGNÓSTICO PERSONALIZADO", // Badge atualizado
       methodIntro: true,
     },
+    guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%", // Garantia explícita adicionada
     finalReveal: {
       title: "EL PLAN A INCLUYE:",
       features: [
@@ -542,13 +575,27 @@ export const quizSteps = [
         "✅ Técnicas avanzadas de psicología de reconquista",
         "✅ Plan B de emergencia si algo sale mal",
         "✅ Soporte personalizado durante todo el proceso",
-        "✅ Garantía de 30 días o devuelvo tu dinero"
+        "✅ Garantía de 30 días o devuelvo tu dinero al 100%" // Garantia adicionada aqui também
       ],
       testimonial: () => getPersonalizedTestimonial(),
-      urgency: "Solo 23 spots disponibles hoy para acceso completo",
-      socialProof: "3,847 personas han usado el Plan A con éxito"
+      urgency: "⚠️ Solo 23 spots disponibles hoy para acceso completo", // Urgência melhorada
+      socialProof: "🔥 3,847 personas recuperaron sus relaciones este año" // Social proof melhorado
     }
   }
+]
+
+// === SOCIAL PROOF OTIMIZADO ===
+export const socialProofMessages = [
+  "¡Estás entre el 17% más decidido a reconquistar!",
+  "¡Tu perfil muestra alta compatibilidad!",
+  "¡Bonificación #1 liberada: 21 DISPARADORES!",
+  "¡Bonificación #2 liberada: PROTOCOLO ANTI-COMPETENCIA!",
+  "El 87% de personas en tu situación lograron resultados en menos de 14 días",
+  "Estás más comprometido que el 73% que hizo esta prueba",
+  "⚠️ Solo 23 spots disponibles hoy para este método",
+  "🔥 3,847 personas recuperaron sus relaciones este año",
+  "✅ Garantía 30 días o devuelvo tu dinero al 100%",
+  "⏰ Acceso inmediato después del pago",
 ]
 
 // === RESTO DO CÓDIGO MANTÉM IGUAL ===
@@ -591,19 +638,6 @@ export const testimonials = [
     text: "Estaba completamente bloqueado. En 18 días volvimos a estar juntos.",
     rating: 5,
   },
-]
-
-export const socialProofMessages = [
-  "¡Estás entre el 17% más decidido a reconquistar!",
-  "¡Tu perfil muestra compatibilidad!",
-  "¡Bonificación liberada por desbloqueo!",
-  "¡Has desbloqueado los 2 bonos - valor total de $84!",
-  "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
-  "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
-  "-",
-  "-",
-  "-",
-  "-",
 ]
 
 // Función utilitaria para personalizar textos basados en el género
