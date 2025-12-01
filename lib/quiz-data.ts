@@ -202,7 +202,7 @@ function getPersonalizedTestimonial() {
   };
 }
 
-// 4. FUNÇÃO PARA PLANO DE 7 DIAS PERSONALIZADO
+// 4. FUNÇÃO PARA PLANO DE 7 DÍAS PERSONALIZADO
 function getPersonalized7DayPlan() {
   const gender = getUserGender();
   const timeApart = getUserAnswer('question3');
@@ -239,13 +239,13 @@ Los próximos 14 pasos incluyen:
 → Plan B de emergencia si algo sale mal`;
 }
 
-// === QUIZ STEPS - 13 PERGUNTAS EXATAS ===
+// === QUIZ STEPS COMPLETO OTIMIZADO ===
 
 export const quizSteps = [
   {
     id: 1,
-    question: "¡NO DEJES QUE LA PERSONA QUE AMAS SALGA DE TU VIDA PARA SIEMPRE!",
-    description: "INICIANDO ANÁLISIS PSICOLÓGICO - Para revelar si ella aún siente algo por ti, necesito mapear tu perfil emocional específico.",
+    question: "INICIANDO ANÁLISIS PSICOLÓGICO...",
+    description: "Para revelar si ella aún siente algo por ti, necesito mapear tu perfil emocional específico.",
     subtext: "DATO CRÍTICO #1 - Tu género influye directamente en cómo ella procesa la separación:",
     options: ["SOY HOMBRE", "SOY MUJER"],
     warning: "⚠️ IMPORTANTE: Este análisis fue desarrollado basándose en 12,000 casos reales de reconquista. Cada respuesta ajusta tu diagnóstico.",
@@ -273,6 +273,7 @@ export const quizSteps = [
       profileBuilding: true,
       counter: "personas analizadas hoy",
       profileComplete: "15%",
+      ageIcons: true,
     },
     note: "Cada grupo de edad responde a diferentes disparadores emocionales."
   },
@@ -290,13 +291,14 @@ export const quizSteps = [
     ],
     bonusUnlock: {
       id: 1,
-      title: "21 DISPARADORES EMOCIONALES",
+      title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
       value: 47,
-      description: "Las 21 frases exactas que funcionan"
+      description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
     },
     elements: {
       probabilityCalculator: true,
-      profileComplete: "30%",
+      profileComplete: "35%",
+      timelineVisual: true,
     },
     note: "REVELACIÓN: El 73% de las reconquistas exitosas ocurren aplicando la técnica correcta en el momento exacto."
   },
@@ -320,7 +322,7 @@ export const quizSteps = [
     },
     elements: {
       patternAnalysis: true,
-      profileComplete: "45%",
+      profileComplete: "50%",
       testimonialDisplay: true,
       testimonialText: "Mi patrón era 'rechazo activo'. Apliqué la técnica específica y en 8 días me escribió.",
     },
@@ -340,7 +342,8 @@ export const quizSteps = [
     ],
     elements: {
       intensityMeter: true,
-      profileComplete: "60%",
+      profileComplete: "65%",
+      bondAnalysis: true,
     },
     note: "INSIGHT: Relaciones más largas requieren técnicas de 'reactivación de memoria'. Más cortas necesitan 'intensificación de deseo'."
   },
@@ -370,7 +373,8 @@ export const quizSteps = [
     },
     elements: {
       healingProtocol: true,
-      profileComplete: "70%",
+      profileComplete: "75%",
+      protocolPreview: true,
     },
     note: "CRUCIAL: Sin sanar tu herida principal, cualquier intento de reconquista fracasará."
   },
@@ -402,7 +406,8 @@ export const quizSteps = [
     },
     elements: {
       strategyMapping: true,
-      profileComplete: "80%",
+      profileComplete: "85%",
+      situationAnalysis: true,
     },
     note: "REVELACIÓN: Cada situación tiene una estrategia específica con 87% de efectividad."
   },
@@ -432,11 +437,12 @@ export const quizSteps = [
       id: 2,
       title: "PROTOCOLO ANTI-COMPETENCIA",
       value: 37,
-      description: "Como destacar con competencia"
+      description: "Cómo destacar cuando hay terceras personas involucradas.",
     },
     elements: {
       competitionAnalysis: true,
-      profileComplete: "85%",
+      profileComplete: "90%",
+      urgencyMeter: true,
     },
     note: "DATO CLAVE: El 67% de reconquistas exitosas ocurrieron INCLUSO con competencia presente."
   },
@@ -455,7 +461,8 @@ export const quizSteps = [
     note: "ESTADÍSTICA: El 91% que eligió nivel 4 logró reconquistar usando nuestro sistema personalizado.",
     elements: {
       commitmentThermometer: true,
-      profileComplete: "90%",
+      profileComplete: "95%",
+      successPredictor: true,
     },
     subtext2: "Tu nivel determinará la intensidad y efectividad de tu estrategia personalizada."
   },
@@ -469,8 +476,8 @@ export const quizSteps = [
     elements: {
       expertPhoto: true,
       expertImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/09/Generated-Image-September-07_-2025-12_00AM-_1_-e1757389439336.webp",
-      autoMessage: "Procesando 9 variables críticas de tu caso... basándome en 7 años de experiencia y 12,000 casos exitosos...",
-      profileComplete: "95%",
+      autoMessage: "Procesando 9 variables críticas de tu caso...",
+      profileComplete: "100%",
       diagnosticGeneration: true,
     },
     note: "Este diagnóstico se basa en el análisis de 12,000 casos similares al tuyo."
@@ -478,58 +485,54 @@ export const quizSteps = [
 
   {
     id: 11,
-    question: "MIENTRAS ANALIZO TU CASO, DESCUBRE LA CIENCIA DETRAS DE ESTE METODO",
-    description: "Una investigación reciente revela por qué el PLAN A funciona a nivel neurológico y psicológico.",
-    subtext: "Estudios recientes confirman que las técnicas que usaremos son avaladas por ciencia:",
-    options: ["CONTINUAR PARA VER MIS RESULTADOS"],
-    elements: {
-      scientificEvidence: true,
-      reportageImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/imagem3-nova.webp",
-      curiousImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/estudos-imagem-2.webp",
-      profileComplete: "97%",
-    },
-    note: "La ciencia respalda nuestras técnicas. Por eso funcionan."
-  },
-
-  {
-    id: 12,
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
-    description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista + tu técnica específica.",
-    subtext: "Ver diagnóstico y primera técnica personalizados para tu caso exacto",
-    options: ["VER MI DIAGNÓSTICO Y TÉCNICA"],
+    description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista.",
+    subtext: () => getPersonalizedFirstInsight(),
+    options: ["VER MI ERROR PRINCIPAL"],
     elements: {
       expertPhoto: true,
       expertImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/09/Generated-Image-September-07_-2025-12_00AM-_1_-e1757389439336.webp",
       personalizedInsight: true,
-      personalizedTechnique: true,
       profileComplete: "100%",
-      badge: "DIAGNÓSTICO + TÉCNICA",
+      badge: "DIAGNÓSTICO COMPLETO",
+      analysisIcon: true,
+    },
+    note: "Este diagnóstico se basa en el cruce de todas las variables de tu caso específico."
+  },
+  
+  {
+    id: 12,
+    question: "TU PRIMERA ESTRATEGIA PERSONALIZADA",
+    description: "He diseñado una técnica específica para TU situación exacta. Esta técnica tiene 89% de efectividad en casos como el tuyo.",
+    subtext: () => getPersonalizedTechnique(),
+    options: ["QUIERO VER EL MÉTODO COMPLETO"],
+    elements: {
+      personalizedTechnique: true,
+      situationSpecific: true,
+      profileComplete: "100%",
+      badge: "TÉCNICA ESPECÍFICA", 
+      timer: "Aplicar en las próximas 48-72h",
       successRate: "89% de efectividad"
     },
-    personalizedContent: {
-      insight: "Llamar función getPersonalizedFirstInsight()",
-      technique: "Llamar función getPersonalizedTechnique()"
-    },
-    note: "Este diagnóstico + técnica específica se basan en el análisis de todas las variables de tu caso."
+    note: "Esta es SOLO la primera técnica. El método completo incluye 21 estrategias más."
   },
   
   {
     id: 13,
-    question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO",
-    description: "Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.",
-    subtext: "Ver plan personalizado de 7 días específico para tu caso + acceder al Plan A completo",
-    options: ["¡QUIERO VER MI PLAN AHORA!"],
+    question: "PRESENTANDO: EL PLAN A COMPLETO",
+    description: "Basándome en 7 años ayudando a más de 12,000 personas como tú, he desarrollado el PLAN A: el método más efectivo de reconquista personalizada.",
+    subtext: () => getPersonalized7DayPlan(),
+    options: ["QUIERO ACCEDER AL PLAN A COMPLETO"],
     note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
-    guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
     elements: {
       planAReveal: true,
       profileComplete: "100%",
+      planPreview: true,
+      continuationTease: true,
+      planLayout: true,
+      checklist: true,
       badge: "PLAN A - MÉTODO COMPLETO",
-      finalReveal: true,
-    },
-    personalizedContent: {
-      plan: "Llamar función getPersonalized7DayPlan()",
-      testimonial: "Llamar función getPersonalizedTestimonial()"
+      methodIntro: true,
     },
     finalReveal: {
       title: "EL PLAN A INCLUYE:",
@@ -539,8 +542,9 @@ export const quizSteps = [
         "✅ Técnicas avanzadas de psicología de reconquista",
         "✅ Plan B de emergencia si algo sale mal",
         "✅ Soporte personalizado durante todo el proceso",
-        "✅ Garantía de 30 días o devuelvo tu dinero al 100%"
+        "✅ Garantía de 30 días o devuelvo tu dinero"
       ],
+      testimonial: () => getPersonalizedTestimonial(),
       urgency: "Solo 23 spots disponibles hoy para acceso completo",
       socialProof: "3,847 personas han usado el Plan A con éxito"
     }
@@ -552,16 +556,16 @@ export const quizSteps = [
 export const bonuses = [
   {
     id: 1,
-    title: "21 DISPARADORES EMOCIONALES",
+    title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
     value: 47,
-    description: "Las 21 frases exactas que funcionan",
+    description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
     details: ["✓ 7 Gatillos de Nostalgia", "✓ 7 Gatillos de Curiosidad", "✓ 7 Gatillos de Deseo"],
   },
   {
     id: 2,
     title: "PROTOCOLO ANTI-COMPETENCIA",
     value: 37,
-    description: "Como destacar con competencia",
+    description: "Cómo destacar cuando hay terceras personas involucradas.",
     details: ["✓ Plan de Acción Inmediata", "✓ Independencia Emocional", "✓ Comunicación Magnética"],
   },
 ]
@@ -590,16 +594,16 @@ export const testimonials = [
 ]
 
 export const socialProofMessages = [
-  "Estas entre el 17% más decidido a reconquistar",
-  "Tu perfil muestra alta compatibilidad",
-  "Bonificacion #1 liberada: 21 DISPARADORES",
-  "Bonificacion #2 liberada: PROTOCOLO ANTI-COMPETENCIA",
-  "El 87% de personas en tu situación lograron resultados en menos de 14 días",
-  "Estás más comprometido que el 73% que hizo esta prueba",
-  "Solo 23 spots disponibles hoy para este método",
-  "3,847 personas recuperaron sus relaciones este año",
-  "Garantía 30 días o devuelvo tu dinero al 100%",
-  "Acceso inmediato después del pago",
+  "¡Estás entre el 17% más decidido a reconquistar!",
+  "¡Tu perfil muestra compatibilidad!",
+  "¡Bonificación liberada por desbloqueo!",
+  "¡Has desbloqueado los 2 bonos - valor total de $84!",
+  "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
+  "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
+  "-",
+  "-",
+  "-",
+  "-",
 ]
 
 // Función utilitaria para personalizar textos basados en el género
