@@ -206,8 +206,8 @@ export default function QuizStep() {
       return
     }
 
-    // ✅ CORRIGIDO: step < 13 em vez de step < 12
-    if (step < 13) {
+    // ✅ CORRIGIDO: step &lt; 13 em vez de step &lt; 12
+    if (step &lt; 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       enviarEvento('concluiu_quiz', {
@@ -239,8 +239,8 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
     
-    // ✅ CORRIGIDO: step < 13 em vez de step < 12
-    if (step < 13) {
+    // ✅ CORRIGIDO: step &lt; 13 em vez de step &lt; 12
+    if (step &lt; 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       router.push(`/resultado${utmString}`)
@@ -627,7 +627,7 @@ export default function QuizStep() {
               )}
 
               {!currentStep?.autoAdvance && (
-                <>
+                &lt;>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
                     {getPersonalizedQuestion()}
                   </h2>
