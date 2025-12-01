@@ -25,6 +25,7 @@ export default function ResultPageExplosive() {
   const [userAnswers, setUserAnswers] = useState<object>({})
   const [recentBuyers, setRecentBuyers] = useState(7)
   const [currentStep, setCurrentStep] = useState(1)
+  const [showAnalysisBar, setShowAnalysisBar] = useState(true)
   const contentRef = useRef<HTMLDivElement>(null)
   const startTimeRef = useRef(Date.now())
 
@@ -66,14 +67,15 @@ export default function ResultPageExplosive() {
     }
   }, [])
 
-  // ===== PROGRESSÃO AUTOMÁTICA DE STEPS (6 SEGUNDOS CADA) =====
+  // ===== PROGRESSÃO AUTOMÁTICA DE STEPS COM TIMING ESTRATÉGICO =====
   useEffect(() => {
+    // Timing sincronizado - técnica libera imediatamente após barra
     const timers = [
-      setTimeout(() => setCurrentStep(2), 6000),   // 6s
-      setTimeout(() => setCurrentStep(3), 12000),  // +6s
-      setTimeout(() => setCurrentStep(4), 18000),  // +6s
-      setTimeout(() => setCurrentStep(5), 24000),  // +6s
-      setTimeout(() => setCurrentStep(6), 30000),  // +6s
+      // currentStep 2 é acionado quando barra completa (via onAnimationComplete)
+      // Aqui começamos com step 3 em diante
+      setTimeout(() => setCurrentStep(4), 18000),  // +8s após técnica aparecer (total 18s)
+      setTimeout(() => setCurrentStep(5), 28000),  // +10s (total 28s)
+      setTimeout(() => setCurrentStep(6), 40000),  // +12s (total 40s)
     ]
 
     return () => timers.forEach(clearTimeout)
@@ -170,8 +172,14 @@ export default function ResultPageExplosive() {
     }
   }
 
+  // ===== FUNÇÃO PARA LIBERAR TÉCNICA QUANDO BARRA COMPLETA =====
+  const handleBarComplete = () => {
+    setShowAnalysisBar(false)
+    setCurrentStep(3) // Técnica aparece IMEDIATAMENTE!
+  }
+
   return (
-    <>
+    &lt;>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
@@ -256,110 +264,131 @@ export default function ResultPageExplosive() {
               </div>
             </div>
 
-            {/* BARRA DE PROGRESSO CON COPY CONVERSIVO */}
+            {/* ✅ BARRA DE PROGRESSO MOVIDA PARA BAIXO DO VÍDEO - LIBERA IMEDIATAMENTE */}
             <AnimatePresence>
-              {currentStep < 3 && (
-                <div className="text-center mb-8 max-w-md mx-auto">
+              {showAnalysisBar && currentStep &lt; 3 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="text-center mb-8 max-w-md mx-auto"
+                >
                   <div className="text-gray-300 mobile-small-text mb-3 break-words font-semibold">
                     ⏳ ANALIZANDO TU CASO Y DESBLOQUEANDO TU PLAN PERSONALIZADO...
                   </div>
+                  
+                  {/* BARRA COM DELAY DE 10 SEGUNDOS */}
                   <div className="w-full bg-gray-700 rounded-full h-3 max-w-md mx-auto overflow-hidden border border-orange-500">
                     <motion.div
                       className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full"
                       animate={{ width: ["0%", "100%"] }}
-                      transition={{ duration: 6, ease: "linear" }}
+                      transition={{ duration: 10, ease: "linear" }}
+                      onAnimationComplete={handleBarComplete}
                     />
                   </div>
+                  
                   <p className="text-gray-400 mobile-small-text mt-3 break-words italic">
                     Esto garantiza que recibas exactamente lo que necesitas para tu situación...
                   </p>
-                </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
 
-        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO ===== */}
-        <div className="mobile-padding w-full">
-          <div className="max-w-4xl mx-auto w-full">
-            
-            <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
-              ✅ LA <span className="text-green-400">TÉCNICA EXACTA</span> PARA TU CASO ESPECÍFICO
-            </h2>
-            <p className="text-center text-gray-300 mobile-description mb-6 break-words">
-              Basándome en tus 8 respuestas, esta es la estrategia que tiene 89% de éxito en casos como el tuyo:
-            </p>
+        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO (APARECE IMEDIATAMENTE APÓS BARRA) ===== */}
+        <AnimatePresence>
+          {currentStep >= 3 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="mobile-padding w-full"
+            >
+              <div className="max-w-4xl mx-auto w-full">
+                
+                <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
+                  ✅ LA <span className="text-green-400">TÉCNICA EXACTA</span> PARA TU CASO ESPECÍFICO
+                </h2>
+                <p className="text-center text-gray-300 mobile-description mb-6 break-words">
+                  Basándome en tus 8 respuestas, esta es la estrategia que tiene 89% de éxito en casos como el tuyo:
+                </p>
 
-            <div className="space-y-6 mb-8">
-              
-              {/* STEP 1 - Siempre Visible */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-xl p-6 border-l-4 border-blue-400"
-              >
-                <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
-                  DÍAS 8-10: TÉCNICA DE "RECONEXIÓN EMOCIONAL"
-                </h3>
-                <div className="text-white mobile-info-text space-y-2">
-                  <p>→ <strong>Mensaje exacto específico para tu situación:</strong></p>
-                  <div className="bg-black/30 p-3 rounded-lg italic text-green-300 break-words">
-                    "{userGender === 'MASCULINO' ? 
-                      `"Hey [nombre], encontré una foto nuestra de [memoria específica]. Me hizo sonreír. Espero que estés bien."` :
-                      `"Hola [nombre], vi algo que me recordó a [memoria específica]. Me alegró el día. Espero que tengas una buena semana."`
-                    }"
-                  </div>
-                  <p>→ <strong>Timing perfecto:</strong> Enviar martes o miércoles a las 7:30 PM</p>
-                  <p>→ <strong>Qué esperar:</strong> 73% de respuesta positiva en casos similares</p>
+                <div className="space-y-6 mb-8">
+                  
+                  {/* STEP 1 - Siempre Visible */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-xl p-6 border-l-4 border-blue-400"
+                  >
+                    <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
+                      DÍAS 8-10: TÉCNICA DE "RECONEXIÓN EMOCIONAL"
+                    </h3>
+                    <div className="text-white mobile-info-text space-y-2">
+                      <p>→ <strong>Mensaje exacto específico para tu situación:</strong></p>
+                      <div className="bg-black/30 p-3 rounded-lg italic text-green-300 break-words">
+                        "{userGender === 'MASCULINO' ? 
+                          `"Hey [nombre], encontré una foto nuestra de [memoria específica]. Me hizo sonreír. Espero que estés bien."` :
+                          `"Hola [nombre], vi algo que me recordó a [memoria específica]. Me alegró el día. Espero que tengas una buena semana."`
+                        }"
+                      </div>
+                      <p>→ <strong>Timing perfecto:</strong> Enviar martes o miércoles a las 7:30 PM</p>
+                      <p>→ <strong>Qué esperar:</strong> 73% de respuesta positiva en casos similares</p>
+                    </div>
+                  </motion.div>
+
+                  {/* STEP 2 - Aparece após currentStep >= 3 */}
+                  <AnimatePresence>
+                    {currentStep >= 3 && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
+                      >
+                        <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
+                          DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
+                        </h3>
+                        <div className="text-white mobile-info-text space-y-2">
+                          <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
+                          <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
+                          <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
+                          <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* STEP 3 - Aparece após currentStep >= 4 */}
+                  <AnimatePresence>
+                    {currentStep >= 4 && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
+                      >
+                        <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
+                          DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
+                        </h3>
+                        <div className="text-white mobile-info-text space-y-2">
+                          <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
+                          <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
+                          <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
+                          <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-              {/* STEP 2 - Aparece após 6s */}
-              <AnimatePresence>
-                {currentStep >= 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
-                  >
-                    <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
-                      DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
-                    </h3>
-                    <div className="text-white mobile-info-text space-y-2">
-                      <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
-                      <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
-                      <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
-                      <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* STEP 3 - Aparece após 12s */}
-              <AnimatePresence>
-                {currentStep >= 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
-                  >
-                    <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
-                      DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
-                    </h3>
-                    <div className="text-white mobile-info-text space-y-2">
-                      <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
-                      <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
-                      <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
-                      <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        {/* ===== SECIÓN 3: OFERTA IRRESISTÍVEL (MOVIDA PARA CIMA) ===== */}
+        {/* ===== SECIÓN 3: OFERTA IRRESISTÍVEL (APARECE APÓS TÉCNICA) ===== */}
         <AnimatePresence>
           {currentStep >= 3 && (
             <motion.div
@@ -439,7 +468,7 @@ export default function ResultPageExplosive() {
                         <Heart className="mobile-icon-size mr-2 flex-shrink-0" />
                         <div className="text-center break-words">
                           <div className="mobile-cta-offer-text leading-tight font-black">
-                            💔 SÍ, QUIERO DEJAR DE SUFRIR Y RECUPERAR{getOtherPronoun().toUpperCase()}
+                            💔 SÍ, QUIERO DEJAR DE SUFRIR Y RECUPERAR {getOtherPronoun().toUpperCase()}
                           </div>
                           <div className="mobile-small-text mt-1 opacity-90">
                             Plan específico para: {getPersonalizedSituation()}
@@ -495,7 +524,12 @@ export default function ResultPageExplosive() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   
                   {/* CARD 1 - Miguel D. */}
-                  <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-gray-800 rounded-xl p-6 border border-gray-700"
+                  >
                     <div className="flex items-start space-x-4">
                       <img 
                         src="https://i.ibb.co/cK6m4D9g/Generatedimage-1764386997197.png" 
@@ -518,10 +552,15 @@ export default function ResultPageExplosive() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* CARD 2 - Gustavo R. */}
-                  <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-gray-800 rounded-xl p-6 border border-gray-700"
+                  >
                     <div className="flex items-start space-x-4">
                       <img 
                         src="https://i.ibb.co/gZDzThc8/Generatedimage-1764386812007.png" 
@@ -544,7 +583,7 @@ export default function ResultPageExplosive() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                 </div>
 
@@ -590,7 +629,12 @@ export default function ResultPageExplosive() {
                 <div className="space-y-6 mb-8">
                   
                   {/* Objeção 1 */}
-                  <div className="bg-gray-800 rounded-xl p-6 border-l-4 border-yellow-400">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-gray-800 rounded-xl p-6 border-l-4 border-yellow-400"
+                  >
                     <h3 className="text-yellow-400 font-bold mobile-subsection-title mb-3 break-words">
                       💭 "¿Y si {getPronoun()} ya me olvidó completamente?"
                     </h3>
@@ -598,10 +642,15 @@ export default function ResultPageExplosive() {
                       <strong>REALIDAD:</strong> Imposible. El 91% de mujeres siguen pensando en su ex los primeros 6 meses. 
                       Tu caso específico: <strong>{getPersonalizedTimeframe()}</strong> = alta probabilidad de que tengas recuerdos activos en su mente.
                     </p>
-                  </div>
+                  </motion.div>
 
                   {/* Objeção 2 */}
-                  <div className="bg-gray-800 rounded-xl p-6 border-l-4 border-blue-400">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-gray-800 rounded-xl p-6 border-l-4 border-blue-400"
+                  >
                     <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
                       💔 "¿Y si {getPronoun()} está con {getOtherWord()} persona y es feliz?"
                     </h3>
@@ -609,10 +658,15 @@ export default function ResultPageExplosive() {
                       <strong>ESTADÍSTICA:</strong> El 67% de relaciones rebote duran menos de 3 meses. Además, tengo técnicas específicas 
                       para casos con terceras personas (como viste en el testimonio de Gustavo).
                     </p>
-                  </div>
+                  </motion.div>
 
                   {/* Objeção 3 */}
-                  <div className="bg-gray-800 rounded-xl p-6 border-l-4 border-green-400">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="bg-gray-800 rounded-xl p-6 border-l-4 border-green-400"
+                  >
                     <h3 className="text-green-400 font-bold mobile-subsection-title mb-3 break-words">
                       😰 "¿Y si aplico el método y empeoro las cosas?"
                     </h3>
@@ -620,7 +674,7 @@ export default function ResultPageExplosive() {
                       <strong>GARANTÍA:</strong> Por eso existe la garantía de 30 días. Si el Plan A no funciona, 
                       te devuelvo el dinero + te doy una consulta personal gratuita.
                     </p>
-                  </div>
+                  </motion.div>
 
                 </div>
               </div>
@@ -690,7 +744,12 @@ export default function ResultPageExplosive() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   
                   {/* Opción 1 */}
-                  <div className="bg-red-900/30 rounded-xl p-6 border-2 border-red-500/50">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="bg-red-900/30 rounded-xl p-6 border-2 border-red-500/50"
+                  >
                     <h3 className="text-red-400 font-bold mobile-subsection-title mb-4 break-words">
                       ❌ OPCIÓN 1: Seguir Como Hasta Ahora
                     </h3>
@@ -701,10 +760,15 @@ export default function ResultPageExplosive() {
                       <p className="break-words">→ El dolor y arrepentimiento aumentan</p>
                       <p className="break-words">→ En 6 meses será demasiado tarde</p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Opción 2 */}
-                  <div className="bg-green-900/30 rounded-xl p-6 border-2 border-green-500/50">
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-green-900/30 rounded-xl p-6 border-2 border-green-500/50"
+                  >
                     <h3 className="text-green-400 font-bold mobile-subsection-title mb-4 break-words">
                       ✅ OPCIÓN 2: Aplicar el Plan A
                     </h3>
@@ -715,12 +779,12 @@ export default function ResultPageExplosive() {
                       <p className="break-words">→ Garantía incondicional de 30 días</p>
                       <p className="break-words">→ Soporte directo conmigo</p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 <div className="text-center bg-yellow-900/30 rounded-lg p-4 border border-yellow-500/50">
                   <p className="text-yellow-300 font-bold mobile-description break-words">
-                    La pregunta no es si puedes recuperar{getOtherPronoun()}. Es si VAS a hacerlo.
+                    La pregunta no es si puedes recuperar {getOtherPronoun()}. Es si VAS a hacerlo.
                   </p>
                 </div>
 
