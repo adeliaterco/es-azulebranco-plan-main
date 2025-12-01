@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { PersonalizedTechnique } from "@/components/personalized-technique"
+import { usePersonalizedTechnique, usePersonalized7DayPlan, usePersonalizedTestimonial } from "@/hooks/use-personalized-content"
 import { quizSteps, socialProofMessages, getPersonalizedContent } from "@/lib/quiz-data"
 import { BonusUnlock } from "@/components/bonus-unlock"
 import { ValueCounter } from "@/components/value-counter"
@@ -55,8 +56,12 @@ export default function QuizStep() {
   const [peopleCount, setPeopleCount] = useState(17)
   const [userGender, setUserGender] = useState<string>("")
 
+  // ✅ HOOKS PERSONALIZADOS PARA ETAPAS 12 E 13
+  const { technique } = usePersonalizedTechnique()
+  const { plan } = usePersonalized7DayPlan()
+  const { testimonial } = usePersonalizedTestimonial()
+
   const currentStep = quizSteps[step - 1]
-  // ✅ CORRIGIDO: (step / 13) em vez de (step / 12)
   const progress = (step / 13) * 100
 
   useEffect(() => {
@@ -75,18 +80,15 @@ export default function QuizStep() {
       window.quizAnswers = JSON.parse(savedAnswers)
     }
 
-    // Retraso de animación
     setTimeout(() => {
       setIsLoaded(true)
     }, 300)
 
-    // Registra visualización de la etapa del cuestionario
     enviarEvento('visualizou_etapa_quiz', {
       numero_etapa: step,
       pergunta: currentStep?.question || `Etapa ${step}`
     });
 
-    // Avance automático para el paso de experto
     if (currentStep?.autoAdvance) {
       const timer = setTimeout(() => {
         proceedToNextStep()
@@ -95,7 +97,6 @@ export default function QuizStep() {
       return () => clearTimeout(timer)
     }
 
-    // Simular contador de personas
     const interval = setInterval(() => {
       setPeopleCount((prev) => prev + Math.floor(Math.random() * 3))
     }, 45000)
@@ -106,20 +107,17 @@ export default function QuizStep() {
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswer(answer)
 
-    // Registra evento de respuesta seleccionada
     enviarEvento('selecionou_resposta', {
       numero_etapa: step,
       pergunta: currentStep?.question || `Etapa ${step}`,
       resposta: answer
     });
 
-    // Guardar selección de género en el primer paso
     if (step === 1) {
       setUserGender(answer)
       localStorage.setItem("userGender", answer)
     }
 
-    // Retroalimentación visual inmediata
     const button = document.querySelector(`button[data-option="${answer}"]`)
     if (button) {
       button.classList.add("scale-105")
@@ -128,25 +126,21 @@ export default function QuizStep() {
   }
 
   const handleNext = () => {
-    // Registra evento de avance a la siguiente etapa
     enviarEvento('avancou_etapa', {
       numero_etapa: step,
       pergunta: currentStep?.question || `Etapa ${step}`,
       resposta_selecionada: selectedAnswer
     });
 
-    // Guardar respuesta
     const newQuizData = { ...quizData, [step]: selectedAnswer }
     setQuizData(newQuizData)
     localStorage.setItem("quizData", JSON.stringify(newQuizData))
 
-    // Guardar en quizAnswers también
     const answers = window.quizAnswers || {}
     answers[`question${step}`] = selectedAnswer
     window.quizAnswers = answers
     localStorage.setItem("quizAnswers", JSON.stringify(answers))
 
-    // Mostrar análisis para ciertos pasos
     if (currentStep?.elements?.analysisText || currentStep?.elements?.profileAnalysis) {
       setShowAnalysis(true)
       setTimeout(() => {
@@ -160,11 +154,9 @@ export default function QuizStep() {
   }
 
   const proceedToNextStep = () => {
-    // Capturar UTMs da URL atual
     const currentUrl = new URL(window.location.href);
     let utmString = '';
     
-    // Verificar se há parâmetros UTM na URL atual
     const utmParams = new URLSearchParams();
     for (const [key, value] of currentUrl.searchParams.entries()) {
       if (key.startsWith('utm_')) {
@@ -172,14 +164,11 @@ export default function QuizStep() {
       }
     }
     
-    // Se encontramos UTMs, criar a string de query
     if (utmParams.toString() !== '') {
       utmString = '?' + utmParams.toString();
     }
 
-    // Verificar desbloqueo de bonificación
     if (currentStep?.bonusUnlock && !unlockedBonuses.includes(currentStep.bonusUnlock.id)) {
-      // Registra evento de desbloqueo de bonificación
       enviarEvento('desbloqueou_bonus', {
         numero_etapa: step,
         bonus_id: currentStep.bonusUnlock.id,
@@ -192,7 +181,6 @@ export default function QuizStep() {
       setUnlockedBonuses(newUnlockedBonuses)
       setTotalValue(newTotalValue)
 
-      // ✅ CORRIGIDO: Personalização mais segura do bonus
       const personalizedBonus = {
         ...currentStep.bonusUnlock,
         title: currentStep.bonusUnlock?.title || 'Bonus desbloqueado',
@@ -207,8 +195,7 @@ export default function QuizStep() {
       return
     }
 
-    // ✅ CORRIGIDO: step < 13 em vez de step < 12
-    if (step < 13) {
+    if (step &lt; 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       enviarEvento('concluiu_quiz', {
@@ -223,11 +210,9 @@ export default function QuizStep() {
   const handleBonusUnlockComplete = () => {
     setShowBonusUnlock(false)
     
-    // Capturar UTMs da URL atual
     const currentUrl = new URL(window.location.href);
     let utmString = '';
     
-    // Verificar se há parâmetros UTM na URL atual
     const utmParams = new URLSearchParams();
     for (const [key, value] of currentUrl.searchParams.entries()) {
       if (key.startsWith('utm_')) {
@@ -235,13 +220,11 @@ export default function QuizStep() {
       }
     }
     
-    // Se encontramos UTMs, criar a string de query
     if (utmParams.toString() !== '') {
       utmString = '?' + utmParams.toString();
     }
     
-    // ✅ CORRIGIDO: step < 13 em vez de step < 12
-    if (step < 13) {
+    if (step &lt; 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       router.push(`/resultado${utmString}`)
@@ -249,17 +232,14 @@ export default function QuizStep() {
   }
 
   const handleBack = () => {
-    // Registra evento de retorno a la etapa anterior
     enviarEvento('retornou_etapa', {
       de_etapa: step,
       para_etapa: step > 1 ? step - 1 : 'inicio'
     });
     
-    // Capturar UTMs da URL atual
     const currentUrl = new URL(window.location.href);
     let utmString = '';
     
-    // Verificar se há parâmetros UTM na URL atual
     const utmParams = new URLSearchParams();
     for (const [key, value] of currentUrl.searchParams.entries()) {
       if (key.startsWith('utm_')) {
@@ -267,7 +247,6 @@ export default function QuizStep() {
       }
     }
     
-    // Se encontramos UTMs, criar a string de query
     if (utmParams.toString() !== '') {
       utmString = '?' + utmParams.toString();
     }
@@ -281,15 +260,15 @@ export default function QuizStep() {
 
   const getStepIcon = (stepNumber: number, index: number) => {
     const iconMaps = {
-      1: [User, Users], // Género
-      2: [Calendar, TrendingUp, Target, Zap], // Edad
-      3: [Clock, Calendar, MessageCircle, Heart], // Tiempo separados
-      4: [Heart, MessageCircle, Users], // Cómo fue la separación
-      5: [Calendar, Heart, TrendingUp, Clock], // Tiempo juntos
-      6: [Smile, Heart, MessageCircle, TrendingUp, Target, Zap], // Parte dolorosa
-      7: [MessageCircle, Heart, Users, TrendingUp, Smile, Users, Heart], // Situación actual
-      8: [MessageCircle, Heart, Users, TrendingUp, Smile], // Ella está con otra persona
-      9: [Heart, TrendingUp, Target, Zap], // Nivel de compromiso
+      1: [User, Users],
+      2: [Calendar, TrendingUp, Target, Zap],
+      3: [Clock, Calendar, MessageCircle, Heart],
+      4: [Heart, MessageCircle, Users],
+      5: [Calendar, Heart, TrendingUp, Clock],
+      6: [Smile, Heart, MessageCircle, TrendingUp, Target, Zap],
+      7: [MessageCircle, Heart, Users, TrendingUp, Smile, Users, Heart],
+      8: [MessageCircle, Heart, Users, TrendingUp, Smile],
+      9: [Heart, TrendingUp, Target, Zap],
     }
 
     const icons = iconMaps[stepNumber] || [Heart]
@@ -297,7 +276,6 @@ export default function QuizStep() {
     return <Icon className="w-6 h-6" />
   }
 
-  // Obtener contenido personalizado basado en el género
   const getPersonalizedQuestion = () => {
     return getPersonalizedContent(currentStep.question, userGender)
   }
@@ -358,7 +336,6 @@ export default function QuizStep() {
             </Button>
 
             <div className="flex items-center gap-4">
-              {/* {totalValue > 0 && <ValueCounter value={totalValue} />} */}
               {currentStep?.elements?.timer && (
                 <div className="flex items-center gap-2 text-white text-sm bg-white/10 px-3 py-1 rounded-full">
                   <Clock className="w-4 h-4" />
@@ -627,7 +604,7 @@ export default function QuizStep() {
               )}
 
               {!currentStep?.autoAdvance && (
-                <>
+                &lt;>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
                     {getPersonalizedQuestion()}
                   </h2>
@@ -639,50 +616,27 @@ export default function QuizStep() {
                   )}
 
                   {/* ✅ RENDERIZACIÓN OPTIMIZADA PARA MOBILE - ETAPAS 12 Y 13 */}
-                  {(step === 12 || step === 13) && (
+                  {step === 12 && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
                       className="mb-8"
                     >
-                      <PersonalizedTechnique
-                        content={
-                          step === 12
-                            ? (() => {
-                                try {
-                                  return window.getPersonalizedTechnique?.() || "";
-                                } catch (e) {
-                                  console.error("Erro ao renderizar técnica:", e);
-                                  return "";
-                                }
-                              })()
-                            : undefined
-                        }
-                        plan={
-                          step === 13
-                            ? (() => {
-                                try {
-                                  return window.getPersonalized7DayPlan?.() || "";
-                                } catch (e) {
-                                  console.error("Erro ao renderizar plano:", e);
-                                  return "";
-                                }
-                              })()
-                            : undefined
-                        }
-                        testimonial={
-                          step === 13
-                            ? (() => {
-                                try {
-                                  return window.getPersonalizedTestimonial?.() || undefined;
-                                } catch (e) {
-                                  console.error("Erro ao renderizar depoimento:", e);
-                                  return undefined;
-                                }
-                              })()
-                            : undefined
-                        }
+                      <PersonalizedTechnique content={technique || undefined} />
+                    </motion.div>
+                  )}
+
+                  {step === 13 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="mb-8"
+                    >
+                      <PersonalizedTechnique 
+                        plan={plan || undefined}
+                        testimonial={testimonial || undefined}
                       />
                     </motion.div>
                   )}
