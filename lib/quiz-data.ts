@@ -254,8 +254,7 @@ export const quizSteps = [
             timer: "Análisis en progreso...",
             analysisIcon: true,
             badge: "ANÁLISIS PSICOLÓGICO",
-        },
-        note: "El 89% de las personas ignoran estos patrones psicológicos... por eso fallan."
+        }
     },
 
     {
@@ -508,22 +507,10 @@ ${getPersonalizedTechnique()}`,
         question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO",
         description: () => `Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.
 
-${getPersonalized7DayPlan()}
-
----
-
-**💬 TESTIMONIAL DE ALGUIEN EN TU SITUACIÓN EXACTA:**
-
-${(() => {
-    const testimonial = getPersonalizedTestimonial();
-    return `"${testimonial.text}"
-    
-- ${testimonial.name}`;
-})()}`,
-        subtext: "Plan personalizado completo + técnica específica + depoimento de éxito en tu situación",
+${getPersonalized7DayPlan()}`,
+        subtext: "Plan personalizado completo + técnica específica",
         options: ["¡QUIERO ACCEDER AL PLAN A COMPLETO!"],
         note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
-        guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
         elements: {
             planAReveal: true,
             profileComplete: "100%",
@@ -542,8 +529,7 @@ ${(() => {
                 "✅ Scripts exactos para cada situación posible", 
                 "✅ Técnicas avanzadas de psicología de reconquista",
                 "✅ Plan B de emergencia si algo sale mal",
-                "✅ Soporte personalizado durante todo el proceso",
-                "✅ Garantía de 30 días o devuelvo tu dinero al 100%"
+                "✅ Soporte personalizado durante todo el proceso"
             ],
             urgency: "Solo 23 spots disponibles hoy para acceso completo",
             socialProof: "3,847 personas han usado el Plan A con éxito"
@@ -552,9 +538,6 @@ ${(() => {
 ]
 
 // === RESTO DO CÓDIGO MANTÉM IGUAL ===
-
-// REMOVIDO: export const bonuses array - não é mais necessário
-// Os bonuses foram removidos completamente
 
 export const testimonials = [
     {
@@ -585,9 +568,7 @@ export const socialProofMessages = [
     "El 87% de personas en tu situación lograron resultados en menos de 14 días",
     "Estás más comprometido que el 73% que hizo esta prueba",
     "Solo 23 spots disponibles hoy para este método",
-    "3,847 personas recuperaron sus relaciones este año",
-    "Garantía 30 días o devuelvo tu dinero al 100%",
-    "Acceso inmediato después del pago",
+    "3,847 personas recuperaron sus relaciones este año"
 ]
 
 // Função utilitaria para personalizar textos basados no gênero
