@@ -494,15 +494,9 @@ export const quizSteps = [
   {
     id: 12,
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
-    description: () => `Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista:
-
-${getPersonalizedFirstInsight()}
-
-Y tu técnica específica para solucionarlo:
-
-${getPersonalizedTechnique()}`,
-    subtext: "Tu diagnóstico + técnica específica basados en tus respuestas exactas",
-    options: ["VER MI PLAN COMPLETO DE 21 DÍAS"],
+    description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista + tu técnica específica.",
+    subtext: "Ver diagnóstico y primera técnica personalizados para tu caso exacto",
+    options: ["VER MI TÉCNICA PERSONALIZADA"],
     elements: {
       expertPhoto: true,
       expertImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/09/Generated-Image-September-07_-2025-12_00AM-_1_-e1757389439336.webp",
@@ -517,23 +511,10 @@ ${getPersonalizedTechnique()}`,
   
   {
     id: 13,
-    question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO",
-    description: () => `Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.
-
-${getPersonalized7DayPlan()}
-
----
-
-**💬 TESTIMONIAL DE ALGUIEN EN TU SITUACIÓN EXACTA:**
-
-${(() => {
-  const testimonial = getPersonalizedTestimonial();
-  return `"${testimonial.text}"
-  
-- ${testimonial.name}`;
-})()}`,
-    subtext: "Plan personalizado completo + técnica específica + depoimento de éxito en tu situación",
-    options: ["¡QUIERO ACCEDER AL PLAN A COMPLETO!"],
+    question: "PRESENTANDO: EL PLAN A COMPLETO",
+    description: "Basándome en 7 años ayudando a más de 12,000 personas como tú, he desarrollado el PLAN A: el método más efectivo de reconquista personalizada.",
+    subtext: "Ver plan personalizado de 7 días específico para tu caso + acceder al Plan A completo",
+    options: ["QUIERO ACCEDER AL PLAN A COMPLETO"],
     note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
     guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
     elements: {
@@ -632,12 +613,4 @@ export function getPersonalizedContent(content, gender) {
   }
 
   return content
-}
-
-// Expor funções globalmente para o quiz-step (se necessário)
-if (typeof window !== 'undefined') {
-  window.getPersonalizedFirstInsight = getPersonalizedFirstInsight;
-  window.getPersonalizedTechnique = getPersonalizedTechnique;
-  window.getPersonalized7DayPlan = getPersonalized7DayPlan;
-  window.getPersonalizedTestimonial = getPersonalizedTestimonial;
 }
