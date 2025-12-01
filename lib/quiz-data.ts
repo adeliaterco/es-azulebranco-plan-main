@@ -175,9 +175,7 @@ function getPersonalizedTestimonial() {
     return {
       name: "Miguel R., 29 años",
       text: "Estaba en contacto cero hace 2 meses. Apliqué la técnica exacta y a los 4 días me escribió preguntando cómo estaba. ¡Ahora vivimos juntos otra vez!",
-      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png",
-      duration: timeApart,
-      result: "Reconciliación en 11 días"
+      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png"
     };
   }
   
@@ -185,9 +183,7 @@ function getPersonalizedTestimonial() {
     return {
       name: "Roberto S., 35 años", 
       text: "Me ignoraba completamente. Seguí el protocolo al pie de la letra y en 72h me llamó curiosa por mi mensaje. ¡Todo cambió!",
-      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png",
-      duration: timeApart,
-      result: "Reconciliación en 8 días"
+      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png"
     };
   }
   
@@ -195,18 +191,14 @@ function getPersonalizedTestimonial() {
     return {
       name: "Daniel M., 31 años",
       text: "Estaba bloqueado en todo. Usé el método indirecto y en una semana me desbloqueó y me propuso que habláramos. ¡Increíble!",
-      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png",
-      duration: timeApart,
-      result: "Reconciliación en 14 días"
+      image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png"
     };
   }
   
   return {
     name: "Fernando L., 28 años",
     text: "Mi situación parecía imposible. El plan personalizado me guió paso a paso y en 3 semanas estábamos de vuelta. ¡Gracias!",
-    image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png",
-    duration: timeApart,
-    result: "Reconciliación en 21 días"
+    image: "https://comprarplanseguro.shop/wp-content/uploads/2025/08/Captura-de-Tela-2025-08-08-as-19.01.05.png"
   };
 }
 
@@ -247,7 +239,7 @@ Los próximos 14 pasos incluyen:
 → Plan B de emergencia si algo sale mal`;
 }
 
-// === QUIZ STEPS COMPLETO OTIMIZADO ===
+// === QUIZ STEPS COMPLETO SEGURO ===
 
 export const quizSteps = [
   {
@@ -262,7 +254,6 @@ export const quizSteps = [
       timer: "Análisis en progreso...",
       analysisIcon: true,
       badge: "ANÁLISIS PSICOLÓGICO",
-      heartbeat: true,
     },
     note: "El 89% de las personas ignoran estos patrones psicológicos... por eso fallan."
   },
@@ -282,7 +273,6 @@ export const quizSteps = [
       profileBuilding: true,
       counter: "personas analizadas hoy",
       profileComplete: "15%",
-      ageIcons: true,
     },
     note: "Cada grupo de edad responde a diferentes disparadores emocionales."
   },
@@ -300,14 +290,13 @@ export const quizSteps = [
     ],
     bonusUnlock: {
       id: 1,
-      title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
+      title: "21 DISPARADORES EMOCIONALES",
       value: 47,
-      description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
+      description: "Las 21 frases exactas que funcionan",
     },
     elements: {
       probabilityCalculator: true,
       profileComplete: "35%",
-      timelineVisual: true,
     },
     note: "REVELACIÓN: El 73% de las reconquistas exitosas ocurren aplicando la técnica correcta en el momento exacto."
   },
@@ -352,7 +341,6 @@ export const quizSteps = [
     elements: {
       intensityMeter: true,
       profileComplete: "65%",
-      bondAnalysis: true,
     },
     note: "INSIGHT: Relaciones más largas requieren técnicas de 'reactivación de memoria'. Más cortas necesitan 'intensificación de deseo'."
   },
@@ -383,7 +371,6 @@ export const quizSteps = [
     elements: {
       healingProtocol: true,
       profileComplete: "75%",
-      protocolPreview: true,
     },
     note: "CRUCIAL: Sin sanar tu herida principal, cualquier intento de reconquista fracasará."
   },
@@ -416,7 +403,6 @@ export const quizSteps = [
     elements: {
       strategyMapping: true,
       profileComplete: "85%",
-      situationAnalysis: true,
     },
     note: "REVELACIÓN: Cada situación tiene una estrategia específica con 87% de efectividad."
   },
@@ -446,12 +432,11 @@ export const quizSteps = [
       id: 2,
       title: "PROTOCOLO ANTI-COMPETENCIA",
       value: 37,
-      description: "Cómo destacar cuando hay terceras personas involucradas.",
+      description: "Como destacar con competencia",
     },
     elements: {
       competitionAnalysis: true,
       profileComplete: "90%",
-      urgencyMeter: true,
     },
     note: "DATO CLAVE: El 67% de reconquistas exitosas ocurrieron INCLUSO con competencia presente."
   },
@@ -471,7 +456,6 @@ export const quizSteps = [
     elements: {
       commitmentThermometer: true,
       profileComplete: "95%",
-      successPredictor: true,
     },
     subtext2: "Tu nivel determinará la intensidad y efectividad de tu estrategia personalizada."
   },
@@ -485,7 +469,7 @@ export const quizSteps = [
     elements: {
       expertPhoto: true,
       expertImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/09/Generated-Image-September-07_-2025-12_00AM-_1_-e1757389439336.webp",
-      autoMessage: "Procesando 9 variables críticas de tu caso... basándome en 7 años de experiencia y 12,000 casos exitosos...",
+      autoMessage: "Procesando 9 variables críticas de tu caso...",
       profileComplete: "100%",
       diagnosticGeneration: true,
     },
@@ -494,14 +478,12 @@ export const quizSteps = [
 
   {
     id: 11,
-    question: "MIENTRAS ANALIZO TU CASO, DESCUBRE LA CIENCIA QUE RESPALDA ESTE MÉTODO",
+    question: "MIENTRAS ANALIZO TU CASO, DESCUBRE LA CIENCIA DETRAS DE ESTE METODO",
     description: "Una investigación reciente revela por qué el PLAN A funciona a nivel neurológico y psicológico.",
     subtext: "Estudios recientes confirman que las técnicas que usaremos son avaladas por ciencia:",
     options: ["CONTINUAR PARA VER MIS RESULTADOS"],
     elements: {
       scientificEvidence: true,
-      reportageImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/imagem3-nova.webp",
-      curiousImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/10/estudos-imagem-2.webp",
       profileComplete: "97%",
     },
     note: "La ciencia respalda nuestras técnicas. Por eso funcionan."
@@ -511,7 +493,7 @@ export const quizSteps = [
     id: 12,
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
     description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista.",
-    subtext: () => getPersonalizedFirstInsight(),
+    subtext: "Ver diagnóstico específico basado en tu situación actual",
     options: ["VER MI ERROR PRINCIPAL"],
     elements: {
       expertPhoto: true,
@@ -519,7 +501,9 @@ export const quizSteps = [
       personalizedInsight: true,
       profileComplete: "100%",
       badge: "DIAGNÓSTICO COMPLETO",
-      analysisIcon: true,
+    },
+    personalizedContent: {
+      insight: getPersonalizedFirstInsight()
     },
     note: "Este diagnóstico se basa en el cruce de todas las variables de tu caso específico."
   },
@@ -528,7 +512,7 @@ export const quizSteps = [
     id: 13,
     question: "TU PRIMERA ESTRATEGIA PERSONALIZADA",
     description: "He diseñado una técnica específica para TU situación exacta. Esta técnica tiene 89% de efectividad en casos como el tuyo.",
-    subtext: () => getPersonalizedTechnique(),
+    subtext: "Ver técnica específica diseñada para tu caso",
     options: ["QUIERO VER EL MÉTODO COMPLETO"],
     elements: {
       personalizedTechnique: true,
@@ -538,6 +522,9 @@ export const quizSteps = [
       timer: "Aplicar en las próximas 48-72h",
       successRate: "89% de efectividad"
     },
+    personalizedContent: {
+      technique: getPersonalizedTechnique()
+    },
     note: "Esta es SOLO la primera técnica. El método completo incluye 21 estrategias más."
   },
   
@@ -545,31 +532,29 @@ export const quizSteps = [
     id: 14,
     question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO",
     description: "Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.",
-    subtext: () => getPersonalized7DayPlan(),
+    subtext: "Ver plan personalizado de 7 días específico para tu caso",
     options: ["¡QUIERO VER MI PLAN AHORA!"],
     note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
-    guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
+    guarantee: "Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
     elements: {
       planAReveal: true,
       profileComplete: "100%",
-      planPreview: true,
-      continuationTease: true,
-      planLayout: true,
-      checklist: true,
       badge: "PLAN A - MÉTODO COMPLETO",
-      methodIntro: true,
+    },
+    personalizedContent: {
+      plan: getPersonalized7DayPlan(),
+      testimonial: getPersonalizedTestimonial()
     },
     finalReveal: {
       title: "EL PLAN A INCLUYE:",
       features: [
-        "✅ 21 días de estrategias específicas para tu caso",
-        "✅ Scripts exactos para cada situación posible", 
-        "✅ Técnicas avanzadas de psicología de reconquista",
-        "✅ Plan B de emergencia si algo sale mal",
-        "✅ Soporte personalizado durante todo el proceso",
-        "✅ Garantía de 30 días o devuelvo tu dinero al 100%"
+        "21 días de estrategias específicas para tu caso",
+        "Scripts exactos para cada situación posible", 
+        "Técnicas avanzadas de psicología de reconquista",
+        "Plan B de emergencia si algo sale mal",
+        "Soporte personalizado durante todo el proceso",
+        "Garantía de 30 días o devuelvo tu dinero"
       ],
-      testimonial: () => getPersonalizedTestimonial(),
       urgency: "Solo 23 spots disponibles hoy para acceso completo",
       socialProof: "3,847 personas han usado el Plan A con éxito"
     }
@@ -581,17 +566,17 @@ export const quizSteps = [
 export const bonuses = [
   {
     id: 1,
-    title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
+    title: "21 DISPARADORES EMOCIONALES",
     value: 47,
-    description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
-    details: ["✓ 7 Gatillos de Nostalgia", "✓ 7 Gatillos de Curiosidad", "✓ 7 Gatillos de Deseo"],
+    description: "Las 21 frases exactas que funcionan",
+    details: ["7 Gatillos de Nostalgia", "7 Gatillos de Curiosidad", "7 Gatillos de Deseo"],
   },
   {
     id: 2,
     title: "PROTOCOLO ANTI-COMPETENCIA",
     value: 37,
-    description: "Cómo destacar cuando hay terceras personas involucradas.",
-    details: ["✓ Plan de Acción Inmediata", "✓ Independencia Emocional", "✓ Comunicación Magnética"],
+    description: "Como destacar con competencia",
+    details: ["Plan de Acción Inmediata", "Independencia Emocional", "Comunicación Magnética"],
   },
 ]
 
@@ -619,16 +604,16 @@ export const testimonials = [
 ]
 
 export const socialProofMessages = [
-  "¡Estás entre el 17% más decidido a reconquistar!",
-  "¡Tu perfil muestra alta compatibilidad!",
-  "¡Bonificación #1 liberada: 21 DISPARADORES!",
-  "¡Bonificación #2 liberada: PROTOCOLO ANTI-COMPETENCIA!",
-  "El 87% de personas en tu situación lograron resultados en menos de 14 días",
-  "Estás más comprometido que el 73% que hizo esta prueba",
-  "⚠️ Solo 23 spots disponibles hoy para este método",
-  "🔥 3,847 personas recuperaron sus relaciones este año",
-  "✅ Garantía 30 días o devuelvo tu dinero al 100%",
-  "⏰ Acceso inmediato después del pago",
+  "Estas entre el 17% más decidido a reconquistar",
+  "Tu perfil muestra alta compatibilidad",
+  "Bonificacion liberada por desbloqueo",
+  "Has desbloqueado los 2 bonos - valor total de 84 dolares",
+  "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
+  "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
+  "Solo 23 spots disponibles hoy para este método",
+  "3,847 personas recuperaron sus relaciones este año",
+  "Garantía 30 días o devuelvo tu dinero",
+  "Acceso inmediato después del pago",
 ]
 
 // Función utilitaria para personalizar textos basados en el género
