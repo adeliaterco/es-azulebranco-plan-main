@@ -432,7 +432,7 @@ export const quizSteps = [
       id: 2,
       title: "PROTOCOLO ANTI-COMPETENCIA",
       value: 37,
-      description: "Como destacar con competencia"
+      description: "Como destacar com competencia"
     },
     elements: {
       competitionAnalysis: true,
@@ -495,8 +495,8 @@ export const quizSteps = [
     id: 12,
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
     description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista + tu técnica específica.",
-    subtext: "Ver diagnóstico y primera técnica personalizados para tu caso exacto",
-    options: ["VER MI DIAGNÓSTICO Y TÉCNICA"],
+    subtext: () => getPersonalizedFirstInsight(),
+    options: ["VER MI TÉCNICA PERSONALIZADA"],
     elements: {
       expertPhoto: true,
       expertImage: "https://comprarplanseguro.shop/wp-content/uploads/2025/09/Generated-Image-September-07_-2025-12_00AM-_1_-e1757389439336.webp",
@@ -507,18 +507,18 @@ export const quizSteps = [
       successRate: "89% de efectividad"
     },
     personalizedContent: {
-      insight: "Llamar función getPersonalizedFirstInsight()",
-      technique: "Llamar función getPersonalizedTechnique()"
+      insight: () => getPersonalizedFirstInsight(),
+      technique: () => getPersonalizedTechnique()
     },
-    note: "Este diagnóstico + técnica específica se basan en el análisis de todas las variables de tu caso."
+    note: "Esta es SOLO la primera técnica. El método completo incluye 21 estrategias más."
   },
   
   {
     id: 13,
-    question: "¡FELICITACIONES! TU PLAN DE ACCIÓN PERSONALIZADO ESTÁ LISTO",
-    description: "Basado en tus respuestas específicas, he creado la estrategia exacta para que recuperes a tu amor en 21 días o menos.",
-    subtext: "Ver plan personalizado de 7 días específico para tu caso + acceder al Plan A completo",
-    options: ["¡QUIERO VER MI PLAN AHORA!"],
+    question: "PRESENTANDO: EL PLAN A COMPLETO",
+    description: "Basándome en 7 años ayudando a más de 12,000 personas como tú, he desarrollado el PLAN A: el método más efectivo de reconquista personalizada.",
+    subtext: () => getPersonalized7DayPlan(),
+    options: ["QUIERO ACCEDER AL PLAN A COMPLETO"],
     note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
     guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
     elements: {
@@ -526,10 +526,15 @@ export const quizSteps = [
       profileComplete: "100%",
       badge: "PLAN A - MÉTODO COMPLETO",
       finalReveal: true,
+      planPreview: true,
+      continuationTease: true,
+      planLayout: true,
+      checklist: true,
+      methodIntro: true,
     },
     personalizedContent: {
-      plan: "Llamar función getPersonalized7DayPlan()",
-      testimonial: "Llamar función getPersonalizedTestimonial()"
+      plan: () => getPersonalized7DayPlan(),
+      testimonial: () => getPersonalizedTestimonial()
     },
     finalReveal: {
       title: "EL PLAN A INCLUYE:",
@@ -541,6 +546,7 @@ export const quizSteps = [
         "✅ Soporte personalizado durante todo el proceso",
         "✅ Garantía de 30 días o devuelvo tu dinero al 100%"
       ],
+      testimonial: () => getPersonalizedTestimonial(),
       urgency: "Solo 23 spots disponibles hoy para acceso completo",
       socialProof: "3,847 personas han usado el Plan A con éxito"
     }
@@ -561,7 +567,7 @@ export const bonuses = [
     id: 2,
     title: "PROTOCOLO ANTI-COMPETENCIA",
     value: 37,
-    description: "Como destacar con competencia",
+    description: "Como destacar com competencia",
     details: ["✓ Plan de Acción Inmediata", "✓ Independencia Emocional", "✓ Comunicación Magnética"],
   },
 ]
