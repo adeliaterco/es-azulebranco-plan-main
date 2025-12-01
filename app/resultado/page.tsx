@@ -12,6 +12,7 @@ import {
   Play,
   Star,
   TrendingUp,
+  Lock,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,6 +28,11 @@ export default function ResultPageExplosive() {
   const [currentStep, setCurrentStep] = useState(1)
   const contentRef = useRef<HTMLDivElement>(null)
   const startTimeRef = useRef(Date.now())
+  
+  // NOVOS ESTADOS - MUDANÇA #1, #2, #7
+  const [unlockTimer, setUnlockTimer] = useState(20)
+  const [showOverlay, setShowOverlay] = useState(true)
+  const [accessCount, setAccessCount] = useState(12)
 
   // ===== PERSONALIZAÇÃO BASEADA NO QUIZ =====
   useEffect(() => {
@@ -43,18 +49,20 @@ export default function ResultPageExplosive() {
       setRecentBuyers(prev => Math.min(prev + Math.floor(Math.random() * 2) + 1, 31))
     }, 35000)
 
-    // Evento de visualização
-    enviarEvento("viu_resultado_otimizado_v2", {
+    // Evento: Viu resultado
+    enviarEvento("viu_resultado", {
       timestamp: new Date().toISOString(),
-      user_gender: savedGender
+      user_gender: savedGender || "unknown"
     })
 
     // Iniciar o contador de tempo na página
     startTimeRef.current = Date.now()
 
+    // Carregar script Vturb - MUDANÇA #1
+    loadVTurbScript()
+
     return () => {
       clearInterval(interval)
-      // Evento de tempo na página ao sair
       const timeSpent = (Date.now() - startTimeRef.current) / 1000
       enviarEvento('tempo_pagina_resultado_v2', {
         tempo_segundos: timeSpent,
@@ -63,18 +71,45 @@ export default function ResultPageExplosive() {
     }
   }, [])
 
-  // ===== PROGRESSÃO AUTOMÁTICA DE STEPS (AJUSTADA PARA NOVA ORDEM) =====
+  // ===== TIMER DE BLOQUEIO - MUDANÇA #2 =====
+  useEffect(() => {
+    if (showOverlay && unlockTimer > 0) {
+      const timer = setTimeout(() => {
+        setUnlockTimer(prev => prev - 1)
+      }, 1000)
+      
+      return () => clearTimeout(timer)
+    } else if (showOverlay && unlockTimer <= 0) {
+      setShowOverlay(false)
+      enviarEvento("pagina_desbloqueada", {
+        tempo_espera: 20,
+        timestamp: new Date().toISOString()
+      })
+    }
+  }, [unlockTimer, showOverlay])
+
+  // ===== PROGRESSÃO AUTOMÁTICA DE STEPS =====
   useEffect(() => {
     const timers = [
-      setTimeout(() => setCurrentStep(2), 6000),   // 6s
-      setTimeout(() => setCurrentStep(3), 12000),  // +6s
-      setTimeout(() => setCurrentStep(4), 18000),  // +6s
-      setTimeout(() => setCurrentStep(5), 24000),  // +6s
-      setTimeout(() => setCurrentStep(6), 30000),  // +6s
+      setTimeout(() => setCurrentStep(2), 8000),
+      setTimeout(() => setCurrentStep(3), 16000),
+      setTimeout(() => setCurrentStep(4), 24000),
+      setTimeout(() => setCurrentStep(5), 30000),
+      setTimeout(() => setCurrentStep(6), 36000),
     ]
 
     return () => timers.forEach(clearTimeout)
   }, [])
+
+  // ===== CARREGAR SCRIPT VTURB - MUDANÇA #1 =====
+  const loadVTurbScript = () => {
+    if (!document.querySelector('script[src*="69261bb488d49382e130c0a6"]')) {
+      const script = document.createElement("script")
+      script.src = "https://scripts.converteai.net/15be01a4-4462-4736-aeb9-b95eda21b8b8/players/69261bb488d49382e130c0a6/v4/player.js"
+      script.async = true
+      document.head.appendChild(script)
+    }
+  }
 
   // ===== FUNÇÕES DE PERSONALIZAÇÃO =====
   const getPronoun = () => userGender === "FEMININO" ? "él" : "ella"
@@ -99,7 +134,6 @@ export default function ResultPageExplosive() {
     return timeframe
   }
 
-  // ===== NOVA FUNÇÃO: INSIGHT PERSONALIZADO =====
   const getPersonalizedFirstInsight = () => {
     const situation = getPersonalizedSituation()
     
@@ -127,20 +161,20 @@ export default function ResultPageExplosive() {
 
   // ===== FUNÇÃO DE COMPRA OTIMIZADA =====
   const handlePurchase = (position = "principal") => {
-    // Calcular tempo até compra
     const timeToAction = (Date.now() - startTimeRef.current) / 1000
     
-    enviarEvento("clicou_comprar_otimizado_v2", {
+    // Evento: Clicou comprar - MUDANÇA #8
+    enviarEvento("clicou_comprar", {
       posicao: position,
       step_atual: currentStep,
+      overlay_ativo: showOverlay,
       timestamp: new Date().toISOString(),
-      user_gender: userGender,
+      user_gender: userGender || "unknown",
       situacao: getPersonalizedSituation(),
       tempo_ate_acao: timeToAction,
       conversao: true
     })
     
-    // Evento de conversão no tracking de tempo
     enviarEvento('tempo_pagina_resultado_v2', {
       tempo_segundos: timeToAction,
       conversao: true
@@ -149,6 +183,13 @@ export default function ResultPageExplosive() {
     setTimeout(() => {
       window.open("https://pay.hotmart.com/F100142422S?off=efckjoa7&checkoutMode=10", "_blank")
     }, 100)
+  }
+
+  // ===== FEEDBACK TÁTIL =====
+  const handleTouchFeedback = () => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      navigator.vibrate(10)
+    }
   }
 
   return (
@@ -160,7 +201,7 @@ export default function ResultPageExplosive() {
 
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black overflow-x-hidden w-full max-w-[100vw]">
         
-        {/* ===== SEÇÃO 1: NOVA ABERTURA COM FOCO NO ERRO ===== */}
+        {/* ===== SEÇÃO 1: HEADER DE URGÊNCIA APRIMORADO - MUDANÇA #5 E #7 ===== */}
         <div className="mobile-padding bg-gradient-to-r from-red-900/20 to-gray-900/20 w-full">
           <div className="max-w-4xl mx-auto w-full">
             
@@ -169,29 +210,50 @@ export default function ResultPageExplosive() {
               animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
               className="text-center mb-8"
             >
+              {/* MUDANÇA #4: HEADLINE NOVA COM URGÊNCIA */}
               <h1 className="mobile-headline text-white mb-4 leading-tight break-words">
-                🚨 <span className="text-red-400">DESCUBRÍ EL ERROR</span> QUE TE ESTÁ ALEJANDO DE {getPronoun().toUpperCase()}
+                🚨 <span className="text-red-400">ÚLTIMA CHANCE:</span>
+                <br />
+                {getPronoun()} está con {getOtherWord()} <span className="text-yellow-400">HOY</span>...
+                <br />
+                o tú haces que {getPronoun()} <span className="text-green-400">rastree ahora</span>
               </h1>
-              <p className="mobile-description text-gray-300 mb-6 break-words">
-                En los próximos 3 minutos vas a entender exactamente <strong>POR QUÉ {getPronoun()} no ha vuelto</strong>... y QUÉ hacer para cambiar eso de forma definitiva.
-              </p>
             </motion.div>
 
-            {/* NOVA SEÇÃO: ERROR ESPECÍFICO */}
-            <div className="bg-red-900/30 rounded-xl p-4 mb-8 border-2 border-red-500/50">
-              <h3 className="text-red-400 font-bold mobile-subsection-title mb-3 break-words">
-                ❌ TU ERROR PRINCIPAL DETECTADO:
-              </h3>
-              <div className="text-white mobile-info-text">
-                <p className="break-words mb-3">
-                  {getPersonalizedFirstInsight()}
-                </p>
-                <p className="text-red-300 font-bold break-words">
-                  <strong>87% de hombres en tu situación exacta cometen este mismo error.</strong>
-                </p>
+            {/* MUDANÇA #7: HEADER MULTI-URGÊNCIA COM 3 ELEMENTOS */}
+            <div className="bg-red-900/80 rounded-xl p-4 mb-6 border-2 border-red-500 max-w-md mx-auto">
+              <div className="space-y-3">
+                
+                {/* Timer principal */}
+                <div className="bg-black/50 rounded-lg p-3">
+                  <p className="text-red-300 font-bold mobile-description mb-2 break-words">
+                    ⏰ ESTA PÁGINA SE DESCONECTA EN:
+                  </p>
+                  <div className="mobile-countdown font-black text-white">
+                    <CountdownTimer minutes={57} seconds={23} />
+                  </div>
+                </div>
+
+                {/* Escassez */}
+                <div className="bg-orange-900/50 rounded-lg p-2 border border-orange-500">
+                  <p className="text-orange-300 font-bold mobile-small-text break-words">
+                    🔥 Solo <span className="text-white font-black">{accessCount} accesos</span> restantes hoy
+                  </p>
+                </div>
+
+                {/* Aviso do vídeo */}
+                <div className="bg-yellow-600 rounded-lg p-3">
+                  <p className="text-black font-bold mobile-small-text mb-1 break-words">
+                    ⚠️ PARA DESBLOQUEAR TU RESULTADO:
+                  </p>
+                  <p className="text-black mobile-small-text font-semibold break-words">
+                    Mira el video abajo y espera el tiempo
+                  </p>
+                </div>
               </div>
             </div>
 
+            {/* Situación analizada */}
             <div className="bg-gray-800/80 rounded-xl p-4 mb-8 border-2 border-green-500/50">
               <h3 className="text-green-400 font-bold mobile-subsection-title mb-3 break-words">
                 📊 TU SITUACIÓN ANALIZADA:
@@ -206,107 +268,210 @@ export default function ResultPageExplosive() {
           </div>
         </div>
 
-        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO ===== */}
-        <div className="mobile-padding w-full">
+        {/* ===== SEÇÃO 2: VÍDEO PRINCIPAL + TIMER BLOQUEIO - MUDANÇA #1 ===== */}
+        <div className="mobile-padding bg-gradient-to-r from-gray-900 to-black w-full">
           <div className="max-w-4xl mx-auto w-full">
-            
-            <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
-              ✅ LA <span className="text-green-400">TÉCNICA EXACTA</span> PARA TU CASO ESPECÍFICO
-            </h2>
-            <p className="text-center text-gray-300 mobile-description mb-6 break-words">
-              Basándome en tus 8 respuestas, esta es la estrategia que tiene 89% de éxito en casos como el tuyo:
-            </p>
-
-            <div className="space-y-6 mb-8">
+            <div className="text-center mb-6">
+              <h2 className="mobile-section-title font-bold text-white mb-4 max-w-full break-words">
+                🎯 <span className="text-orange-400">DESCUBRE</span> LA ESTRATEGIA QUE FUNCIONA
+              </h2>
               
-              {/* STEP 1 - Siempre Visible */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-xl p-6 border-l-4 border-blue-400"
-              >
-                <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
-                  DÍAS 8-10: TÉCNICA DE "RECONEXIÓN EMOCIONAL"
-                </h3>
-                <div className="text-white mobile-info-text space-y-2">
-                  <p>→ <strong>Mensaje exacto específico para tu situación:</strong></p>
-                  <div className="bg-black/30 p-3 rounded-lg italic text-green-300 break-words">
-                    "{userGender === 'MASCULINO' ? 
-                      `"Hey [nombre], encontré una foto nuestra de [memoria específica]. Me hizo sonreír. Espero que estés bien."` :
-                      `"Hola [nombre], vi algo que me recordó a [memoria específica]. Me alegró el día. Espero que tengas una buena semana."`
-                    }"
-                  </div>
-                  <p>→ <strong>Timing perfecto:</strong> Enviar martes o miércoles a las 7:30 PM</p>
-                  <p>→ <strong>Qué esperar:</strong> 73% de respuesta positiva en casos similares</p>
-                </div>
-              </motion.div>
-
-              {/* STEP 2 - Aparece após 6s */}
-              <AnimatePresence>
-                {currentStep >= 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
-                  >
-                    <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
-                      DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
-                    </h3>
-                    <div className="text-white mobile-info-text space-y-2">
-                      <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
-                      <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
-                      <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
-                      <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* STEP 3 - Aparece após 12s */}
-              <AnimatePresence>
-                {currentStep >= 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
-                  >
-                    <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
-                      DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
-                    </h3>
-                    <div className="text-white mobile-info-text space-y-2">
-                      <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
-                      <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
-                      <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
-                      <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div className="max-w-2xl mx-auto mb-6 w-full">
+                <p className="mobile-description text-gray-300 mb-4 break-words">
+                  Mira este video:
+                </p>
+              </div>
             </div>
 
-            {/* Progress bar */}
-            <AnimatePresence>
-              {currentStep < 3 && (
-                <div className="text-center mb-8">
-                  <div className="text-gray-400 mobile-small-text mb-2 break-words">
-                    Liberando próximo protocolo en...
-                  </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 max-w-md mx-auto">
-                    <motion.div
-                      className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full"
-                      animate={{ width: ["0%", "100%"] }}
-                      transition={{ duration: 6, ease: "linear" }}
-                    />
+            {/* VSL CENTRALIZADA COM VTURB */}
+            <div className="flex justify-center mb-6 sm:mb-8 w-full">
+              <div className="w-full max-w-3xl">
+                <div className="relative bg-black rounded-xl sm:rounded-2xl mobile-video-padding mobile-border-orange shadow-2xl w-full">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-xl sm:rounded-2xl animate-pulse"></div>
+                  <div className="relative z-10 w-full mobile-video-container">
+                    <vturb-smartplayer 
+                      id="vid-69261bb488d49382e130c0a6" 
+                      className="mobile-vturb-player"
+                    ></vturb-smartplayer>
                   </div>
                 </div>
-              )}
-            </AnimatePresence>
+              </div>
+            </div>
+
+            {/* CAIXA LARANJA DE LIBERAÇÃO - MUDANÇA #2 */}
+            <div className="bg-orange-600 rounded-xl p-4 mb-6 border-2 border-yellow-400 max-w-md mx-auto">
+              <div className="text-center">
+                <p className="text-black font-bold mobile-description mb-2 break-words">
+                  ⏳ ESPERA... EL ACCESO SERÁ LIBERADO
+                </p>
+                <p className="text-black mobile-small-text font-semibold mb-3 break-words">
+                  Es importante ver parte del video para garantizar el mejor resultado
+                </p>
+                
+                {/* Timer de liberação */}
+                <div className="bg-black/20 rounded-lg p-3 mb-3">
+                  <p className="text-black font-bold mobile-small-text mb-1 break-words">
+                    LIBERANDO ACCESO EN:
+                  </p>
+                  <div className="text-black font-black text-2xl">
+                    {Math.floor(unlockTimer / 60)}:{(unlockTimer % 60).toString().padStart(2, '0')}
+                  </div>
+                </div>
+
+                <p className="text-black mobile-small-text font-semibold break-words">
+                  {unlockTimer > 0 ? "Mantén esta página abierta" : "¡Desbloqueando resultado!"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* ===== SEÇÃO 3: OFERTA IRRESISTÍVEL (MOVIDA PARA CIMA) ===== */}
+        {/* ===== OVERLAY BLOQUEADOR - MUDANÇA #2 ===== */}
         <AnimatePresence>
-          {currentStep >= 3 && (
+          {showOverlay && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50"
+            >
+              <div className="text-center max-w-sm mx-auto p-6">
+                
+                {/* Ícone de bloqueio */}
+                <Lock className="text-red-400 mx-auto mb-6" size={60} />
+                
+                {/* Mensagem */}
+                <h3 className="text-white font-black text-xl mb-4 break-words">
+                  🔒 CONTENIDO BLOQUEADO
+                </h3>
+                <p className="text-gray-300 font-semibold mb-6 break-words">
+                  Tu resultado y la oferta especial se desbloquearán automáticamente
+                </p>
+
+                {/* Timer grande */}
+                <div className="bg-orange-600 rounded-lg p-4 mb-4">
+                  <p className="text-black font-bold mb-2 break-words">
+                    ⏳ DESBLOQUEANDO EN:
+                  </p>
+                  <div className="text-black font-black text-3xl">
+                    {Math.floor(unlockTimer / 60)}:{(unlockTimer % 60).toString().padStart(2, '0')}
+                  </div>
+                </div>
+
+                <p className="text-gray-400 text-sm break-words">
+                  Continúa viendo el video mientras esperas
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ===== SEÇÃO 3: RESULTADO + PRINTS WHATSAPP - MUDANÇA #3 ===== */}
+        {!showOverlay && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mobile-padding bg-gradient-to-r from-red-900/20 to-gray-900/20 w-full"
+          >
+            <div className="max-w-4xl mx-auto w-full">
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mb-8"
+              >
+                <h1 className="mobile-headline text-white mb-4 leading-tight break-words">
+                  ✅ <span className="text-green-400">TU PLAN DE 7 DÍAS</span> ESTÁ COMPLETO
+                </h1>
+                <p className="mobile-description text-gray-300 mb-6 break-words">
+                  Como prometido, aquí están tus próximos pasos específicos para reconquistar a {getPronoun()}:
+                </p>
+              </motion.div>
+
+              {/* ERROR ESPECÍFICO */}
+              <div className="bg-red-900/30 rounded-xl p-4 mb-8 border-2 border-red-500/50">
+                <h3 className="text-red-400 font-bold mobile-subsection-title mb-3 break-words">
+                  ❌ TU ERROR PRINCIPAL DETECTADO:
+                </h3>
+                <div className="text-white mobile-info-text">
+                  <p className="break-words mb-3">
+                    {getPersonalizedFirstInsight()}
+                  </p>
+                  <p className="text-red-300 font-bold break-words">
+                    <strong>87% de hombres en tu situación exacta cometen este mismo error.</strong>
+                  </p>
+                </div>
+              </div>
+
+              {/* MUDANÇA #3: PRINTS WHATSAPP - PROVA SOCIAL */}
+              <div className="mb-6 sm:mb-8 w-full">
+                <h3 className="mobile-subsection-title font-bold text-white text-center mb-4 break-words">
+                  💬 <span className="text-pink-400">MIRA LO QUE DICEN</span> NUESTROS USUARIOS
+                </h3>
+                
+                {/* Container das imagens */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-4">
+                  {/* Imagem 1 */}
+                  <div className="bg-white rounded-xl p-2 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                    <img 
+                      src="https://comprarplanseguro.shop/wp-content/uploads/2025/10/01-PROVA.webp" 
+                      alt="Print WhatsApp - Resultado positivo"
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                    />
+                  </div>
+                  
+                  {/* Imagem 2 */}
+                  <div className="bg-white rounded-xl p-2 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                    <img 
+                      src="https://comprarplanseguro.shop/wp-content/uploads/2025/10/PROVA-2.webp" 
+                      alt="Print WhatsApp - Testemunho de sucesso"
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                
+                {/* Texto de reforço */}
+                <div className="text-center">
+                  <p className="text-yellow-300 mobile-small-text font-bold break-words">
+                    🔥 Tú puedes ser el próximo en conseguir estos resultados
+                  </p>
+                </div>
+              </div>
+
+              {/* CTA SECUNDÁRIO - MUDANÇA #6 */}
+              <div className="mb-8 text-center">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.02, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                  className="w-full"
+                >
+                  <Button
+                    onClick={() => handlePurchase("resultado_principal")}
+                    className="mobile-cta-secondary max-w-md mx-auto"
+                    onTouchStart={handleTouchFeedback}
+                  >
+                    <Play className="mobile-small-icon mr-2 flex-shrink-0" />
+                    <span className="mobile-cta-text truncate break-words">
+                      QUIERO RESULTADOS
+                    </span>
+                  </Button>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ===== SEÇÃO 4: OFERTA IRRESISTÍVEL (MOVIDA PARA CIMA) - MUDANÇA #6 ===== */}
+        <AnimatePresence>
+          {!showOverlay && currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -364,6 +529,7 @@ export default function ResultPageExplosive() {
                       </div>
                     </div>
 
+                    {/* MUDANÇA #6: CTA PRINCIPAL OTIMIZADO */}
                     <motion.div
                       animate={{
                         scale: [1, 1.05, 1],
@@ -379,14 +545,12 @@ export default function ResultPageExplosive() {
                         onClick={() => handlePurchase("oferta_principal")}
                         size="lg"
                         className="mobile-cta-offer"
+                        onTouchStart={handleTouchFeedback}
                       >
                         <Heart className="mobile-icon-size mr-2 flex-shrink-0" />
                         <div className="text-center break-words">
                           <div className="mobile-cta-offer-text leading-tight font-black">
-                            💔 SÍ, QUIERO DEJAR DE SUFRIR Y RECUPERAR{getOtherPronoun().toUpperCase()}
-                          </div>
-                          <div className="mobile-small-text mt-1 opacity-90">
-                            Plan específico para: {getPersonalizedSituation()}
+                            SÍ, QUIERO RECUPERAR A {getPronoun().toUpperCase()} - $12,99
                           </div>
                         </div>
                       </Button>
@@ -421,9 +585,109 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 4: PROVA SOCIAL MELHORADA (APENAS 2 DEPOIMENTOS) ===== */}
+        {/* ===== SEÇÃO 5: TÉCNICA EXACTA PARA TU CASO ===== */}
+        {!showOverlay && (
+          <div className="mobile-padding w-full">
+            <div className="max-w-4xl mx-auto w-full">
+              
+              <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
+                ✅ LA <span className="text-green-400">TÉCNICA EXACTA</span> PARA TU CASO ESPECÍFICO
+              </h2>
+              <p className="text-center text-gray-300 mobile-description mb-6 break-words">
+                Basándome en tus 8 respuestas, esta es la estrategia que tiene 89% de éxito en casos como el tuyo:
+              </p>
+
+              <div className="space-y-6 mb-8">
+                
+                {/* STEP 1 */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="bg-gradient-to-r from-blue-900/50 to-blue-800/50 rounded-xl p-6 border-l-4 border-blue-400"
+                >
+                  <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
+                    DÍAS 8-10: TÉCNICA DE "RECONEXIÓN EMOCIONAL"
+                  </h3>
+                  <div className="text-white mobile-info-text space-y-2">
+                    <p>→ <strong>Mensaje exacto específico para tu situación:</strong></p>
+                    <div className="bg-black/30 p-3 rounded-lg italic text-green-300 break-words">
+                      "{userGender === 'MASCULINO' ? 
+                        `"Hey [nombre], encontré una foto nuestra de [memoria específica]. Me hizo sonreír. Espero que estés bien."` :
+                        `"Hola [nombre], vi algo que me recordó a [memoria específica]. Me alegró el día. Espero que tengas una buena semana."`
+                      }"
+                    </div>
+                    <p>→ <strong>Timing perfecto:</strong> Enviar martes o miércoles a las 7:30 PM</p>
+                    <p>→ <strong>Qué esperar:</strong> 73% de respuesta positiva en casos similares</p>
+                  </div>
+                </motion.div>
+
+                {/* STEP 2 */}
+                <AnimatePresence>
+                  {currentStep >= 2 && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="bg-gradient-to-r from-purple-900/50 to-purple-800/50 rounded-xl p-6 border-l-4 border-purple-400"
+                    >
+                      <h3 className="text-purple-400 font-bold mobile-subsection-title mb-3 break-words">
+                        DÍAS 11-14: PROTOCOLO DE "ENCUENTRO CASUAL"
+                      </h3>
+                      <div className="text-white mobile-info-text space-y-2">
+                        <p>→ <strong>Lugar estratégico:</strong> [Local frecuentado por {getPronoun()}]</p>
+                        <p>→ <strong>Guión de conversación:</strong> 3 frases exactas que reactivan la atracción</p>
+                        <p>→ <strong>Lenguaje corporal específico:</strong> Posiciones que generan nostalgia inconsciente</p>
+                        <p>→ <strong>Exit strategy:</strong> Cómo terminar la conversación para que {getPronoun()} quiera más</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* STEP 3 */}
+                <AnimatePresence>
+                  {currentStep >= 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="bg-gradient-to-r from-orange-900/50 to-orange-800/50 rounded-xl p-6 border-l-4 border-orange-400"
+                    >
+                      <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
+                        DÍAS 15-21: FASE DE "RECONCILIACIÓN DEFINITIVA"
+                      </h3>
+                      <div className="text-white mobile-info-text space-y-2">
+                        <p>→ <strong>Los 21 Disparadores Emocionales:</strong> Frases que rompen la resistencia final</p>
+                        <p>→ <strong>Momento exacto para la declaración:</strong> Cuándo y cómo expresar tus sentimientos</p>
+                        <p>→ <strong>Protocolo anti-rechazo:</strong> Qué hacer si {getPronoun()} aún tiene dudas</p>
+                        <p>→ <strong>Plan de relación 2.0:</strong> Cómo hacer que la nueva relación sea mejor que antes</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Progress bar */}
+              <AnimatePresence>
+                {currentStep < 3 && (
+                  <div className="text-center mb-8">
+                    <div className="text-gray-400 mobile-small-text mb-2 break-words">
+                      Liberando próximo protocolo en...
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2 max-w-md mx-auto">
+                      <motion.div
+                        className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full"
+                        animate={{ width: ["0%", "100%"] }}
+                        transition={{ duration: 6, ease: "linear" }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
+
+        {/* ===== SEÇÃO 6: PROVA SOCIAL MELHORADA ===== */}
         <AnimatePresence>
-          {currentStep >= 4 && (
+          {!showOverlay && currentStep >= 4 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -438,7 +702,7 @@ export default function ResultPageExplosive() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   
-                  {/* CARD 1 - Miguel D. - CONTACTO CERO */}
+                  {/* CARD 1 - Miguel D. */}
                   <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
                     <div className="flex items-start space-x-4">
                       <img 
@@ -464,7 +728,7 @@ export default function ResultPageExplosive() {
                     </div>
                   </div>
 
-                  {/* CARD 2 - Gustavo R. - CON OTRO */}
+                  {/* CARD 2 - Gustavo R. */}
                   <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
                     <div className="flex items-start space-x-4">
                       <img 
@@ -478,7 +742,7 @@ export default function ResultPageExplosive() {
                           <span className="text-yellow-400">Situación:</span> {getPronoun()} estaba con otro/otra hace 3 meses
                         </p>
                         <p className="text-white mobile-info-text italic mb-3 break-words">
-                          "Mi situación parecía completamente perdida. {getPronoun()} llevaba 3 meses con esta otra persona. Pensé que había perdido para siempre. Pero el Protocolo Anti-Terceros del Plan A me mostró exactamente qué hacer. Día 1-7: diferenciación (hacerme valioso). Día 8-12: reactivación (recordarle lo que teníamos). Día 13: {getPronoun()} empezó a cuestionarse. Día 16: {getPronoun()} me escribió. <strong>Hoy dejó a ese tipo y estamos viviendo juntos. Fue pura estrategia psicológica.</strong>"
+                          "Mi situación parecía completamente perdida. {getPronoun()} llevaba 3 meses con esta otra persona. Pensé que había perdido para siempre. Pero el Protocolo Anti-Terceros del Plan A me mostró exactamente qué hacer. Día 1-7: diferenciación. Día 8-12: reactivación. Día 13: {getPronoun()} empezó a cuestionarse. Día 16: {getPronoun()} me escribió. <strong>Hoy dejó a ese tipo y estamos viviendo juntos.</strong>"
                         </p>
                         <div className="flex items-center mt-3">
                           {[...Array(5)].map((_, i) => (
@@ -517,9 +781,9 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 5: TRATAMENTO DE OBJEÇÕES (NOVA) ===== */}
+        {/* ===== SEÇÃO 7: TRATAMENTO DE OBJEÇÕES ===== */}
         <AnimatePresence>
-          {currentStep >= 4 && (
+          {!showOverlay && currentStep >= 4 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -551,7 +815,7 @@ export default function ResultPageExplosive() {
                     </h3>
                     <p className="text-white mobile-info-text break-words">
                       <strong>ESTADÍSTICA:</strong> El 67% de relaciones rebote duran menos de 3 meses. Además, tengo técnicas específicas 
-                      para casos con terceras personas (como viste en el testimonio de Gustavo que recuperó a su ex incluso estando con {getOtherWord()} persona).
+                      para casos con terceras personas (como viste en el testimonio de Gustavo).
                     </p>
                   </div>
 
@@ -562,7 +826,7 @@ export default function ResultPageExplosive() {
                     </h3>
                     <p className="text-white mobile-info-text break-words">
                       <strong>GARANTÍA:</strong> Por eso existe la garantía de 30 días. Si el Plan A no funciona, 
-                      te devuelvo el dinero + te doy una consulta personal gratuita para revisar tu caso específico.
+                      te devuelvo el dinero + te doy una consulta personal gratuita.
                     </p>
                   </div>
 
@@ -572,9 +836,9 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 6: GARANTIA PODEROSA ===== */}
+        {/* ===== SEÇÃO 8: GARANTIA PODEROSA ===== */}
         <AnimatePresence>
-          {currentStep >= 5 && (
+          {!showOverlay && currentStep >= 5 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -611,9 +875,9 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 7: MOMENTO DE DECISÃO (NOVA) ===== */}
+        {/* ===== SEÇÃO 9: MOMENTO DE DECISIÓN ===== */}
         <AnimatePresence>
-          {currentStep >= 5 && (
+          {!showOverlay && currentStep >= 5 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -633,7 +897,7 @@ export default function ResultPageExplosive() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   
-                  {/* Opción 1 - Não fazer nada */}
+                  {/* Opción 1 */}
                   <div className="bg-red-900/30 rounded-xl p-6 border-2 border-red-500/50">
                     <h3 className="text-red-400 font-bold mobile-subsection-title mb-4 break-words">
                       ❌ OPCIÓN 1: Seguir Como Hasta Ahora
@@ -647,7 +911,7 @@ export default function ResultPageExplosive() {
                     </div>
                   </div>
 
-                  {/* Opción 2 - Plan A */}
+                  {/* Opción 2 */}
                   <div className="bg-green-900/30 rounded-xl p-6 border-2 border-green-500/50">
                     <h3 className="text-green-400 font-bold mobile-subsection-title mb-4 break-words">
                       ✅ OPCIÓN 2: Aplicar el Plan A
@@ -673,9 +937,9 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 8: CTA FINAL IRRESISTÍVEL ===== */}
+        {/* ===== SEÇÃO 10: CTA FINAL IRRESISTÍVEL ===== */}
         <AnimatePresence>
-          {currentStep >= 6 && (
+          {!showOverlay && currentStep >= 6 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -718,6 +982,7 @@ export default function ResultPageExplosive() {
                       onClick={() => handlePurchase("cta_final_explosivo")}
                       size="lg"
                       className="mobile-cta-final"
+                      onTouchStart={handleTouchFeedback}
                     >
                       <div className="text-center break-words">
                         <div className="mobile-cta-final-text leading-tight font-black">
@@ -740,7 +1005,7 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== CSS GLOBAL (MANTIDO IGUAL) ===== */}
+        {/* ===== CSS GLOBAL ===== */}
         <style jsx global>{`
           /* Reset e Base Mobile-First */
           * {
@@ -795,6 +1060,47 @@ export default function ResultPageExplosive() {
 
           .mobile-final-padding {
             padding: clamp(1rem, 4vw, 1.5rem);
+          }
+
+          /* NOVO: CSS para Vídeo - MUDANÇA #1 */
+          .mobile-video-padding {
+            padding: clamp(0.5rem, 2vw, 1rem);
+          }
+
+          .mobile-video-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border-radius: clamp(0.5rem, 2vw, 1rem) !important;
+          }
+
+          .mobile-vturb-player {
+            display: block !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            border-radius: clamp(0.5rem, 2vw, 1rem) !important;
+            overflow: hidden !important;
+            aspect-ratio: 16/9 !important;
+            height: auto !important;
+            min-height: clamp(200px, 40vw, 400px) !important;
+          }
+
+          vturb-smartplayer {
+            border-radius: clamp(0.5rem, 2vw, 1rem) !important;
+            overflow: hidden !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            aspect-ratio: 16/9 !important;
+            contain: layout style paint !important;
+            min-height: clamp(200px, 40vw, 400px) !important;
+          }
+
+          .mobile-border-orange {
+            border: clamp(1px, 0.5vw, 2px) solid rgb(249 115 22);
           }
 
           /* Tipografia */
@@ -904,6 +1210,10 @@ export default function ResultPageExplosive() {
             line-height: 1.3;
           }
 
+          .mobile-cta-text {
+            font-size: clamp(0.875rem, 3vw, 1rem);
+          }
+
           /* Elementos */
           .mobile-circle {
             width: clamp(5rem, 15vw, 6rem);
@@ -919,6 +1229,11 @@ export default function ResultPageExplosive() {
           .mobile-icon-size {
             width: clamp(1.25rem, 4vw, 1.5rem);
             height: clamp(1.25rem, 4vw, 1.5rem);
+          }
+
+          .mobile-small-icon {
+            width: clamp(1rem, 3vw, 1.25rem);
+            height: clamp(1rem, 3vw, 1.25rem);
           }
 
           .mobile-check-icon {
@@ -954,7 +1269,8 @@ export default function ResultPageExplosive() {
 
           /* Botões */
           .mobile-cta-offer,
-          .mobile-cta-final {
+          .mobile-cta-final,
+          .mobile-cta-secondary {
             width: 100% !important;
             box-sizing: border-box !important;
             touch-action: manipulation !important;
@@ -989,9 +1305,25 @@ export default function ResultPageExplosive() {
             margin: 0 auto !important;
           }
 
+          .mobile-cta-secondary {
+            background: rgb(59 130 246) !important;
+            color: white !important;
+            font-weight: 800 !important;
+            padding: clamp(0.875rem, 3vw, 1.25rem) clamp(1rem, 4vw, 1.5rem) !important;
+            border-radius: 999px !important;
+            font-size: clamp(1rem, 3.5vw, 1.125rem) !important;
+            border: none !important;
+            min-height: clamp(3.25rem, 12vw, 4rem) !important;
+          }
+
           .mobile-cta-offer:hover,
           .mobile-cta-final:hover {
             background: rgb(202 138 4) !important;
+            transform: scale(1.02) !important;
+          }
+
+          .mobile-cta-secondary:hover {
+            background: rgb(37 99 235) !important;
             transform: scale(1.02) !important;
           }
 
