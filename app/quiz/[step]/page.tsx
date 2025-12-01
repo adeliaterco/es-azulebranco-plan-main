@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { quizSteps, socialProofMessages, getPersonalizedContent } from "@/lib/quiz-data"
-import { InsightUnlock } from "@/components/insight-unlock"
+import { BonusUnlock } from "@/components/bonus-unlock"
 import { ValueCounter } from "@/components/value-counter"
 import { LoadingAnalysis } from "@/components/loading-analysis"
 
@@ -45,11 +45,11 @@ export default function QuizStep() {
   const step = Number.parseInt(params.step as string)
   const [selectedAnswer, setSelectedAnswer] = useState<string>("")
   const [quizData, setQuizData] = useState<any>({})
-  const [unlockedInsights, setUnlockedInsights] = useState<number[]>([])
-  const [totalAccuracy, setTotalAccuracy] = useState(0)
-  const [showInsightUnlock, setShowInsightUnlock] = useState(false)
+  const [unlockedBonuses, setUnlockedBonuses] = useState<number[]>([])
+  const [totalValue, setTotalValue] = useState(0)
+  const [showBonusUnlock, setShowBonusUnlock] = useState(false)
   const [showAnalysis, setShowAnalysis] = useState(false)
-  const [newInsight, setNewInsight] = useState<any>(null)
+  const [newBonus, setNewBonus] = useState<any>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [peopleCount, setPeopleCount] = useState(17)
   const [userGender, setUserGender] = useState<string>("")
@@ -61,14 +61,14 @@ export default function QuizStep() {
   useEffect(() => {
     // Cargar datos guardados
     const saved = localStorage.getItem("quizData")
-    const savedInsights = localStorage.getItem("unlockedInsights")
-    const savedAccuracy = localStorage.getItem("totalAccuracy")
+    const savedBonuses = localStorage.getItem("unlockedBonuses")
+    const savedValue = localStorage.getItem("totalValue")
     const savedGender = localStorage.getItem("userGender")
     const savedAnswers = localStorage.getItem("quizAnswers")
 
     if (saved) setQuizData(JSON.parse(saved))
-    if (savedInsights) setUnlockedInsights(JSON.parse(savedInsights))
-    if (savedAccuracy) setTotalAccuracy(Number.parseInt(savedAccuracy))
+    if (savedBonuses) setUnlockedBonuses(JSON.parse(savedBonuses))
+    if (savedValue) setTotalValue(Number.parseInt(savedValue))
     if (savedGender) setUserGender(savedGender)
     if (savedAnswers) {
       window.quizAnswers = JSON.parse(savedAnswers)
@@ -176,33 +176,33 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
 
-    // Verificar desbloqueo de insight
-    if (currentStep?.insightUnlock && !unlockedInsights.includes(currentStep.insightUnlock.id)) {
-      // Registra evento de desbloqueo de insight
-      enviarEvento('desbloqueou_insight', {
+    // Verificar desbloqueo de bonificación
+    if (currentStep?.bonusUnlock && !unlockedBonuses.includes(currentStep.bonusUnlock.id)) {
+      // Registra evento de desbloqueo de bonificación
+      enviarEvento('desbloqueou_bonus', {
         numero_etapa: step,
-        insight_id: currentStep.insightUnlock.id,
-        insight_titulo: currentStep.insightUnlock.title
+        bonus_id: currentStep.bonusUnlock.id,
+        bonus_titulo: currentStep.bonusUnlock.title
       });
 
-      const newUnlockedInsights = [...unlockedInsights, currentStep.insightUnlock.id]
-      const newTotalAccuracy = totalAccuracy + currentStep.insightUnlock.accuracy
+      const newUnlockedBonuses = [...unlockedBonuses, currentStep.bonusUnlock.id]
+      const newTotalValue = totalValue + currentStep.bonusUnlock.value
 
-      setUnlockedInsights(newUnlockedInsights)
-      setTotalAccuracy(newTotalAccuracy)
+      setUnlockedBonuses(newUnlockedBonuses)
+      setTotalValue(newTotalValue)
 
-      // Personalizar insight basado en el género
-      const personalizedInsight = {
-        ...currentStep.insightUnlock,
-        title: getPersonalizedContent(currentStep.insightUnlock.title, userGender),
-        description: getPersonalizedContent(currentStep.insightUnlock.description, userGender),
+      // Personalizar bonificación basada en el género
+      const personalizedBonus = {
+        ...currentStep.bonusUnlock,
+        title: getPersonalizedContent(currentStep.bonusUnlock.title, userGender),
+        description: getPersonalizedContent(currentStep.bonusUnlock.description, userGender),
       }
-      setNewInsight(personalizedInsight)
+      setNewBonus(personalizedBonus)
 
-      localStorage.setItem("unlockedInsights", JSON.stringify(newUnlockedInsights))
-      localStorage.setItem("totalAccuracy", newTotalAccuracy.toString())
+      localStorage.setItem("unlockedBonuses", JSON.stringify(newUnlockedBonuses))
+      localStorage.setItem("totalValue", newTotalValue.toString())
 
-      setShowInsightUnlock(true)
+      setShowBonusUnlock(true)
       return
     }
 
@@ -212,15 +212,15 @@ export default function QuizStep() {
     } else {
       enviarEvento('concluiu_quiz', {
         total_etapas_completadas: 13,
-        total_insights_desbloqueados: unlockedInsights.length
+        total_bonus_desbloqueados: unlockedBonuses.length
       });
       
       router.push(`/resultado${utmString}`)
     }
   }
 
-  const handleInsightUnlockComplete = () => {
-    setShowInsightUnlock(false)
+  const handleBonusUnlockComplete = () => {
+    setShowBonusUnlock(false)
     
     // Capturar UTMs da URL atual
     const currentUrl = new URL(window.location.href);
@@ -347,7 +347,7 @@ export default function QuizStep() {
             </Button>
 
             <div className="flex items-center gap-4">
-              {totalAccuracy > 0 && <ValueCounter value={totalAccuracy} label="Precisão" />}
+              {/* {totalValue > 0 && <ValueCounter value={totalValue} />} */}
               {currentStep?.elements?.timer && (
                 <div className="flex items-center gap-2 text-white text-sm bg-white/10 px-3 py-1 rounded-full">
                   <Clock className="w-4 h-4" />
@@ -849,9 +849,9 @@ export default function QuizStep() {
         )}
       </AnimatePresence>
 
-      {/* Modal de Desbloqueo de Insight */}
+      {/* Modal de Desbloqueo de Bonificación */}
       <AnimatePresence>
-        {showInsightUnlock && newInsight && <InsightUnlock insight={newInsight} onComplete={handleInsightUnlockComplete} />}
+        {showBonusUnlock && newBonus && <BonusUnlock bonus={newBonus} onComplete={handleBonusUnlockComplete} />}
       </AnimatePresence>
     </div>
   )
