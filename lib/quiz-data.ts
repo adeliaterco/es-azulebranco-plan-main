@@ -202,7 +202,7 @@ function getPersonalizedTestimonial() {
   };
 }
 
-// 4. FUNÇÃO PARA PLANO DE 7 DIAS PERSONALIZADO
+// 4. FUNÇÃO PARA PLANO DE 7 DÍAS PERSONALIZADO
 function getPersonalized7DayPlan() {
   const gender = getUserGender();
   const timeApart = getUserAnswer('question3');
@@ -289,12 +289,11 @@ export const quizSteps = [
       "1-6 meses → Fase de adaptación emocional",
       "Más de 6 meses → Etapa de reconstrucción profunda"
     ],
-    insightUnlock: {
+    bonusUnlock: {
       id: 1,
-      title: "PATRÓN DE TIEMPO CRÍTICO DETECTADO",
-      accuracy: 89,
-      description: "Tu tiempo de separación revela una ventana de oportunidad específica para aplicar técnicas de reconquista.",
-      type: "pattern"
+      title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
+      value: 47,
+      description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
     },
     elements: {
       probabilityCalculator: true,
@@ -434,12 +433,11 @@ export const quizSteps = [
         "🔄 Varias personas → Protocolo de valor único"
       ]
     },
-    insightUnlock: {
+    bonusUnlock: {
       id: 2,
-      title: "ESTRATEGIA ANTI-COMPETENCIA ACTIVADA",
-      accuracy: 73,
-      description: "Tu situación con terceras personas requiere técnicas específicas de diferenciación y posicionamiento estratégico.",
-      type: "technique"
+      title: "PROTOCOLO ANTI-COMPETENCIA",
+      value: 37,
+      description: "Cómo destacar cuando hay terceras personas involucradas.",
     },
     elements: {
       competitionAnalysis: true,
@@ -553,24 +551,22 @@ export const quizSteps = [
   }
 ]
 
-// === INSIGHTS EM VEZ DE BONUSES ===
+// === RESTO DO CÓDIGO MANTÉM IGUAL ===
 
-export const insights = [
+export const bonuses = [
   {
     id: 1,
-    title: "PATRÓN DE TIEMPO CRÍTICO DETECTADO",
-    accuracy: 89,
-    description: "Tu tiempo de separación revela una ventana de oportunidad específica para aplicar técnicas de reconquista.",
-    type: "pattern",
-    details: ["✓ Análisis de Timing Óptimo", "✓ Ventana de Oportunidad", "✓ Momento Crítico de Acción"],
+    title: "21 DISPARADORES EMOCIONALES QUE FUNCIONAN",
+    value: 47,
+    description: "Las 21 frases exactas que hacen que piense en ti obsesivamente.",
+    details: ["✓ 7 Gatillos de Nostalgia", "✓ 7 Gatillos de Curiosidad", "✓ 7 Gatillos de Deseo"],
   },
   {
     id: 2,
-    title: "ESTRATEGIA ANTI-COMPETENCIA ACTIVADA",
-    accuracy: 73,
-    description: "Tu situación con terceras personas requiere técnicas específicas de diferenciación y posicionamiento estratégico.",
-    type: "technique",
-    details: ["✓ Protocolo de Diferenciación", "✓ Técnicas de Posicionamiento", "✓ Estrategia de Valor Único"],
+    title: "PROTOCOLO ANTI-COMPETENCIA",
+    value: 37,
+    description: "Cómo destacar cuando hay terceras personas involucradas.",
+    details: ["✓ Plan de Acción Inmediata", "✓ Independencia Emocional", "✓ Comunicación Magnética"],
   },
 ]
 
@@ -599,9 +595,9 @@ export const testimonials = [
 
 export const socialProofMessages = [
   "¡Estás entre el 17% más decidido a reconquistar!",
-  "¡Tu perfil muestra alta compatibilidad psicológica!",
-  "¡Nuevo insight revelado por tu progreso!",
-  "¡Has desbloqueado 2 análisis especializados!",
+  "¡Tu perfil muestra compatibilidad!",
+  "¡Bonificación liberada por desbloqueo!",
+  "¡Has desbloqueado los 2 bonos - valor total de $84!",
   "El 87% de las personas en tu situación lograron resultados en menos de 14 días",
   "Estás más comprometido que el 73% de las personas que hicieron esta prueba",
   "-",
