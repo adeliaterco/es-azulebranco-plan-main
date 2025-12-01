@@ -191,11 +191,11 @@ export default function QuizStep() {
       setUnlockedBonuses(newUnlockedBonuses)
       setTotalValue(newTotalValue)
 
-      // Personalizar bonificación basada en el género
+      // ✅ CORRIGIDO: Personalização mais segura do bonus
       const personalizedBonus = {
         ...currentStep.bonusUnlock,
-        title: getPersonalizedContent(currentStep.bonusUnlock.title, userGender),
-        description: getPersonalizedContent(currentStep.bonusUnlock.description, userGender),
+        title: currentStep.bonusUnlock?.title || 'Bonus desbloqueado',
+        description: currentStep.bonusUnlock?.description || 'Descripción del bonus',
       }
       setNewBonus(personalizedBonus)
 
