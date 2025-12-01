@@ -13,7 +13,7 @@ function getUserGender() {
 }
 
 // 1. FUNÇÃO PARA PRIMEIRO INSIGHT PERSONALIZADO
-function getPersonalizedFirstInsight() {
+export function getPersonalizedFirstInsight() {
   const currentSituation = getUserAnswer('question7'); // Situação atual
   const timeApart = getUserAnswer('question3'); // Tempo separados
   const whoEnded = getUserAnswer('question4'); // Quem terminou
@@ -52,7 +52,7 @@ function getPersonalizedFirstInsight() {
 }
 
 // 2. FUNÇÃO PARA TÉCNICA PERSONALIZADA
-function getPersonalizedTechnique() {
+export function getPersonalizedTechnique() {
   const currentSituation = getUserAnswer('question7');
   const timeApart = getUserAnswer('question3');
   const withSomeoneElse = getUserAnswer('question8');
@@ -167,7 +167,7 @@ Envía solo esto. No esperes respuesta inmediata.
 }
 
 // 3. FUNÇÃO PARA DEPOIMENTO PERSONALIZADO
-function getPersonalizedTestimonial() {
+export function getPersonalizedTestimonial() {
   const currentSituation = getUserAnswer('question7');
   const timeApart = getUserAnswer('question3');
   
@@ -203,7 +203,7 @@ function getPersonalizedTestimonial() {
 }
 
 // 4. FUNÇÃO PARA PLANO DE 7 DIAS PERSONALIZADO
-function getPersonalized7DayPlan() {
+export function getPersonalized7DayPlan() {
   const gender = getUserGender();
   const timeApart = getUserAnswer('question3');
   const currentSituation = getUserAnswer('question7');
@@ -495,7 +495,7 @@ export const quizSteps = [
     id: 12,
     question: "TU DIAGNÓSTICO PERSONALIZADO ESTÁ LISTO",
     description: "Basándome en tu análisis completo, he identificado el ERROR PRINCIPAL que está saboteando tus posibilidades de reconquista + tu técnica específica.",
-    subtext: () => getPersonalizedFirstInsight(),
+    subtext: "Ver diagnóstico y primera técnica personalizados para tu caso exacto",
     options: ["VER MI TÉCNICA PERSONALIZADA"],
     elements: {
       expertPhoto: true,
@@ -506,10 +506,6 @@ export const quizSteps = [
       badge: "DIAGNÓSTICO + TÉCNICA",
       successRate: "89% de efectividad"
     },
-    personalizedContent: {
-      insight: () => getPersonalizedFirstInsight(),
-      technique: () => getPersonalizedTechnique()
-    },
     note: "Esta es SOLO la primera técnica. El método completo incluye 21 estrategias más."
   },
   
@@ -517,7 +513,7 @@ export const quizSteps = [
     id: 13,
     question: "PRESENTANDO: EL PLAN A COMPLETO",
     description: "Basándome en 7 años ayudando a más de 12,000 personas como tú, he desarrollado el PLAN A: el método más efectivo de reconquista personalizada.",
-    subtext: () => getPersonalized7DayPlan(),
+    subtext: "Ver plan personalizado de 7 días específico para tu caso + acceder al Plan A completo",
     options: ["QUIERO ACCEDER AL PLAN A COMPLETO"],
     note: "Lo que acabas de ver son solo los PRIMEROS 7 pasos del Plan A. El método completo incluye 21 días de estrategias específicas para tu caso.",
     guarantee: "✅ Garantía: Si en 30 días no ves progreso, devuelvo tu dinero al 100%",
@@ -532,10 +528,6 @@ export const quizSteps = [
       checklist: true,
       methodIntro: true,
     },
-    personalizedContent: {
-      plan: () => getPersonalized7DayPlan(),
-      testimonial: () => getPersonalizedTestimonial()
-    },
     finalReveal: {
       title: "EL PLAN A INCLUYE:",
       features: [
@@ -546,7 +538,6 @@ export const quizSteps = [
         "✅ Soporte personalizado durante todo el proceso",
         "✅ Garantía de 30 días o devuelvo tu dinero al 100%"
       ],
-      testimonial: () => getPersonalizedTestimonial(),
       urgency: "Solo 23 spots disponibles hoy para acceso completo",
       socialProof: "3,847 personas han usado el Plan A con éxito"
     }
