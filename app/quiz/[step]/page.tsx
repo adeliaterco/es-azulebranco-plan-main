@@ -176,29 +176,26 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
 
-    // ✅ CORRIGIDO: Verificação mais robusta para bonusUnlock
-    if (currentStep?.bonusUnlock && 
-        currentStep.bonusUnlock.id && 
-        !unlockedBonuses.includes(currentStep.bonusUnlock.id)) {
-      
+    // Verificar desbloqueo de bonificación
+    if (currentStep?.bonusUnlock && !unlockedBonuses.includes(currentStep.bonusUnlock.id)) {
       // Registra evento de desbloqueo de bonificación
       enviarEvento('desbloqueou_bonus', {
         numero_etapa: step,
         bonus_id: currentStep.bonusUnlock.id,
-        bonus_titulo: currentStep.bonusUnlock.title || 'Bonus desbloqueado'
+        bonus_titulo: currentStep.bonusUnlock.title
       });
 
       const newUnlockedBonuses = [...unlockedBonuses, currentStep.bonusUnlock.id]
-      const newTotalValue = totalValue + (currentStep.bonusUnlock.value || 0)
+      const newTotalValue = totalValue + currentStep.bonusUnlock.value
 
       setUnlockedBonuses(newUnlockedBonuses)
       setTotalValue(newTotalValue)
 
-      // ✅ CORRIGIDO: Personalização mais segura do bonus
+      // Personalizar bonificación basada en el género
       const personalizedBonus = {
         ...currentStep.bonusUnlock,
-        title: getPersonalizedContent(currentStep.bonusUnlock.title || 'Bonus desbloqueado', userGender || 'MASCULINO'),
-        description: getPersonalizedContent(currentStep.bonusUnlock.description || 'Descripción del bonus', userGender || 'MASCULINO'),
+        title: getPersonalizedContent(currentStep.bonusUnlock.title, userGender),
+        description: getPersonalizedContent(currentStep.bonusUnlock.description, userGender),
       }
       setNewBonus(personalizedBonus)
 
@@ -209,8 +206,8 @@ export default function QuizStep() {
       return
     }
 
-    // ✅ CORRIGIDO: step &lt; 13 em vez de step &lt; 12
-    if (step &lt; 13) {
+    // ✅ CORRIGIDO: step < 13 em vez de step < 12
+    if (step < 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       enviarEvento('concluiu_quiz', {
@@ -242,8 +239,8 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
     
-    // ✅ CORRIGIDO: step &lt; 13 em vez de step &lt; 12
-    if (step &lt; 13) {
+    // ✅ CORRIGIDO: step < 13 em vez de step < 12
+    if (step < 13) {
       router.push(`/quiz/${step + 1}${utmString}`)
     } else {
       router.push(`/resultado${utmString}`)
@@ -299,44 +296,30 @@ export default function QuizStep() {
     return <Icon className="w-6 h-6" />
   }
 
-  // ✅ CORRIGIDO: Verificações mais seguras para funções de personalização
+  // Obtener contenido personalizado basado en el género
   const getPersonalizedQuestion = () => {
-    if (!currentStep?.question) return ''
-    return getPersonalizedContent(currentStep.question, userGender || 'MASCULINO')
+    return getPersonalizedContent(currentStep.question, userGender)
   }
 
   const getPersonalizedDescription = () => {
-    if (!currentStep?.description) return ''
     const desc = currentStep.description
     if (typeof desc === 'function') {
-      try {
-        return desc()
-      } catch (error) {
-        console.error('Erro ao executar função de description:', error)
-        return ''
-      }
+      return desc()
     }
-    return getPersonalizedContent(desc, userGender || 'MASCULINO')
+    return getPersonalizedContent(desc, userGender)
   }
 
   const getPersonalizedSubtext = () => {
-    if (!currentStep?.subtext) return ''
     const subtext = currentStep.subtext
     if (typeof subtext === 'function') {
-      try {
-        return subtext()
-      } catch (error) {
-        console.error('Erro ao executar função de subtext:', error)
-        return ''
-      }
+      return subtext()
     }
-    return getPersonalizedContent(subtext, userGender || 'MASCULINO')
+    return getPersonalizedContent(subtext, userGender)
   }
 
   const getPersonalizedOptions = () => {
-    if (!currentStep?.options) return []
-    const options = getPersonalizedContent(currentStep.options, userGender || 'MASCULINO')
-    return Array.isArray(options) ? options : (currentStep.options || [])
+    const options = getPersonalizedContent(currentStep.options, userGender)
+    return Array.isArray(options) ? options : currentStep.options
   }
 
   if (!currentStep) {
@@ -634,7 +617,7 @@ export default function QuizStep() {
               )}
 
               {!currentStep?.autoAdvance && (
-                &lt;>
+                <>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
                     {getPersonalizedQuestion()}
                   </h2>
