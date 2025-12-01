@@ -69,13 +69,13 @@ export default function ResultPageExplosive() {
 
   // ===== PROGRESSÃO AUTOMÁTICA DE STEPS COM TIMING ESTRATÉGICO =====
   useEffect(() => {
-    // Timing ajustado para lead ficar mais no vídeo
+    // Timing sincronizado - técnica libera imediatamente após barra
     const timers = [
-      setTimeout(() => setCurrentStep(2), 10000),  // Barra completa em 10s (era 6s)
-      setTimeout(() => setCurrentStep(3), 16000),  // Técnica aparece +6s depois (total 16s)
-      setTimeout(() => setCurrentStep(4), 24000),  // +8s (total 24s)
-      setTimeout(() => setCurrentStep(5), 34000),  // +10s (total 34s)
-      setTimeout(() => setCurrentStep(6), 46000),  // +12s (total 46s)
+      // currentStep 2 é acionado quando barra completa (via onAnimationComplete)
+      // Aqui começamos com step 3 em diante
+      setTimeout(() => setCurrentStep(4), 18000),  // +8s após técnica aparecer (total 18s)
+      setTimeout(() => setCurrentStep(5), 28000),  // +10s (total 28s)
+      setTimeout(() => setCurrentStep(6), 40000),  // +12s (total 40s)
     ]
 
     return () => timers.forEach(clearTimeout)
@@ -172,6 +172,12 @@ export default function ResultPageExplosive() {
     }
   }
 
+  // ===== FUNÇÃO PARA LIBERAR TÉCNICA QUANDO BARRA COMPLETA =====
+  const handleBarComplete = () => {
+    setShowAnalysisBar(false)
+    setCurrentStep(3) // Técnica aparece IMEDIATAMENTE!
+  }
+
   return (
     <>
       <head>
@@ -258,7 +264,7 @@ export default function ResultPageExplosive() {
               </div>
             </div>
 
-            {/* ✅ BARRA DE PROGRESSO MOVIDA PARA BAIXO DO VÍDEO COM DELAY MAIOR */}
+            {/* ✅ BARRA DE PROGRESSO MOVIDA PARA BAIXO DO VÍDEO - LIBERA IMEDIATAMENTE */}
             <AnimatePresence>
               {showAnalysisBar && currentStep < 3 && (
                 <motion.div
@@ -271,25 +277,18 @@ export default function ResultPageExplosive() {
                     ⏳ ANALIZANDO TU CASO Y DESBLOQUEANDO TU PLAN PERSONALIZADO...
                   </div>
                   
-                  {/* BARRA COM DELAY DE 10 SEGUNDOS (ANTES ERA 6) */}
+                  {/* BARRA COM DELAY DE 10 SEGUNDOS */}
                   <div className="w-full bg-gray-700 rounded-full h-3 max-w-md mx-auto overflow-hidden border border-orange-500">
                     <motion.div
                       className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full"
                       animate={{ width: ["0%", "100%"] }}
                       transition={{ duration: 10, ease: "linear" }}
-                      onAnimationComplete={() => {
-                        setShowAnalysisBar(false)
-                      }}
+                      onAnimationComplete={handleBarComplete}
                     />
                   </div>
                   
                   <p className="text-gray-400 mobile-small-text mt-3 break-words italic">
                     Esto garantiza que recibas exactamente lo que necesitas para tu situación...
-                  </p>
-                  
-                  {/* CONTADOR DE TEMPO */}
-                  <p className="text-orange-400 mobile-small-text mt-2 font-bold break-words">
-                    Completa en: {currentStep < 2 ? "10 segundos..." : "Procesando..."}
                   </p>
                 </motion.div>
               )}
@@ -297,13 +296,13 @@ export default function ResultPageExplosive() {
           </div>
         </div>
 
-        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO (APÓS BARRA COMPLETAR) ===== */}
+        {/* ===== SEÇÃO 2: TÉCNICA EXACTA PARA TU CASO (APARECE IMEDIATAMENTE APÓS BARRA) ===== */}
         <AnimatePresence>
           {currentStep >= 3 && (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              transition={{ duration: 0.8 }}
               className="mobile-padding w-full"
             >
               <div className="max-w-4xl mx-auto w-full">
@@ -469,7 +468,7 @@ export default function ResultPageExplosive() {
                         <Heart className="mobile-icon-size mr-2 flex-shrink-0" />
                         <div className="text-center break-words">
                           <div className="mobile-cta-offer-text leading-tight font-black">
-                            💔 SÍ, QUIERO DEJAR DE SUFRIR Y RECUPERAR{getOtherPronoun().toUpperCase()}
+                            💔 SÍ, QUIERO DEJAR DE SUFRIR Y RECUPERAR {getOtherPronoun().toUpperCase()}
                           </div>
                           <div className="mobile-small-text mt-1 opacity-90">
                             Plan específico para: {getPersonalizedSituation()}
@@ -785,7 +784,7 @@ export default function ResultPageExplosive() {
 
                 <div className="text-center bg-yellow-900/30 rounded-lg p-4 border border-yellow-500/50">
                   <p className="text-yellow-300 font-bold mobile-description break-words">
-                    La pregunta no es si puedes recuperar{getOtherPronoun()}. Es si VAS a hacerlo.
+                    La pregunta no es si puedes recuperar {getOtherPronoun()}. Es si VAS a hacerlo.
                   </p>
                 </div>
 
