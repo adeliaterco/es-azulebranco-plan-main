@@ -52,12 +52,9 @@ const WhatsAppMockup = ({ userGender }) => {
   ])
   const [successPercentage, setSuccessPercentage] = useState(0)
 
-  // Funciones auxiliares
+  // ✅ CORREÇÃO: Nome fixo para evitar bulgação
   const getExName = () => {
-    const femaleNames = ['María', 'Ana', 'Carmen', 'Isabel', 'Sofía', 'Elena', 'Laura']
-    const maleNames = ['Carlos', 'José', 'Antonio', 'Manuel', 'Luis', 'Miguel', 'Alejandro']
-    const names = userGender === "SOY HOMBRE" ? femaleNames : maleNames
-    return names[Math.floor(Math.random() * names.length)]
+    return "JOSÉ PLAN"
   }
 
   const getExAvatar = () => {
