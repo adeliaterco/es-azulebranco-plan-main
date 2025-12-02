@@ -36,7 +36,7 @@ function getHeaderName() {
     return "JOSÉ PLAN";
 }
 
-// Função para mensagem personalizada inicial - CORRIGIDA
+// Função para mensagem personalizada inicial - TOTALMENTE CORRIGIDA
 function getPersonalizedFirstMessage() {
     const currentSituation = getUserAnswer('question7');
     
