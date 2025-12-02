@@ -645,11 +645,11 @@ export default function ResultPageExplosive() {
                 {/* ESTATÍSTICAS */}
                 <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 rounded-xl p-6 mb-6 border border-green-500/30">
                   <h3 className="text-green-400 font-bold mobile-subsection-title text-center mb-4 break-words">
-                    📊 RESULTADOS REALES MÁS ALLÁ DE DEMOSTRACIONES:
+                    📊 RESULTADOS REALES:
                   </h3>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="mobile-stats-number font-bold text-green-400 mb-1">87%</div>
+                      <div className="mobile-stats-number font-bold text-green-400 mb-1">89%</div>
                       <p className="text-white mobile-stats-text break-words">Éxito con método completo</p>
                     </div>
                     <div>
