@@ -122,7 +122,7 @@ export function getPersonalizedFirstInsight() {
     }
     
     if (currentSituation.includes("amigos")) {
-        return "❌ ERROR DETECTADO: Ser 'solo amigos' es el LIMBO emocional. El 89% que se queda aquí nunca sale de esta zona.";
+        return "❌ ERROR DETECTADO: Ser 'solo amigos' es el LIMBO emocional. El 87% que se queda aquí nunca sale de esta zona.";
     }
     
     if (whoEnded.includes("terminó conmigo")) {
@@ -974,7 +974,7 @@ export const quizSteps = [
                         if (!percentageEl) return;
                         
                         let current = 0;
-                        const target = 89;
+                        const target = 89,7;
                         const increment = target / 30; // Reduzido para animação mais rápida
                         
                         const interval = setInterval(() => {
@@ -1009,7 +1009,7 @@ export const quizSteps = [
     {
         id: 13,
         question: "🎯 TU PLAN A PERSONALIZADO ESTÁ LISTO",
-        description: () => `Después de crear tu demostración específica, he confirmado que tu situación tiene **89% de probabilidad de éxito** usando el Plan A.
+        description: () => `Después de crear tu demostración específica, he confirmado que tu situación tiene **89,7% de probabilidad de éxito** usando el Plan A.
 
 ${getPersonalizedFirstInsight()}
 
