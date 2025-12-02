@@ -23,7 +23,7 @@ function getExName() {
     return names[Math.floor(Math.random() * names.length)];
 }
 
-// Função para avatar da ex
+// Função para avatar da ex - CORRIGIDA
 function getExAvatar() {
     const gender = getUserGender();
     return gender === "MASCULINO" ? 
@@ -31,35 +31,39 @@ function getExAvatar() {
         "https://i.ibb.co/9yxWNQ4/man-avatar-1.jpg";
 }
 
-// Função para mensagem personalizada inicial
+// Função para nome no header - NOVA
+function getHeaderName() {
+    return "JOSÉ PLAN";
+}
+
+// Função para mensagem personalizada inicial - CORRIGIDA
 function getPersonalizedFirstMessage() {
     const currentSituation = getUserAnswer('question7');
-    const exName = getExName();
     
     if (currentSituation.includes("contacto cero")) {
-        return `Hola ${exName}, encontré algo que es tuyo. ¿Cuándo puedes pasar a recogerlo?`;
+        return `Hola, encontré algo que es tuyo. ¿Cuándo puedes pasar a recogerlo?`;
     }
     
     if (currentSituation.includes("me ignora")) {
-        return `${exName}, no voy a molestarte más. Solo quería agradecerte por algo que me enseñaste.`;
+        return `Hola, no voy a molestarte más. Solo quería agradecerte por algo que me enseñaste.`;
     }
     
     if (currentSituation.includes("bloqueado")) {
-        return `Hola ${exName}, María me pidió preguntarte sobre el evento del viernes.`;
+        return `Hola, María me pidió preguntarte sobre el evento del viernes.`;
     }
     
     if (currentSituation.includes("cosas necesarias")) {
-        return `${exName}, vi esta foto nuestra del viaje a la playa y me hizo sonreír. Espero que estés bien.`;
+        return `Hola, vi esta foto nuestra del viaje a la playa y me hizo sonreír. Espero que estés bien.`;
     }
     
     if (currentSituation.includes("charlamos")) {
-        return `Tengo que contarte algo curioso que me pasó que te va a hacer reír. ¿Tienes 5 minutos para una llamada?`;
+        return `Hola, tengo que contarte algo curioso que me pasó que te va a hacer reír. ¿Tienes 5 minutos para una llamada?`;
     }
     
-    return `Hola ${exName}, vi algo que me recordó a cuando fuimos al parque. Me alegró el día. Espero que estés bien.`;
+    return `Hola, vi algo que me recordó a cuando fuimos al parque. Me alegró el día. Espero que estés bien.`;
 }
 
-// Función para respuesta de la ex
+// Função para resposta de la ex
 function getPersonalizedExResponse() {
     const currentSituation = getUserAnswer('question7');
     
@@ -86,7 +90,7 @@ function getPersonalizedExResponse() {
     return "Gracias por acordarte de mí. ¿Cómo has estado?";
 }
 
-// Función para follow-up
+// Função para follow-up
 function getPersonalizedFollowUp() {
     return "Me alegra que respondas. ¿Te parece si hablamos mejor mañana? Tengo algunas cosas que hacer ahora.";
 }
@@ -402,12 +406,12 @@ export const quizSteps = [
         }
     },
 
-    // === STEP 12 - NOVA VERSÃO COM MOCKUP ===
+    // === STEP 12 - VERSÃO FINAL CORRIGIDA ===
     {
         id: 12,
-        question: "🎬 SIMULANDO TU RECONQUISTA EN TIEMPO REAL",
+        question: "🎬 CREANDO TU DEMOSTRACIÓN PERSONALIZADA EN TIEMPO REAL",
         description: "Basándome en tu perfil psicológico completo, esta es EXACTAMENTE la conversación que tendrás con tu ex usando el Plan A:",
-        subtext: "Simulación basada en 8,347 casos exitosos similares al tuyo",
+        subtext: "Vista previa basada en 8,347 casos exitosos similares al tuyo",
         options: ["🎯 VER MI ESTRATEGIA COMPLETA DE 21 DÍAS"],
         elements: {
             whatsappSimulation: true,
@@ -416,10 +420,10 @@ export const quizSteps = [
             personalizedChat: true,
             cinematicReveal: true,
             profileComplete: "100%",
-            badge: "SIMULACIÓN PERSONALIZADA",
+            badge: "DEMOSTRACIÓN PERSONALIZADA",
             customComponent: "PhoneSimulationStep"
         },
-        note: "Esta simulación usa IA para predecir las respuestas más probables basándose en tu situación específica.",
+        note: "Esta demostración usa IA para predecir las respuestas más probables basándose en tu situación específica.",
         customContent: `
             <div class="phone-simulation-container">
                 <!-- iPhone Mockup -->
@@ -431,7 +435,7 @@ export const quizSteps = [
                             <div class="back-arrow">←</div>
                             <img src="${getExAvatar()}" class="contact-avatar" alt="Avatar" />
                             <div class="contact-info">
-                                <div class="contact-name">${getExName()}</div>
+                                <div class="contact-name">${getHeaderName()}</div>
                                 <div class="last-seen" id="typing-status">En línea</div>
                             </div>
                             <div class="header-icons">
@@ -869,17 +873,17 @@ export const quizSteps = [
                 }
             </style>
 
-            <!-- JavaScript para animação -->
+            <!-- JavaScript para animação - TIMING ACELERADO -->
             <script>
                 (function() {
                     let currentStep = 0;
                     const steps = [
-                        { delay: 1000, action: 'showUserMessage' },
-                        { delay: 3000, action: 'showTyping' },
-                        { delay: 5000, action: 'hideTyping' },
-                        { delay: 5500, action: 'showExResponse' },
-                        { delay: 7000, action: 'showUserFollowup' },
-                        { delay: 8000, action: 'showSuccess' }
+                        { delay: 500, action: 'showUserMessage' },
+                        { delay: 1500, action: 'showTyping' },
+                        { delay: 2500, action: 'hideTyping' },
+                        { delay: 3000, action: 'showExResponse' },
+                        { delay: 4000, action: 'showUserFollowup' },
+                        { delay: 4500, action: 'showSuccess' }
                     ];
 
                     function runAnimation() {
@@ -971,7 +975,7 @@ export const quizSteps = [
                         
                         let current = 0;
                         const target = 89;
-                        const increment = target / 50;
+                        const increment = target / 30; // Reduzido para animação mais rápida
                         
                         const interval = setInterval(() => {
                             current += increment;
@@ -980,7 +984,7 @@ export const quizSteps = [
                                 clearInterval(interval);
                             }
                             percentageEl.textContent = Math.round(current) + '%';
-                        }, 50);
+                        }, 30); // Intervalo reduzido para 30ms
                     }
 
                     function playMessageSound() {
@@ -994,18 +998,18 @@ export const quizSteps = [
                     if (document.readyState === 'loading') {
                         document.addEventListener('DOMContentLoaded', runAnimation);
                     } else {
-                        setTimeout(runAnimation, 500);
+                        setTimeout(runAnimation, 300); // Reduzido para 300ms
                     }
                 })();
             </script>
         `
     },
 
-    // === STEP 13 - VERSÃO MELHORADA ===
+    // === STEP 13 - VERSÃO CORRIGIDA ===
     {
         id: 13,
         question: "🎯 TU PLAN A PERSONALIZADO ESTÁ LISTO",
-        description: () => `Después de simular tu caso específico, he confirmado que tu situación tiene **89% de probabilidad de éxito** usando el Plan A.
+        description: () => `Después de crear tu demostración específica, he confirmado que tu situación tiene **89% de probabilidad de éxito** usando el Plan A.
 
 ${getPersonalizedFirstInsight()}
 
@@ -1095,4 +1099,5 @@ if (typeof window !== 'undefined') {
     window.getPersonalizedFirstMessage = getPersonalizedFirstMessage;
     window.getPersonalizedExResponse = getPersonalizedExResponse;
     window.getPersonalizedFollowUp = getPersonalizedFollowUp;
+    window.getHeaderName = getHeaderName;
 }
