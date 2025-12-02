@@ -56,7 +56,7 @@ export default function ResultPageExplosive() {
     enviarEvento("viu_resultado_otimizado_v3", {
       timestamp: new Date().toISOString(),
       user_gender: savedGender,
-      version: "simulation_continuity"
+      version: "demonstration_continuity"
     })
 
     // Iniciar o contador de tempo na página
@@ -72,7 +72,7 @@ export default function ResultPageExplosive() {
       enviarEvento('tempo_pagina_resultado_v3', {
         tempo_segundos: timeSpent,
         conversao: false,
-        version: "simulation_continuity"
+        version: "demonstration_continuity"
       })
     }
   }, [])
@@ -136,14 +136,14 @@ export default function ResultPageExplosive() {
       situacao: getPersonalizedSituation(),
       tempo_ate_acao: timeToAction,
       conversao: true,
-      version: "simulation_continuity"
+      version: "demonstration_continuity"
     })
     
     // ✅ GA4 EVENT: Tempo na página com conversão
     enviarEvento('tempo_pagina_resultado_v3', {
       tempo_segundos: timeToAction,
       conversao: true,
-      version: "simulation_continuity"
+      version: "demonstration_continuity"
     })
     
     setTimeout(() => {
@@ -167,7 +167,7 @@ export default function ResultPageExplosive() {
 
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black overflow-x-hidden w-full max-w-[100vw]">
         
-        {/* ===== SEÇÃO 1: CONTINUIDADE COM A SIMULAÇÃO ===== */}
+        {/* ===== SEÇÃO 1: CONTINUIDADE COM A DEMOSTRAÇÃO ===== */}
         <div className="mobile-padding bg-gradient-to-r from-blue-900/20 to-gray-900/20 w-full">
           <div className="max-w-4xl mx-auto w-full">
             
@@ -177,17 +177,17 @@ export default function ResultPageExplosive() {
               className="text-center mb-8"
             >
               <h1 className="mobile-headline text-white mb-4 leading-tight break-words">
-                🎬 <span className="text-blue-400">VISTE LA SIMULACIÓN</span> CON JOSÉ PLAN
+                🎬 <span className="text-blue-400">VISTE LA DEMOSTRACIÓN REAL</span> CON JOSÉ PLAN
               </h1>
               <p className="mobile-description text-gray-300 mb-6 break-words">
                 Ahora descubre qué pasa en los próximos <strong>18 DÍAS</strong> del método completo...
               </p>
             </motion.div>
 
-            {/* REFERENCIA DIRETA À SIMULAÇÃO */}
+            {/* REFERENCIA DIRETA À VISTA PREVIA */}
             <div className="bg-blue-900/30 rounded-xl p-4 mb-8 border-2 border-blue-500/50">
               <h3 className="text-blue-400 font-bold mobile-subsection-title mb-3 break-words">
-                📱 LA SIMULACIÓN QUE ACABAS DE VER:
+                📱 LA VISTA PREVIA QUE ACABAS DE VER:
               </h3>
               <div className="text-white mobile-info-text">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -228,7 +228,7 @@ export default function ResultPageExplosive() {
           <div className="max-w-4xl mx-auto w-full">
             
             <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
-              🧊 <span className="text-yellow-400">LA SIMULACIÓN FUE SOLO</span> LA PUNTA DEL ICEBERG
+              🧊 <span className="text-yellow-400">LA DEMOSTRACIÓN FUE SOLO</span> LA PUNTA DEL ICEBERG
             </h2>
             
             <div className="bg-gradient-to-r from-yellow-900/50 to-orange-900/50 rounded-xl p-6 mb-8 border-2 border-orange-500/50">
@@ -263,20 +263,20 @@ export default function ResultPageExplosive() {
               <div className="text-center bg-orange-900/30 rounded-lg p-4 border border-orange-500">
                 <p className="text-orange-300 font-bold mobile-description">
                   <Zap className="inline w-5 h-5 mr-2" />
-                  La simulación que viste representa SOLO el 14% del método completo.
+                  La vista previa que viste representa SOLO el 14% del método completo.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ===== SEÇÃO 3: URGÊNCIA BASEADA NA SIMULAÇÃO ===== */}
+        {/* ===== SEÇÃO 3: URGÊNCIA BASEADA NA DEMOSTRAÇÃO ===== */}
         <div className="mobile-padding w-full">
           <div className="max-w-4xl mx-auto w-full">
             
             <div className="bg-red-900/20 border-2 border-red-500 rounded-xl p-6 mb-8">
               <h3 className="text-red-400 font-bold text-center mb-4 mobile-subsection-title">
-                ⏰ MIENTRAS VEÍAS LA SIMULACIÓN...
+                ⏰ MIENTRAS VEÍAS EL EJEMPLO PRÁCTICO...
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-4">
@@ -319,12 +319,12 @@ export default function ResultPageExplosive() {
           <div className="max-w-4xl mx-auto w-full">
             <div className="text-center mb-6">
               <h2 className="mobile-section-title font-bold text-white mb-4 max-w-full break-words">
-                🎯 <span className="text-orange-400">DESCUBRE</span> QUÉ PASA DESPUÉS DE LA SIMULACIÓN
+                🎯 <span className="text-orange-400">DESCUBRE</span> QUÉ PASA DESPUÉS DEL ENSAYO PRÁCTICO
               </h2>
               
               <div className="max-w-2xl mx-auto mb-6 w-full">
                 <p className="mobile-description text-gray-300 mb-4 break-words">
-                  Los próximos 18 días del método que no viste en la simulación:
+                  Los próximos 18 días del método que no viste en la vista previa:
                 </p>
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function ResultPageExplosive() {
                     />
                   </div>
                   <p className="text-gray-400 mobile-small-text mt-3 break-words italic">
-                    De los 3 días simulados a los 21 días completos...
+                    De los 3 días demostrados a los 21 días completos...
                   </p>
                 </div>
               )}
@@ -382,7 +382,7 @@ export default function ResultPageExplosive() {
                   <CardContent className="mobile-offer-padding text-center w-full">
                     
                     <div className="bg-yellow-400 text-black font-bold mobile-offer-badge rounded-full inline-block mb-6">
-                      📱 PLAN A COMPLETO: DE LA SIMULACIÓN A LA RECONQUISTA REAL
+                      📱 PLAN A COMPLETO: DEL EJEMPLO PRÁCTICO A LA RECONQUISTA REAL
                     </div>
 
                     <h2 className="mobile-offer-title font-black mb-6 text-white break-words">
@@ -400,7 +400,7 @@ export default function ResultPageExplosive() {
                             <MessageCircle className="inline w-4 h-4 mr-2" />
                             MÓDULO 1: CONVERSACIONES (Días 1-7)
                           </h4>
-                          <p className="text-white mobile-small-text mb-2">→ La simulación que viste + 6 escenarios adicionales</p>
+                          <p className="text-white mobile-small-text mb-2">→ El ejemplo práctico que viste + 6 escenarios adicionales</p>
                           <p className="text-white mobile-small-text mb-2">→ ¿Qué hacer si no responde? ¿Si responde seco? ¿Si te deja en visto?</p>
                           <p className="text-gray-400 text-xs">Valor: $97</p>
                         </div>
@@ -439,7 +439,7 @@ export default function ResultPageExplosive() {
                       <div className="bg-black/50 rounded-lg p-4 mt-6 text-center border border-yellow-500">
                         <p className="text-gray-300 mobile-small-text line-through mb-2">Valor Total: $568</p>
                         <p className="text-green-400 font-bold mobile-description mb-2">Tu inversión HOY: $12,99</p>
-                        <p className="text-yellow-300 mobile-small-text font-bold">96% de descuento solo por haber visto la simulación</p>
+                        <p className="text-yellow-300 mobile-small-text font-bold">96% de descuento solo por haber visto la vista previa</p>
                       </div>
                     </div>
 
@@ -455,7 +455,7 @@ export default function ResultPageExplosive() {
                       className="mb-6 w-full"
                     >
                       <Button
-                        onClick={() => handlePurchase("oferta_principal_simulacao")}
+                        onClick={() => handlePurchase("oferta_principal_demostracion")}
                         size="lg"
                         className="mobile-cta-offer"
                         onTouchStart={handleTouchFeedback}
@@ -463,7 +463,7 @@ export default function ResultPageExplosive() {
                         <MessageCircle className="mobile-icon-size mr-2 flex-shrink-0" />
                         <div className="text-center break-words">
                           <div className="mobile-cta-offer-text leading-tight font-black">
-                            📱 QUIERO EL MÉTODO COMPLETO DE LA SIMULACIÓN
+                            📱 QUIERO EL MÉTODO COMPLETO DE LA DEMOSTRACIÓN
                           </div>
                           <div className="mobile-small-text mt-1 opacity-90">
                             Los 21 días completos, no solo los primeros 3
@@ -474,7 +474,7 @@ export default function ResultPageExplosive() {
 
                     <div className="bg-red-900/80 mobile-urgency-padding rounded-lg mb-6 border border-red-500">
                       <p className="text-yellow-300 font-bold mobile-urgency-text mb-2 break-words">
-                        ⏰ PRECIO ESPECIAL PARA QUIENES VIERON LA SIMULACIÓN:
+                        ⏰ PRECIO ESPECIAL PARA QUIENES VIERON LA DEMOSTRACIÓN:
                       </p>
                       <div className="mobile-countdown font-black text-white mb-2">
                         <CountdownTimer minutes={47} seconds={0} />
@@ -501,7 +501,7 @@ export default function ResultPageExplosive() {
           )}
         </AnimatePresence>
 
-        {/* ===== SEÇÃO 6: OBJEÇÕES ESPECÍFICAS DA SIMULAÇÃO ===== */}
+        {/* ===== SEÇÃO 6: OBJEÇÕES ESPECÍFICAS DA DEMOSTRAÇÃO ===== */}
         <AnimatePresence>
           {currentStep >= 4 && (
             <motion.div
@@ -512,17 +512,17 @@ export default function ResultPageExplosive() {
             >
               <div className="max-w-4xl mx-auto w-full">
                 <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
-                  🤔 <span className="text-yellow-400">"PERO... ¿Y SI MI CASO ES DIFERENTE A LA SIMULACIÓN?"</span>
+                  🤔 <span className="text-yellow-400">"PERO... ¿Y SI MI CASO ES DIFERENTE AL EJEMPLO PRÁCTICO?"</span>
                 </h2>
 
                 <div className="space-y-6 mb-8">
                   
                   <div className="bg-gray-800 rounded-xl p-6 border-l-4 border-yellow-400">
                     <h3 className="text-yellow-400 font-bold mobile-subsection-title mb-3 break-words">
-                      💭 "En la simulación {getPronoun()} respondió bien... ¿y si en la vida real no?"
+                      💭 "En la demostración {getPronoun()} respondió bien... ¿y si en la vida real no?"
                     </h3>
                     <p className="text-white mobile-info-text break-words">
-                      <strong>EXACTO:</strong> Por eso necesitas el Plan A completo. La simulación mostró el escenario 
+                      <strong>EXACTO:</strong> Por eso necesitas el Plan A completo. La vista previa mostró el escenario 
                       IDEAL, pero el método incluye 12 escenarios diferentes según cómo responda {getPronoun()}. 
                       Incluso si no responde al primer mensaje.
                     </p>
@@ -552,10 +552,10 @@ export default function ResultPageExplosive() {
 
                   <div className="bg-gray-800 rounded-xl p-6 border-l-4 border-orange-400">
                     <h3 className="text-orange-400 font-bold mobile-subsection-title mb-3 break-words">
-                      🎭 "La simulación se veía muy fácil... ¿será tan simple?"
+                      🎭 "La demostración se veía muy fácil... ¿será tan simple?"
                     </h3>
                     <p className="text-white mobile-info-text break-words">
-                      <strong>LA REALIDAD:</strong> La simulación mostró SOLO el primer intercambio exitoso. 
+                      <strong>LA REALIDAD:</strong> El ejemplo práctico mostró SOLO el primer intercambio exitoso. 
                       El método completo incluye 47 variables diferentes, 12 tipos de respuesta, y 
                       técnicas para cada obstáculo posible. Por eso funciona en el 89% de los casos.
                     </p>
@@ -579,7 +579,7 @@ export default function ResultPageExplosive() {
               <div className="max-w-4xl mx-auto w-full">
                 
                 <h2 className="mobile-section-title font-bold text-white text-center mb-8 break-words">
-                  💕 <span className="text-pink-400">CASOS REALES</span> MÁS ALLÁ DE LA SIMULACIÓN
+                  💕 <span className="text-pink-400">CASOS REALES</span> MÁS ALLÁ DEL EJEMPLO PRÁCTICO
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -598,7 +598,7 @@ export default function ResultPageExplosive() {
                           <span className="text-yellow-400">Situación:</span> {getPronoun()} NO respondió al primer mensaje
                         </p>
                         <p className="text-white mobile-info-text italic mb-3 break-words">
-                          "Mi caso fue diferente a la simulación. {getPronoun()} me ignoró completamente los primeros 4 días. 
+                          "Mi caso fue diferente a cualquier demostración. {getPronoun()} me ignoró completamente los primeros 4 días. 
                           Usé el Protocolo de Silencio del Plan A. El día 8 apliqué la técnica del 'Segundo Intento Estratégico'. 
                           <strong>Funcionó: {getPronoun()} me escribió preguntando cómo estaba.</strong> En 11 días volvimos."
                         </p>
@@ -626,7 +626,7 @@ export default function ResultPageExplosive() {
                           <span className="text-yellow-400">Situación:</span> {getPronoun()} estaba con otra persona hace 3 meses
                         </p>
                         <p className="text-white mobile-info-text italic mb-3 break-words">
-                          "Mi caso parecía imposible - mucho peor que cualquier simulación. {getPronoun()} llevaba 3 meses con otra persona. 
+                          "Mi caso parecía imposible - mucho peor que cualquier ejemplo práctico. {getPronoun()} llevaba 3 meses con otra persona. 
                           El Protocolo Anti-Terceros del Módulo 4 fue mi salvación. Día 1-7: diferenciación sutil. Día 8-12: generar dudas. 
                           Día 13: {getPronoun()} empezó a compararme. <strong>Día 16: dejó a esa persona por mí.</strong>"
                         </p>
@@ -645,7 +645,7 @@ export default function ResultPageExplosive() {
                 {/* ESTATÍSTICAS */}
                 <div className="bg-gradient-to-r from-green-900/50 to-blue-900/50 rounded-xl p-6 mb-6 border border-green-500/30">
                   <h3 className="text-green-400 font-bold mobile-subsection-title text-center mb-4 break-words">
-                    📊 RESULTADOS REALES MÁS ALLÁ DE SIMULACIONES:
+                    📊 RESULTADOS REALES MÁS ALLÁ DE DEMOSTRACIONES:
                   </h3>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
@@ -686,7 +686,7 @@ export default function ResultPageExplosive() {
                     </h2>
                     
                     <p className="text-green-700 mobile-guarantee-text font-bold mb-4 break-words">
-                      Si el método completo no funciona mejor que la simulación, te devuelvo el 100% de tu dinero
+                      Si el método completo no funciona mejor que el ejemplo práctico, te devuelvo el 100% de tu dinero
                     </p>
                     
                     <div className="bg-white rounded-lg p-4 border-2 border-green-500">
@@ -698,7 +698,7 @@ export default function ResultPageExplosive() {
                     </div>
                     
                     <p className="text-green-600 mobile-small-text mt-4 break-words">
-                      Tienes 30 días completos para probarlo. La simulación fue solo el inicio.
+                      Tienes 30 días completos para probarlo. La demostración fue solo el inicio.
                     </p>
                   </CardContent>
                 </Card>
@@ -721,16 +721,16 @@ export default function ResultPageExplosive() {
                 <div className="bg-black/80 backdrop-blur-sm rounded-2xl mobile-final-padding border-2 border-yellow-400 w-full">
                   
                   <h2 className="mobile-final-title font-black text-white mb-4 break-words">
-                    ⚡ ÚLTIMO AVISO - COMPLETA LA SIMULACIÓN EN LA VIDA REAL
+                    ⚡ ÚLTIMO AVISO - COMPLETA LA DEMOSTRACIÓN EN LA VIDA REAL
                   </h2>
                   
                   <p className="mobile-final-subtitle text-white mb-6 font-bold break-words">
-                    Viste cómo funciona en la simulación. Ahora hazlo realidad con {getPronoun()}.
+                    Viste cómo funciona en el ejemplo práctico. Ahora hazlo realidad con {getPronoun()}.
                   </p>
                   
                   <div className="bg-yellow-600/20 border border-yellow-400 rounded-lg p-4 mb-6">
                     <p className="text-yellow-300 mobile-info-text font-bold mb-2 break-words">
-                      🎬 LA SIMULACIÓN TE MOSTRÓ LOS DÍAS 1-3:
+                      🎬 LA DEMOSTRACIÓN TE MOSTRÓ LOS DÍAS 1-3:
                     </p>
                     <p className="text-white mobile-description break-words">
                       Ahora necesitas los días 4-21 para completar la reconquista real. 
@@ -750,14 +750,14 @@ export default function ResultPageExplosive() {
                     className="w-full mb-6"
                   >
                     <Button
-                      onClick={() => handlePurchase("cta_final_simulacao")}
+                      onClick={() => handlePurchase("cta_final_demostracion")}
                       size="lg"
                       className="mobile-cta-final"
                       onTouchStart={handleTouchFeedback}
                     >
                       <div className="text-center break-words">
                         <div className="mobile-cta-final-text leading-tight font-black">
-                          🎬 SÍ, QUIERO COMPLETAR LA SIMULACIÓN EN LA VIDA REAL
+                          🎬 SÍ, QUIERO COMPLETAR LA DEMOSTRACIÓN EN LA VIDA REAL
                         </div>
                         <div className="mobile-small-text mt-1 opacity-90">
                           Los 21 días completos para reconquistar a {getPronoun()}
@@ -768,7 +768,7 @@ export default function ResultPageExplosive() {
                   </motion.div>
 
                   <p className="text-yellow-300 mobile-final-warning font-bold break-words">
-                    La simulación fue perfecta. Ahora hazla realidad antes de que sea tarde.
+                    El ejemplo práctico fue perfecto. Ahora hazlo realidad antes de que sea tarde.
                   </p>
                 </div>
               </div>
