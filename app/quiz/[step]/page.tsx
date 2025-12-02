@@ -141,7 +141,7 @@ const WhatsAppMockup = ({ userGender }) => {
 
   const animateSuccessPercentage = () => {
     let current = 0
-    const target = 89.5
+    const target = 89
     const increment = target / 30 // Reduzido para animação mais rápida
     
     const interval = setInterval(() => {
