@@ -196,7 +196,7 @@ export default function ResultPageExplosive() {
                     <p className="break-words mb-2">✅ Mensaje personalizado para: <strong>{getPersonalizedSituation()}</strong></p>
                   </div>
                   <div>
-                    <p className="break-words mb-2">✅ 89,7% de probabilidad de éxito calculada</p>
+                    <p className="break-words mb-2">✅ 89% de probabilidad de éxito calculada</p>
                     <p className="break-words mb-2">✅ Respuesta emocional simulada en tiempo real</p>
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export default function ResultPageExplosive() {
                 <p>→ <strong>Tiempo separados:</strong> {getPersonalizedTimeframe()}</p>
                 <p>→ <strong>Situación actual:</strong> {getPersonalizedSituation()}</p>
                 <p>→ <strong>Días del método necesarios:</strong> <span className="text-orange-400 font-bold">21 días completos</span></p>
-                <p>→ <strong>Tasa de éxito con método completo:</strong> <span className="text-green-400 font-bold">89,7%</span></p>
+                <p>→ <strong>Tasa de éxito con método completo:</strong> <span className="text-green-400 font-bold">89%</span></p>
               </div>
             </div>
           </div>
@@ -239,7 +239,7 @@ export default function ResultPageExplosive() {
                     <li>→ <strong>Día 1-3:</strong> Primer mensaje optimizado</li>
                     <li>→ <strong>Respuesta de {getPronoun()}:</strong> Simulada en tiempo real</li>
                     <li>→ <strong>Tu follow-up:</strong> Estratégico y calculado</li>
-                    <li>→ <strong>Análisis:</strong> Probabilidad de éxito 89,7%</li>
+                    <li>→ <strong>Análisis:</strong> Probabilidad de éxito 89%</li>
                   </ul>
                   <div className="bg-green-900/30 rounded-lg p-2 mt-3">
                     <p className="text-green-300 text-sm font-bold">Solo el 14% del método completo</p>
@@ -491,7 +491,7 @@ export default function ResultPageExplosive() {
                       </div>
                       <div className="flex items-center break-words">
                         <Heart className="mobile-social-icon text-red-400 mr-1" />
-                        <span><strong className="text-white">89%</strong> ya vio resultados</span>
+                        <span><strong className="text-white">87%</strong> ya vio resultados</span>
                       </div>
                     </div>
                   </CardContent>
@@ -557,7 +557,7 @@ export default function ResultPageExplosive() {
                     <p className="text-white mobile-info-text break-words">
                       <strong>LA REALIDAD:</strong> El ejemplo práctico mostró SOLO el primer intercambio exitoso. 
                       El método completo incluye 47 variables diferentes, 12 tipos de respuesta, y 
-                      técnicas para cada obstáculo posible. Por eso funciona en el 89% de los casos.
+                      técnicas para cada obstáculo posible. Por eso funciona en el 87% de los casos.
                     </p>
                   </div>
 
@@ -649,7 +649,7 @@ export default function ResultPageExplosive() {
                   </h3>
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="mobile-stats-number font-bold text-green-400 mb-1">89%</div>
+                      <div className="mobile-stats-number font-bold text-green-400 mb-1">87%</div>
                       <p className="text-white mobile-stats-text break-words">Éxito con método completo</p>
                     </div>
                     <div>
