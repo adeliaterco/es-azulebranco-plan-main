@@ -661,8 +661,11 @@ export default function QuizStep() {
   const [peopleCount, setPeopleCount] = useState(17)
   const [userGender, setUserGender] = useState<string>("")
 
-  const currentStep = quizSteps[step - 1]
-  const progress = (step / 13) * 100
+  // ✅ CORREÇÃO 1: BUSCAR STEP POR ID DECIMAL
+  const currentStep = quizSteps.find(s => s.id === step) || quizSteps[step - 1]
+  
+  // ✅ CORREÇÃO 2: PROGRESS DINÂMICO  
+  const progress = (step / quizSteps.length) * 100
 
   useEffect(() => {
     // Cargar datos guardados
@@ -796,11 +799,18 @@ export default function QuizStep() {
       return
     }
 
-    if (step < 13) {
-      router.push(`/quiz/${step + 1}${utmString}`)
+    // ✅ CORREÇÃO 3: NAVEGAÇÃO DINÂMICA
+    if (step < quizSteps.length) {
+      // ✅ LÓGICA PARA PRÓXIMO STEP
+      const currentIndex = quizSteps.findIndex(s => s.id === step)
+      const nextStep = quizSteps[currentIndex + 1]
+      const nextStepId = nextStep ? nextStep.id : step + 1
+      
+      router.push(`/quiz/${nextStepId}${utmString}`)
     } else {
+      // ✅ CORREÇÃO 4: EVENTO DINÂMICO
       enviarEvento('concluiu_quiz', {
-        total_etapas_completadas: 13,
+        total_etapas_completadas: quizSteps.length,
         total_bonus_desbloqueados: unlockedBonuses.length
       });
       
@@ -825,8 +835,13 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
     
-    if (step < 13) {
-      router.push(`/quiz/${step + 1}${utmString}`)
+    // ✅ CORREÇÃO 5: NAVEGAÇÃO DINÂMICA NO BONUS
+    if (step < quizSteps.length) {
+      const currentIndex = quizSteps.findIndex(s => s.id === step)
+      const nextStep = quizSteps[currentIndex + 1]
+      const nextStepId = nextStep ? nextStep.id : step + 1
+      
+      router.push(`/quiz/${nextStepId}${utmString}`)
     } else {
       router.push(`/resultado${utmString}`)
     }
@@ -853,7 +868,12 @@ export default function QuizStep() {
     }
     
     if (step > 1) {
-      router.push(`/quiz/${step - 1}${utmString}`)
+      // ✅ LÓGICA PARA STEP ANTERIOR
+      const currentIndex = quizSteps.findIndex(s => s.id === step)
+      const prevStep = quizSteps[currentIndex - 1]
+      const prevStepId = prevStep ? prevStep.id : step - 1
+      
+      router.push(`/quiz/${prevStepId}${utmString}`)
     } else {
       router.push(`/${utmString}`)
     }
@@ -951,8 +971,9 @@ export default function QuizStep() {
           </div>
 
           <div className="flex justify-between items-center">
+            {/* ✅ CORREÇÃO 6: TEXTO DINÂMICO */}
             <p className="text-white text-sm">
-              Etapa {step} de 13 • {Math.round(progress)}% completado
+              Etapa {step} de {quizSteps.length} • {Math.round(progress)}% completado
             </p>
           </div>
         </div>
@@ -1078,6 +1099,14 @@ export default function QuizStep() {
                     </Button>
                   </motion.div>
                 </div>
+              )}
+
+              {/* ✅ CORREÇÃO 7: RENDERIZAR CUSTOMCONTENT PARA STEP 12.5 */}
+              {currentStep?.customContent && (
+                <div 
+                  className="mb-8" 
+                  dangerouslySetInnerHTML={{ __html: currentStep.customContent }}
+                />
               )}
 
               {/* Auto advance step */}
@@ -1230,7 +1259,7 @@ export default function QuizStep() {
                 </motion.div>
               )}
 
-              {!currentStep?.autoAdvance && step !== 12 && (
+              {!currentStep?.autoAdvance && step !== 12 && !currentStep?.customContent && (
                 <>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
                     {getPersonalizedQuestion()}
@@ -1437,6 +1466,33 @@ export default function QuizStep() {
                       </Button>
                     </motion.div>
                   )}
+                </>
+              )}
+
+              {/* ✅ RENDERIZAR PARA STEP 12.5 - BOTÃO ESPECÍFICO */}
+              {currentStep?.customContent && getPersonalizedOptions().length > 0 && (
+                <>
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
+                    {getPersonalizedQuestion()}
+                  </h2>
+
+                  {getPersonalizedSubtext() && (
+                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
+                  )}
+
+                  <motion.div className="text-center mt-8">
+                    <Button
+                      onClick={() => {
+                        setSelectedAnswer(getPersonalizedOptions()[0])
+                        handleNext()
+                      }}
+                      size="lg"
+                      className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg w-full sm:w-auto text-sm sm:text-base"
+                    >
+                      {getPersonalizedOptions()[0]}
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                    </Button>
+                  </motion.div>
                 </>
               )}
             </CardContent>
