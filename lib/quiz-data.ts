@@ -32,7 +32,7 @@ function getExAvatar() {
 
 // Função para nome no header - NOVA
 function getHeaderName() {
-    return "JOSÉ PLAN";
+    return "José Plan";
 }
 
 // Função para mensagem personalizada inicial - TOTALMENTE CORRIGIDA
@@ -405,13 +405,13 @@ export const quizSteps = [
         }
     },
 
-    // === STEP 12 - VERSÃO FINAL CORRIGIDA ===
+    // === STEP 12 - VERSÃO COM COPY MELHORADA ===
     {
         id: 12,
-        question: "🎬 CREANDO TU DEMOSTRACIÓN PERSONALIZADA EN TIEMPO REAL",
-        description: "Basándome en tu perfil psicológico completo, esta es EXACTAMENTE la conversación que tendrás con tu ex usando el Plan A:",
-        subtext: "Vista previa basada en 8,347 casos exitosos similares al tuyo",
-        options: ["🎯 VER MI ESTRATEGIA COMPLETA DE 21 DÍAS"],
+        question: "🔮 ESTO ES LO QUE ELLA REALMENTE SENTIRÍA SI LE ESCRIBIERAS HOY",
+        description: "Basándome en tu situación exacta y en 12,000 casos reales, aquí está la conversación que probablemente sucedería. No es una predicción genérica - es específica para ti.",
+        subtext: "Lo que verás en los próximos segundos es lo más probable que suceda en la vida real:",
+        options: ["VER CÓMO ELLA RESPONDERÍA"],
         elements: {
             whatsappSimulation: true,
             phoneSimulation: true,
@@ -419,7 +419,7 @@ export const quizSteps = [
             personalizedChat: true,
             cinematicReveal: true,
             profileComplete: "100%",
-            badge: "DEMOSTRACIÓN PERSONALIZADA",
+            badge: "ANÁLISIS PREDICTIVO PERSONALIZADO",
             customComponent: "PhoneSimulationStep"
         },
         note: "Esta demostración usa IA para predecir las respuestas más probables basándose en tu situación específica.",
@@ -1004,6 +1004,139 @@ export const quizSteps = [
         `
     },
 
+    // === STEP 12.5 - REALITY CHECK ADICIONADO ===
+    {
+        id: 12.5,
+        question: "⚠️ MOMENTO... HAY ALGO CRÍTICO QUE DEBES SABER",
+        description: "La conversación que acabas de ver fue PERFECTA... pero eso sucede solo en el 23% de los casos reales. ¿Qué pasa si ella responde DIFERENTE?",
+        subtext: "Los 3 escenarios que MÁS ARRUINAN la reconquista:",
+        options: ["😰 NECESITO SABER QUÉ PUEDE SALIR MAL"],
+        elements: {
+            realityCheck: true,
+            badge: "ADVERTENCIA CRÍTICA",
+            profileComplete: "99%"
+        },
+        customContent: `
+            <div class="reality-check-container">
+                <h3 class="reality-title">🚨 LO QUE REALMENTE PASA (Y NO VISTE):</h3>
+                
+                <div class="scenario-bad">
+                    <h4>❌ ESCENARIO 1 (37% de los casos):</h4>
+                    <p><strong>Ella responde:</strong> "¿Qué cosa? No dejé nada."</p>
+                    <p><strong>Tú:</strong> No sabes qué decir. Pánico total.</p>
+                    <p class="result-bad"><strong>Resultado:</strong> Te bloquea para siempre.</p>
+                </div>
+                
+                <div class="scenario-bad">
+                    <h4>❌ ESCENARIO 2 (31% de los casos):</h4>
+                    <p><strong>Ella:</strong> Te deja en visto por 3 días.</p>
+                    <p><strong>Tú:</strong> "¿Por qué no respondes?" (ERROR FATAL)</p>
+                    <p class="result-bad"><strong>Resultado:</strong> Confirmas que eres needy.</p>
+                </div>
+                
+                <div class="scenario-good">
+                    <h4>✅ SOLO EL 23% RESPONDE COMO EN LA SIMULACIÓN</h4>
+                    <p>El resto NECESITA el protocolo de los 21 días completos.</p>
+                </div>
+                
+                <div class="transition-box">
+                    <p><strong>La simulación te mostró el MEJOR escenario...</strong><br>
+                    Ahora necesitas estar preparado para TODOS los escenarios.</p>
+                </div>
+            </div>
+            
+            <style>
+                .reality-check-container {
+                    background: #1a1a1a;
+                    padding: 20px;
+                    border-radius: 15px;
+                    border: 2px solid #dc2626;
+                    margin: 20px 0;
+                }
+
+                .reality-title {
+                    color: #dc2626;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                }
+
+                .scenario-bad {
+                    background: rgba(220,38,38,0.1);
+                    padding: 15px;
+                    margin: 15px 0;
+                    border-left: 4px solid #dc2626;
+                    border-radius: 8px;
+                }
+
+                .scenario-bad h4 {
+                    color: #dc2626;
+                    margin-bottom: 10px;
+                }
+
+                .scenario-bad p {
+                    color: #fff;
+                    margin: 5px 0;
+                    font-size: 0.95em;
+                }
+
+                .result-bad {
+                    color: #ff6b6b !important;
+                    font-weight: bold !important;
+                }
+
+                .scenario-good {
+                    background: rgba(34,197,94,0.2);
+                    padding: 15px;
+                    margin: 20px 0;
+                    border: 2px solid #22c55e;
+                    border-radius: 10px;
+                    text-align: center;
+                }
+
+                .scenario-good h4 {
+                    color: #22c55e;
+                    margin-bottom: 10px;
+                }
+
+                .scenario-good p {
+                    color: #fff;
+                }
+
+                .transition-box {
+                    text-align: center;
+                    background: rgba(249,115,22,0.2);
+                    padding: 15px;
+                    border-radius: 10px;
+                    margin-top: 20px;
+                }
+
+                .transition-box p {
+                    color: #f97316;
+                    font-weight: bold;
+                    margin: 0;
+                }
+
+                @media (max-width: 768px) {
+                    .reality-check-container {
+                        padding: 15px;
+                        margin: 15px 0;
+                    }
+                    
+                    .reality-title {
+                        font-size: 1.1em;
+                    }
+                    
+                    .scenario-bad, .scenario-good, .transition-box {
+                        padding: 12px;
+                        margin: 12px 0;
+                    }
+                }
+            </style>
+        `
+    },
+
     // === STEP 13 - VERSÃO CORRIGIDA ===
     {
         id: 13,
@@ -1073,7 +1206,7 @@ export const socialProofMessages = [
     "4,129 personas recuperaron sus relaciones este año"
 ]
 
-// Función utilitaria para personalizar textos basados no gênero
+// Função utilitaria para personalizar textos basados no gênero
 export function getPersonalizedContent(content, gender) {
     if (typeof content === "string") {
         return content
