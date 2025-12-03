@@ -405,7 +405,7 @@ export const quizSteps = [
         }
     },
 
-    // === STEP 12 - VERSÃO COM COPY MELHORADA ===
+    // === STEP 12 - SIMULAÇÃO WHATSAPP ===
     {
         id: 12,
         question: "🔮 ESTO ES LO QUE ELLA REALMENTE SENTIRÍA SI LE ESCRIBIERAS HOY",
@@ -1004,13 +1004,13 @@ export const quizSteps = [
         `
     },
 
-    // === STEP 12.5 - REALITY CHECK ADICIONADO ===
+    // === STEP 12.5 - REALITY CHECK (INSERIDO AQUI) ===
     {
         id: 12.5,
         question: "⚠️ MOMENTO... HAY ALGO CRÍTICO QUE DEBES SABER",
         description: "La conversación que acabas de ver fue PERFECTA... pero eso sucede solo en el 23% de los casos reales. ¿Qué pasa si ella responde DIFERENTE?",
         subtext: "Los 3 escenarios que MÁS ARRUINAN la reconquista:",
-        options: ["😰 NECESITO SABER QUÉ PUEDE SALIR MAL"],
+        options: ["😰 NECESITO SABER QUE PUEDE SALIR MAL"],
         elements: {
             realityCheck: true,
             badge: "ADVERTENCIA CRÍTICA",
@@ -1137,7 +1137,7 @@ export const quizSteps = [
         `
     },
 
-    // === STEP 13 - VERSÃO CORRIGIDA ===
+    // === STEP 13 - OFERTA PLAN A (RESTAURADO) ===
     {
         id: 13,
         question: "🎯 TU PLAN A PERSONALIZADO ESTÁ LISTO",
