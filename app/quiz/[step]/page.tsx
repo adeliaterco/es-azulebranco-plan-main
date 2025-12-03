@@ -52,17 +52,14 @@ const WhatsAppMockup = ({ userGender }) => {
   ])
   const [successPercentage, setSuccessPercentage] = useState(0)
 
-  // ✅ CORREÇÃO: Nome fixo para header
   const getExName = () => {
     return "José Plan"
   }
 
-  // ✅ CORREÇÃO: Usar sempre sua imagem
   const getExAvatar = () => {
     return "https://i.ibb.co/5gSMWD68/Generatedimage-1764387030465.png";
   }
 
-  // ✅ CORREÇÃO DEFINITIVA: Sem nomes nas mensagens
   const getPersonalizedFirstMessage = () => {
     const answers = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("quizAnswers") || "{}") : {}
     const currentSituation = answers.question7 || ""
@@ -107,31 +104,6 @@ const WhatsAppMockup = ({ userGender }) => {
     return "Gracias por acordarte de mí. ¿Cómo has estado?"
   }
 
-  const conversation = [
-    {
-      type: 'sent',
-      message: getPersonalizedFirstMessage(),
-      delay: 1000,
-      timestamp: 'Día 1 - 19:30'
-    },
-    {
-      type: 'typing',
-      duration: 1500
-    },
-    {
-      type: 'received', 
-      message: getPersonalizedExResponse(),
-      delay: 500,
-      timestamp: '19:47'
-    },
-    {
-      type: 'sent',
-      message: "Me alegra que respondas. ¿Te parece si hablamos mejor mañana? Tengo algunas cosas que hacer ahora.",
-      delay: 1000,
-      timestamp: '19:52'
-    }
-  ]
-
   const updateAnalysisPoint = (pointIndex, status) => {
     setAnalysisPoints(prev => prev.map((point, index) => 
       index === pointIndex ? { ...point, status } : point
@@ -141,7 +113,7 @@ const WhatsAppMockup = ({ userGender }) => {
   const animateSuccessPercentage = () => {
     let current = 0
     const target = 89
-    const increment = target / 30 // Reduzido para animação mais rápida
+    const increment = target / 30
     
     const interval = setInterval(() => {
       current += increment
@@ -150,19 +122,18 @@ const WhatsAppMockup = ({ userGender }) => {
         clearInterval(interval)
       }
       setSuccessPercentage(Math.round(current))
-    }, 30) // Intervalo reduzido para 30ms
+    }, 30)
   }
 
-  // ✅ ANIMAÇÃO ACELERADA
   useEffect(() => {
     let stepIndex = 0
     const steps = [
-      { delay: 500, action: 'showUserMessage' },    // Era 1000ms
-      { delay: 1500, action: 'showTyping' },        // Era 3000ms
-      { delay: 2500, action: 'hideTyping' },        // Era 5000ms
-      { delay: 3000, action: 'showExResponse' },    // Era 5500ms
-      { delay: 4000, action: 'showUserFollowup' },  // Era 7000ms
-      { delay: 4500, action: 'showSuccess' }        // Era 8000ms
+      { delay: 500, action: 'showUserMessage' },
+      { delay: 1500, action: 'showTyping' },
+      { delay: 2500, action: 'hideTyping' },
+      { delay: 3000, action: 'showExResponse' },
+      { delay: 4000, action: 'showUserFollowup' },
+      { delay: 4500, action: 'showSuccess' }
     ]
 
     const runAnimation = () => {
@@ -208,8 +179,7 @@ const WhatsAppMockup = ({ userGender }) => {
       }
     }
 
-    // ✅ INICIA MAIS RÁPIDO
-    setTimeout(runAnimation, 300) // Era sem setTimeout
+    setTimeout(runAnimation, 300)
   }, [])
 
   return (
@@ -248,10 +218,10 @@ const WhatsAppMockup = ({ userGender }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }} // ✅ Mais rápido
+                    transition={{ duration: 0.3 }}
                     className="message-bubble sent"
                   >
-                    <div className="message-content">{conversation[0].message}</div>
+                    <div className="message-content">{getPersonalizedFirstMessage()}</div>
                     <div className="message-time">19:30 ✓✓</div>
                   </motion.div>
                 )}
@@ -262,7 +232,7 @@ const WhatsAppMockup = ({ userGender }) => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }} // ✅ Mais rápido
+                  transition={{ duration: 0.2 }}
                   className="message-bubble received typing-indicator"
                 >
                   <div className="typing-dots">
@@ -279,10 +249,10 @@ const WhatsAppMockup = ({ userGender }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }} // ✅ Mais rápido
+                    transition={{ duration: 0.3 }}
                     className="message-bubble received"
                   >
-                    <div className="message-content">{conversation[2].message}</div>
+                    <div className="message-content">{getPersonalizedExResponse()}</div>
                     <div className="message-time">19:47</div>
                   </motion.div>
                 )}
@@ -294,10 +264,10 @@ const WhatsAppMockup = ({ userGender }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }} // ✅ Mais rápido
+                    transition={{ duration: 0.3 }}
                     className="message-bubble sent"
                   >
-                    <div className="message-content">{conversation[3].message}</div>
+                    <div className="message-content">Me alegra que respondas. ¿Te parece si hablamos mejor mañana? Tengo algunas cosas que hacer ahora.</div>
                     <div className="message-time">19:52 ✓✓</div>
                   </motion.div>
                 )}
@@ -328,12 +298,11 @@ const WhatsAppMockup = ({ userGender }) => {
             <motion.div 
               key={index} 
               className="analysis-point"
-              // ✅ ANIMAÇÃO MAIS RÁPIDA dos pontos
               animate={{
                 scale: point.status === 'active' ? [1, 1.05, 1] : 1,
               }}
               transition={{
-                duration: 0.5, // Era mais lento
+                duration: 0.5,
                 repeat: point.status === 'active' ? Infinity : 0,
               }}
             >
@@ -505,12 +474,12 @@ const WhatsAppMockup = ({ userGender }) => {
           height: 6px;
           background: #999;
           border-radius: 50%;
-          animation: typingDots 1s infinite; /* ✅ Mais rápido */
+          animation: typingDots 1s infinite;
         }
 
         .typing-dots span:nth-child(1) { animation-delay: 0s; }
-        .typing-dots span:nth-child(2) { animation-delay: 0.15s; } /* ✅ Delay reduzido */
-        .typing-dots span:nth-child(3) { animation-delay: 0.3s; }  /* ✅ Delay reduzido */
+        .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
 
         @keyframes typingDots {
           0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; }
@@ -554,7 +523,7 @@ const WhatsAppMockup = ({ userGender }) => {
           padding: 8px;
           background: rgba(255,255,255,0.1);
           border-radius: 8px;
-          transition: all 0.3s ease; /* ✅ Mais rápido */
+          transition: all 0.3s ease;
         }
 
         .point-status {
@@ -576,7 +545,7 @@ const WhatsAppMockup = ({ userGender }) => {
         .point-status.active {
           background: #4CAF50;
           color: white;
-          animation: pulse 0.8s infinite; /* ✅ Mais rápido */
+          animation: pulse 0.8s infinite;
         }
 
         .point-status.completed {
@@ -610,7 +579,7 @@ const WhatsAppMockup = ({ userGender }) => {
           align-items: center;
           justify-content: center;
           margin: 0 auto;
-          animation: rotate 1.5s linear infinite; /* ✅ Mais rápido */
+          animation: rotate 1.5s linear infinite;
         }
 
         @keyframes rotate {
@@ -661,14 +630,10 @@ export default function QuizStep() {
   const [peopleCount, setPeopleCount] = useState(17)
   const [userGender, setUserGender] = useState<string>("")
 
-  // ✅ CORREÇÃO 1: BUSCAR STEP POR ID DECIMAL
   const currentStep = quizSteps.find(s => s.id === step) || quizSteps[step - 1]
-  
-  // ✅ CORREÇÃO 2: PROGRESS DINÂMICO  
   const progress = (step / quizSteps.length) * 100
 
   useEffect(() => {
-    // Cargar datos guardados
     const saved = localStorage.getItem("quizData")
     const savedBonuses = localStorage.getItem("unlockedBonuses")
     const savedValue = localStorage.getItem("totalValue")
@@ -749,7 +714,7 @@ export default function QuizStep() {
       setTimeout(() => {
         setShowAnalysis(false)
         proceedToNextStep()
-      }, 1500) // ✅ Reduzido de 2000ms para 1500ms
+      }, 1500)
       return
     }
 
@@ -767,7 +732,6 @@ export default function QuizStep() {
       }
     }
     
-    // ✅ CORREÇÃO CRÍTICA: utmParams.toString() ao invés de utmString.toString()
     if (utmParams.toString() !== '') {
       utmString = '?' + utmParams.toString();
     }
@@ -799,16 +763,13 @@ export default function QuizStep() {
       return
     }
 
-    // ✅ CORREÇÃO 3: NAVEGAÇÃO DINÂMICA
     if (step < quizSteps.length) {
-      // ✅ LÓGICA PARA PRÓXIMO STEP
       const currentIndex = quizSteps.findIndex(s => s.id === step)
       const nextStep = quizSteps[currentIndex + 1]
       const nextStepId = nextStep ? nextStep.id : step + 1
       
       router.push(`/quiz/${nextStepId}${utmString}`)
     } else {
-      // ✅ CORREÇÃO 4: EVENTO DINÂMICO
       enviarEvento('concluiu_quiz', {
         total_etapas_completadas: quizSteps.length,
         total_bonus_desbloqueados: unlockedBonuses.length
@@ -835,7 +796,6 @@ export default function QuizStep() {
       utmString = '?' + utmParams.toString();
     }
     
-    // ✅ CORREÇÃO 5: NAVEGAÇÃO DINÂMICA NO BONUS
     if (step < quizSteps.length) {
       const currentIndex = quizSteps.findIndex(s => s.id === step)
       const nextStep = quizSteps[currentIndex + 1]
@@ -868,7 +828,6 @@ export default function QuizStep() {
     }
     
     if (step > 1) {
-      // ✅ LÓGICA PARA STEP ANTERIOR
       const currentIndex = quizSteps.findIndex(s => s.id === step)
       const prevStep = quizSteps[currentIndex - 1]
       const prevStepId = prevStep ? prevStep.id : step - 1
@@ -943,7 +902,7 @@ export default function QuizStep() {
   return (
     <div className="min-h-screen bg-black p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Encabezado con progreso */}
+        {/* Header com progresso */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <Button
@@ -971,7 +930,6 @@ export default function QuizStep() {
           </div>
 
           <div className="flex justify-between items-center">
-            {/* ✅ CORREÇÃO 6: TEXTO DINÂMICO */}
             <p className="text-white text-sm">
               Etapa {step} de {quizSteps.length} • {Math.round(progress)}% completado
             </p>
@@ -1059,7 +1017,7 @@ export default function QuizStep() {
           </motion.div>
         )}
 
-        {/* Tarjeta de Pregunta */}
+        {/* Card principal */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
@@ -1068,7 +1026,7 @@ export default function QuizStep() {
           <Card className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-lg border-orange-500/30 shadow-2xl border-2">
             <CardContent className="p-6 sm:p-8">
               
-              {/* === RENDERIZAÇÃO ESPECIAL PARA STEP 12 - COM MELHORIAS APLICADAS === */}
+              {/* ✅ RENDERIZAÇÃO ESPECIAL APENAS PARA STEP 12 */}
               {step === 12 && (
                 <div className="text-center">
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 leading-tight">
@@ -1101,16 +1059,40 @@ export default function QuizStep() {
                 </div>
               )}
 
-              {/* ✅ CORREÇÃO 7: RENDERIZAR CUSTOMCONTENT PARA STEP 12.5 */}
-              {currentStep?.customContent && (
-                <div 
-                  className="mb-8" 
-                  dangerouslySetInnerHTML={{ __html: currentStep.customContent }}
-                />
+              {/* ✅ RENDERIZAÇÃO CUSTOMCONTENT APENAS PARA STEP 12.5 */}
+              {step === 12.5 && currentStep?.customContent && (
+                <>
+                  <div 
+                    className="mb-8" 
+                    dangerouslySetInnerHTML={{ __html: currentStep.customContent }}
+                  />
+                  
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
+                    {getPersonalizedQuestion()}
+                  </h2>
+
+                  {getPersonalizedSubtext() && (
+                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
+                  )}
+
+                  <motion.div className="text-center mt-8">
+                    <Button
+                      onClick={() => {
+                        setSelectedAnswer(getPersonalizedOptions()[0])
+                        handleNext()
+                      }}
+                      size="lg"
+                      className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg w-full sm:w-auto text-sm sm:text-base"
+                    >
+                      {getPersonalizedOptions()[0]}
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
+                    </Button>
+                  </motion.div>
+                </>
               )}
 
               {/* Auto advance step */}
-              {currentStep?.autoAdvance && step !== 12 && (
+              {currentStep?.autoAdvance && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -1156,9 +1138,9 @@ export default function QuizStep() {
                             opacity: [0.3, 1, 0.3],
                           }}
                           transition={{
-                            duration: 1,  // ✅ Reduzido de 1.5s
+                            duration: 1,
                             repeat: Number.POSITIVE_INFINITY,
-                            delay: i * 0.15, // ✅ Reduzido de 0.2s
+                            delay: i * 0.15,
                           }}
                         />
                       ))}
@@ -1189,7 +1171,7 @@ export default function QuizStep() {
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: "100%" }}
-                    transition={{ duration: 1.5, delay: 0.5 }} // ✅ Reduzido de 2s
+                    transition={{ duration: 1.5, delay: 0.5 }}
                     className="mb-6"
                   >
                     <div className="bg-green-900/50 border border-green-500 rounded-lg p-4 text-center">
@@ -1206,7 +1188,7 @@ export default function QuizStep() {
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.8 }} // ✅ Reduzido de 1s
+                    transition={{ delay: 0.8 }}
                     className="bg-blue-900/50 border border-blue-500 rounded-lg p-4 mb-6"
                   >
                     <div className="flex items-center justify-center gap-2">
@@ -1217,8 +1199,8 @@ export default function QuizStep() {
                 </motion.div>
               )}
 
-              {/* Foto de experto para el paso 11 y 13 */}
-              {currentStep?.elements?.expertPhoto && !currentStep?.autoAdvance && step !== 12 && (
+              {/* Foto de experto para outros steps */}
+              {currentStep?.elements?.expertPhoto && !currentStep?.autoAdvance && step !== 12 && step !== 12.5 && (
                 <div className="flex justify-center mb-6">
                   {currentStep?.elements?.expertImage ? (
                     <motion.img
@@ -1230,7 +1212,7 @@ export default function QuizStep() {
                         rotate: [0, 2, -2, 0],
                       }}
                       transition={{
-                        duration: 4, // ✅ Reduzido de 5s
+                        duration: 4,
                         repeat: Number.POSITIVE_INFINITY,
                         ease: "easeInOut",
                       }}
@@ -1243,12 +1225,12 @@ export default function QuizStep() {
                 </div>
               )}
 
-              {/* Compatibilidade calculation for step 11 */}
+              {/* Compatibilidade calculation */}
               {currentStep?.elements?.compatibilityCalc && (
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "91%" }}
-                  transition={{ duration: 1.5, delay: 0.5 }} // ✅ Reduzido de 2s
+                  transition={{ duration: 1.5, delay: 0.5 }}
                   className="mb-6"
                 >
                   <div className="bg-green-900/50 border border-green-500 rounded-lg p-4 text-center">
@@ -1259,50 +1241,51 @@ export default function QuizStep() {
                 </motion.div>
               )}
 
-              {!currentStep?.autoAdvance && step !== 12 && step !== 12.5 && !currentStep?.customContent && (
-  <>
-    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
-      {getPersonalizedQuestion()}
-    </h2>
+              {/* ✅ RENDERIZAÇÃO PADRÃO PARA TODOS OUTROS STEPS (EXCETO 12 E 12.5) */}
+              {!currentStep?.autoAdvance && step !== 12 && step !== 12.5 && (
+                <>
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
+                    {getPersonalizedQuestion()}
+                  </h2>
 
-    {getPersonalizedSubtext() && (
-      <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
-    )}
+                  {getPersonalizedSubtext() && (
+                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
+                  )}
 
-    {getPersonalizedDescription() && (
-      <div className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
-        {step === 13 ? (
-          <div className="space-y-6">
-            {getPersonalizedDescription().split('**').map((section, index) => {
-              if (index % 2 === 1) {
-                return <strong key={index} className="text-orange-400">{section}</strong>
-              }
-              return section ? (
-                <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-600 text-left">
-                  {section.trim()}
-                </div>
-              ) : null
-            })}
-          </div>
-        ) : (
-          getPersonalizedDescription()
-        )}
-      </div>
-    )}
+                  {getPersonalizedDescription() && (
+                    <div className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
+                      {step === 13 ? (
+                        <div className="space-y-6">
+                          {getPersonalizedDescription().split('**').map((section, index) => {
+                            if (index % 2 === 1) {
+                              return <strong key={index} className="text-orange-400">{section}</strong>
+                            }
+                            return section ? (
+                              <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-600 text-left">
+                                {section.trim()}
+                              </div>
+                            ) : null
+                          })}
+                        </div>
+                      ) : (
+                        getPersonalizedDescription()
+                      )}
+                    </div>
+                  )}
 
                   {/* Evidência Científica - APENAS ETAPA 11 */}
                   {currentStep?.elements?.scientificEvidence && (
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3 }} // ✅ Reduzido delays
+                      transition={{ duration: 0.6, delay: 0.3 }}
                       className="mb-8 space-y-6"
                     >
                       {currentStep.elements.reportageImage && (
                         <motion.div
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.4, delay: 0.4 }} // ✅ Reduzido
+                          transition={{ duration: 0.4, delay: 0.4 }}
                           className="relative"
                         >
                           <img
@@ -1317,7 +1300,7 @@ export default function QuizStep() {
                         <motion.div
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.4, delay: 0.6 }} // ✅ Reduzido
+                          transition={{ duration: 0.4, delay: 0.6 }}
                           className="relative"
                         >
                           <img
@@ -1334,7 +1317,7 @@ export default function QuizStep() {
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.8 }} // ✅ Reduzido de 1.1s
+                        transition={{ delay: 0.8 }}
                         className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4 text-center"
                       >
                         <p className="text-blue-200 text-sm sm:text-base font-medium">
@@ -1356,7 +1339,7 @@ export default function QuizStep() {
                           className="bg-gradient-to-r from-orange-500 to-red-600 h-full rounded-full"
                           initial={{ width: "0%" }}
                           animate={{ width: selectedAnswer ? "100%" : "0%" }}
-                          transition={{ duration: 0.3 }} // ✅ Reduzido de 0.5s
+                          transition={{ duration: 0.3 }}
                         />
                       </div>
                     </div>
@@ -1369,7 +1352,7 @@ export default function QuizStep() {
                           key={index}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.08, duration: 0.3 }} // ✅ Delays reduzidos
+                          transition={{ delay: index * 0.08, duration: 0.3 }}
                           className="relative"
                         >
                           <button
@@ -1405,9 +1388,9 @@ export default function QuizStep() {
                                 scale: [1, 1.02, 1],
                               }}
                               transition={{
-                                duration: 1.5, // ✅ Reduzido de 2s
+                                duration: 1.5,
                                 repeat: Number.POSITIVE_INFINITY,
-                                delay: index * 0.3, // ✅ Reduzido de 0.5s
+                                delay: index * 0.3,
                               }}
                             />
                           )}
@@ -1420,7 +1403,7 @@ export default function QuizStep() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 }} // ✅ Reduzido de 0.8s
+                      transition={{ delay: 0.6 }}
                       className="mt-6 text-center text-amber-300 bg-amber-900/30 p-4 rounded-lg border border-amber-600"
                     >
                       <p className="font-medium text-sm sm:text-base">{currentStep.note}</p>
@@ -1431,7 +1414,7 @@ export default function QuizStep() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.7 }} // ✅ Reduzido de 0.9s
+                      transition={{ delay: 0.7 }}
                       className="mt-6 text-center text-green-300 bg-green-900/30 p-4 rounded-lg border border-green-600"
                     >
                       <p className="font-medium text-sm sm:text-base">{currentStep.guarantee}</p>
@@ -1442,7 +1425,7 @@ export default function QuizStep() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.6 }} // ✅ Reduzido de 0.8s
+                      transition={{ delay: 0.6 }}
                       className="mt-6 text-center text-red-300 bg-red-900/30 p-4 rounded-lg border border-red-600 flex items-center justify-center gap-2"
                     >
                       <AlertTriangle className="w-4 h-4" />
@@ -1468,33 +1451,6 @@ export default function QuizStep() {
                   )}
                 </>
               )}
-
-              {/* ✅ RENDERIZAR PARA STEP 12.5 - BOTÃO ESPECÍFICO */}
-              {currentStep?.customContent && getPersonalizedOptions().length > 0 && (
-                <>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
-                    {getPersonalizedQuestion()}
-                  </h2>
-
-                  {getPersonalizedSubtext() && (
-                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
-                  )}
-
-                  <motion.div className="text-center mt-8">
-                    <Button
-                      onClick={() => {
-                        setSelectedAnswer(getPersonalizedOptions()[0])
-                        handleNext()
-                      }}
-                      size="lg"
-                      className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-full shadow-lg w-full sm:w-auto text-sm sm:text-base"
-                    >
-                      {getPersonalizedOptions()[0]}
-                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-                    </Button>
-                  </motion.div>
-                </>
-              )}
             </CardContent>
           </Card>
         </motion.div>
@@ -1504,7 +1460,7 @@ export default function QuizStep() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }} // ✅ Reduzido de 1s
+            transition={{ delay: 0.8 }}
             className="text-center space-y-2 mt-6"
           >
             {currentStep?.elements?.counter && (
