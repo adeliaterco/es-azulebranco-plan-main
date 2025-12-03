@@ -1259,36 +1259,36 @@ export default function QuizStep() {
                 </motion.div>
               )}
 
-              {!currentStep?.autoAdvance && step !== 12 && !currentStep?.customContent && (
-                <>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
-                    {getPersonalizedQuestion()}
-                  </h2>
+              {!currentStep?.autoAdvance && step !== 12 && step !== 12.5 && !currentStep?.customContent && (
+  <>
+    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-6 text-center leading-tight">
+      {getPersonalizedQuestion()}
+    </h2>
 
-                  {getPersonalizedSubtext() && (
-                    <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
-                  )}
+    {getPersonalizedSubtext() && (
+      <p className="text-orange-200 text-center mb-6 text-base sm:text-lg font-medium whitespace-pre-wrap">{getPersonalizedSubtext()}</p>
+    )}
 
-                  {getPersonalizedDescription() && (
-                    <div className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
-                      {step === 13 ? (
-                        <div className="space-y-6">
-                          {getPersonalizedDescription().split('**').map((section, index) => {
-                            if (index % 2 === 1) {
-                              return <strong key={index} className="text-orange-400">{section}</strong>
-                            }
-                            return section ? (
-                              <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-600 text-left">
-                                {section.trim()}
-                              </div>
-                            ) : null
-                          })}
-                        </div>
-                      ) : (
-                        getPersonalizedDescription()
-                      )}
-                    </div>
-                  )}
+    {getPersonalizedDescription() && (
+      <div className="text-gray-300 text-center mb-8 text-sm sm:text-base whitespace-pre-wrap">
+        {step === 13 ? (
+          <div className="space-y-6">
+            {getPersonalizedDescription().split('**').map((section, index) => {
+              if (index % 2 === 1) {
+                return <strong key={index} className="text-orange-400">{section}</strong>
+              }
+              return section ? (
+                <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-600 text-left">
+                  {section.trim()}
+                </div>
+              ) : null
+            })}
+          </div>
+        ) : (
+          getPersonalizedDescription()
+        )}
+      </div>
+    )}
 
                   {/* Evidência Científica - APENAS ETAPA 11 */}
                   {currentStep?.elements?.scientificEvidence && (
